@@ -1,0 +1,23 @@
+<div class="ui segment">
+  <div class="ui big animated divided list">
+    <!-- ko foreach: exercises -->
+    <!-- ko ifnot: isOld -->
+    <div class="item" data-bind="click: show" style="cursor:pointer">
+      <i class="icon calendar"></i>
+      <div class="content">
+        Abgabe der <div class="ui label">Übung <span data-bind="text: number"></span></div> bis zum <span data-bind="text: formattedDueDate"></span>
+      </div>
+    </div>
+    <!-- /ko -->
+    <!-- ko if: isOld -->
+    <div class="item" data-bind="click: show" style="cursor:pointer">
+      <i class="icon checkmark green"></i>
+      <div class="content">
+        <div class="ui label">Übung <span data-bind="text: number"></span></div> ist korrigiert.
+        Sie haben <div class="ui label"><span data-bind="text: points"></span> Punkte </div> von <span data-bind="text: maxPoints"></span> m&ouml;glichen Punkten erreicht.
+      </div>
+    </div>
+    <!-- /ko -->
+    <!-- /ko -->
+  </div>
+</div>

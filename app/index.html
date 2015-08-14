@@ -1,0 +1,112 @@
+<!doctype html>
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <title>Tutor (Welfenlab)</title>
+    <meta name="description" content="Online Platform for managing and correcting exercises">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+    <!-- MathJax -->
+    <script src="vendor/jailed/lib/jailed.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script>
+      MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]},
+        processEscapes: true
+      });
+    </script>
+
+
+    <!-- JQuery -->
+    <script src="/vendor/jquery/dist/jquery.min.js"></script>
+
+    <!-- SemanticUI Framework -->
+    <link rel="stylesheet" href="/vendor/semantic-ui/dist/semantic.min.css">
+    <script src="/vendor/semantic-ui/dist/semantic.min.js"></script>
+
+    <!-- highlightjs -->
+    <script src="/vendor/highlightjs/highlight.pack.min.js"></script>
+
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<!--[if lt IE 10]>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<div class="TutorApp ui page">
+    <div class="ui grid">
+        <div class="computer tablet only row">
+            <div class="ui column">
+                <div class="ui inverted blue menu navbar">
+                    <a href="#" class="ui item">
+                        <i class="sign in icon"></i>
+                        Login
+                    </a>
+                    <a href="#overview" class="ui item">
+                        <i class="list icon"></i>
+                        Overview
+                    </a>
+                    <a href="#exercise/ee256059-9d92-4774-9db2-456378e04586" class="ui item">
+                        <i class="file text outline icon"></i>
+                        Übung 1
+                    </a>
+                    <a href="" class="left brand item">
+                      <i class="student icon"></i>
+                      Tutor
+                    </a>
+                    <a href="" class="right item user" data-bind="if: user().loggedIn">
+                        <i class="icon"><img class="ui mini avatar image" data-bind="attr: { src: user().avatar }"/></i>
+                        <span data-bind="text: user().name"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="mobile only narrow row">
+            <div class="ui column">
+                <div class="ui inverted navbar pointing blue menu">
+                    <a href="" class="brand item">
+                      <i class="student icon"></i>
+                      Tutor
+                    </a>
+                    <div class="right menu">
+                          <div class="ui dropdown link item">
+                            <i class="content icon"></i>
+                            <div class="menu">
+                                <a href="#" class="ui item">
+                                    <i class="sign in icon"></i>
+                                    Login
+                                </a>
+                                <a href="#overview" class="ui item">
+                                    <i class="list icon"></i>
+                                    Overview
+                                </a>
+                                <a href="#exercise/ee256059-9d92-4774-9db2-456378e04586" class="ui item">
+                                    <i class="file text outline icon"></i>
+                                    Übung 1
+                                </a>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content" data-bind="component: { name: selected, params: parameters }"></div>
+</div>
+
+
+<div id="editor" style="position:absolute; width: 500px; height: 500px;"></div>
+
+<script src="app.js"></script>
+</body>
+</html>

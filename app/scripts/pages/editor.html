@@ -1,0 +1,109 @@
+<div class="ui segment" data-bind="template: { afterRender: init }">
+  <div class="ui fluid">
+    <!-- ko ifnot: exerciseNotFound -->
+      <div class="ui grid">
+        <!-- ko ifnot: isOld -->
+        <div class="eight wide column">
+          <div class="ui header">Exercise <span data-bind="text: number"></span></div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: isOld -->
+          <div class="four wide column" />
+        <!-- /ko -->
+        <div class="eight wide column">
+          <div class="ui header">Preview</div>
+        </div>
+      </div>
+      <!-- ko foreach: tasks -->
+        <!-- ko ifnot: $parent.isOld -->
+        <div class="ui grid" data-bind="attr: {'id': 'task-' + $data.id()}, template: { afterRender: $data.init }">
+          <div class="eight wide column exerciseEditor">
+            <div class="task">
+              <span class="task">
+                Task <span data-bind="text: $data.number()"></span>
+                <!--ko if: $data.hasTitle --> &ndash; <span data-bind="text: $data.title()"></span><!-- /ko -->
+                <span class="points">(<span data-bind="text: $data.maxPoints()"></span> points)</span>
+              </span><br/>
+              <span class="description" data-bind="text: $data.text()"></span>
+            </div>
+            <div data-bind="attr: {'id': 'editor-' + $data.id()}"></div>
+          </div>
+          <div class="eight wide column exercisePreview">
+            <div class="task">
+              <span class="task">
+                Task <span data-bind="text: $data.number()"></span>
+                <!--ko if: $data.hasTitle --> &ndash; <span data-bind="text: $data.title()"></span><!-- /ko -->
+                <span class="points">(<span data-bind="text: $data.maxPoints()"></span> points)</span>
+              </span><br/>
+              <span class="description" data-bind="text: $data.text()"></span>
+            </div>
+            <div data-bind="attr: {'id': 'preview-' + $data.id()}"></div>
+          </div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: $parent.isOld -->
+        <div class="ui grid" data-bind="attr: {'id': 'task-' + $data.id()}, template: { afterRender: $data.init }">
+          <div class="four wide column" />
+          <div class="eight wide column exercisePreview">
+            <div class="task">
+              <span class="task">
+                Task <span data-bind="text: $data.number()"></span>
+                <!--ko if: $data.hasTitle --> &ndash; <span data-bind="text: $data.title()"></span><!-- /ko -->
+                <span class="points">(<span data-bind="text: $data.maxPoints()"></span> points)</span>
+              </span><br/>
+              <span class="description" data-bind="text: $data.text()"></span>
+            </div>
+            <div data-bind="attr: {'id': 'preview-' + $data.id()}"></div>
+          </div>
+        </div>
+        <!-- /ko -->
+      <!-- /ko -->
+      <h4 class="ui horizontal header divider">
+        <i class="bar send outline icon"></i>
+        Abgabe
+      </h4>
+      <div class="ui inverted blue segment">
+        <div class="ui centered grid">
+          <div class="row">
+            <div class="ten wide column">
+              <div class="header">Die folgenden Aufgabenstellungen sind <b>noch nicht gelöst</b></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="twelve wide column">
+              <a class="ui red label">
+                <i class="warning sign icon"></i>
+                Funktion fibonacci implementieren
+              </a>
+              <a class="ui red label">
+                <i class="warning sign icon"></i>
+                Laufzeit von Fibonacci angeben
+              </a>
+            </div>
+          </div>
+          <div class="row">
+            <div class="three wide column">
+              <div class="ui orange button">Trotzdem absenden</div>
+              <!-- sonst <div class="ui positive button">Absenden</div> -->
+            </div>
+            <div class="two wide column">
+              <a class="ui circular icon popupinfo button" data-content="Abgaben können bis zum Abgabedatum beliebig oft aktualisiert werden!" data-variation="very wide"><i class="info icon"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- /ko -->
+    <!-- ko if: exerciseNotFound -->
+      <div class="ui warning icon message">
+        <i class="frown icon"></i>
+        <div class="content">
+          <div class="header">Unknown exercise.</div>
+          <p>
+            The exercise you requested could not be found. Please go back to the <a href="#overview">overview page</a>
+            and select one that exists.
+          </p>
+        </div>
+      </div>
+    <!-- /ko -->
+  </div>
+</div>

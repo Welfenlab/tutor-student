@@ -1,0 +1,24 @@
+<div class="login">
+  <div class="ui segment form centered">
+    <div class="field">
+      <label>PIN</label>
+    <div class="ui icon input">
+      <input placeholder="StudIP PIN (z.B. 1234)" type="text" data-bind="textInput: pin" />
+      <i class="user icon"></i>
+    </div>
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" data-bind="textInput: password" />
+    </div>
+    <div class="ui submit button" data-bind="css: { disabled: !mayLogin() }, click: login">
+      Anmelden
+    </div>
+
+      <!-- ko if: isLoggingIn -->
+        <div class="ui active dimmer">
+          <div class="ui loader"></div>
+        </div>
+      <!-- /ko -->
+  </div>
+</div>
