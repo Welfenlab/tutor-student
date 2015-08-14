@@ -1,6 +1,6 @@
 {
   "name": "@tutor/student",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Tutor Student Server for Welfenlab",
   "main": "index.js",
   "scripts": {
