@@ -11,6 +11,7 @@ codeControls     = require '@more-markdown/code-controls'
 
 markdownEditor = require '@tutor/markdown-editor'
 javascriptEditorErrors = require '@tutor/javascript-editor-errors'
+dbg = require '@tutor/browser-debug-js'
 
 createPreview = (id) ->
   moreMarkdown.create id,
@@ -18,7 +19,7 @@ createPreview = (id) ->
       mathjaxProcessor,
       codeControls("js",{
         run: eval,
-        debug: eval
+        debug: dbg.debug
       }, _.template (fs.readFileSync __dirname + '/pages/js_controls.html').toString())
     ]
     html: false #disable inline HTML
