@@ -6,8 +6,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Maximilian Klein <dasmaxl@gmail.com> (https://github.com/LittleHelicase)",
   "license": "(C) Welfenlab 2015",
+  "contributors" : [
+    "Maximilian Klein <dasmaxl@gmail.com> (https://github.com/LittleHelicase)",
+    "Maik Marschner (https://github.com/leMaik)",
+    "Tim Ebbeke (https://github.com/5cript)"
+  ],
   "dependencies": {
     "@more-markdown/code-controls": "^0.1.2",
     "@more-markdown/mathjax-processor": "^0.1.2",

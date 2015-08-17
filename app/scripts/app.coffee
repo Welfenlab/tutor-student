@@ -81,8 +81,7 @@ $(window).bind "popstate", ->
 
 $(window).trigger "popstate" #trigger load of start page
 
-ko.applyBindings viewModel
-
 $(document).ready ->
   $('.ui.dropdown').dropdown()
   $('.ui.accordion').accordion()
+  ko.applyBindings viewModel
