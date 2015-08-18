@@ -13,7 +13,7 @@ class ViewModel extends ExerciseList.OverviewPageViewModel
     api.get.exercises()
     .done(callback)
     .fail =>
-      alert 'Loading the exercises failed.';
+      alert 'Loading the exercises failed.'
 
   createExerciseViewModel: (e) -> new ExerciseViewModel(e)
 

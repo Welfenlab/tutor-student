@@ -9,10 +9,11 @@ class ViewModel extends ExerciseEditor(ko).ExercisePageViewModel
   show: (id) -> window.location.hash = '#exercise/' + id
 
   getExercise: (id, callback) ->
-    api.get.exercise id, callback
+    api.get.exercise(id)
+    .done(callback)
+    .fail ->
+      alert 'Loading the exercise failed.'
 
-  @getExercises
-  
 fs = require 'fs'
 module.exports = ->
   ko.components.register __filename.substr(__dirname.length, __filename.length - 7),
