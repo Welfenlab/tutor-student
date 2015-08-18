@@ -6,7 +6,7 @@ var concat      = require('gulp-concat');
 
 // browserify bundle for direct browser use.
 gulp.task("bundle", function(){
-  bundler = browserify('./app/scripts/app.coffee',
+  bundler = browserify('./app/scripts/tutor.coffee',
     {
       transform: ['coffeeify','brfs'],
 //      standalone: 'tutor',
@@ -16,7 +16,7 @@ gulp.task("bundle", function(){
     });
 
   return bundler.bundle()
-    .pipe(source('app.js'))
+    .pipe(source('tutor.js'))
     .pipe(gulp.dest('build'));
 });
 

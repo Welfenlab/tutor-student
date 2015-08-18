@@ -7,10 +7,10 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100%;
-  
+
   & > .grid {
     margin: -1rem 0;
-    
+
     & > .row > .column {
       padding: 0 !important;
     }
@@ -25,7 +25,7 @@ body {
   &.green {
     border-top: 2px solid #5bbd72;
   }
-  
+
   &.transparent {
     border-top: 2px solid transparent;
   }
@@ -34,20 +34,20 @@ body {
 .ui.menu {
   border-radius: 0 !important;
   box-shadow: 0 0 10px #888 !important;
-  
+
   .content.icon {
     margin: 0 !important;
   }
-  
+
   .user {
     .avatar {
       display: block;
       margin-top: -0.15rem;
     }
-    
+
     i {
       width: auto !important;
-      
+
       img {
         width: 20px;
         height: 20px;
@@ -77,6 +77,10 @@ login-form {
   align-items: center;
   justify-content: center;
   flex: 1;
+
+  .form {
+    width: 250px;
+  }
 }
 
 .exerciseEditor {
@@ -91,7 +95,7 @@ login-form {
   .error {
     .highlight(red);
   }
-  
+
   .warning {
     .highlight(orange);
   }
@@ -107,7 +111,7 @@ login-form {
       font-style: italic;
     }
   }
-  
+
   .ace_tooltip {
     font-size: 0.8em;
   }

@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "license": "(C) Welfenlab 2015",
-  "contributors" : [
+  "contributors": [
     "Maximilian Klein <dasmaxl@gmail.com> (https://github.com/LittleHelicase)",
     "Maik Marschner (https://github.com/leMaik)",
     "Tim Ebbeke (https://github.com/5cript)"
@@ -26,6 +26,7 @@
     "@tutor/server": "^0.1.0",
     "cson": "^3.0.1",
     "express": "^4.13.3",
+    "i18next-ko": "^1.2.1",
     "knockout": "^3.3.0",
     "knockout-mapping": "^2.5.0",
     "lodash": "^3.10.1",
