@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "license": "(C) Welfenlab 2015",
+  "license": "MIT",
   "contributors": [
     "Maximilian Klein <dasmaxl@gmail.com> (https://github.com/LittleHelicase)",
     "Maik Marschner (https://github.com/leMaik)",
