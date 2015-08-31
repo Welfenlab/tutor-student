@@ -1,5 +1,4 @@
 
-api = require './api'
 exerciseEditor = require '@tutor/exercise-editor'
 fs = require 'fs'
 
@@ -20,7 +19,7 @@ createPreview = (id) ->
       codeControls("js",{
         run: eval,
         debug: dbg.debug
-      }, _.template (fs.readFileSync __dirname + '/pages/js_controls.html').toString())
+      }, _.template (fs.readFileSync __dirname + '/js_controls.html', 'utf8'))
     ]
     html: false #disable inline HTML
     highlight: (code, lang) ->
@@ -32,21 +31,16 @@ createPreview = (id) ->
       catch
         return ''
 
-module.exports = (ko) ->
-  exerciseEditor ko,
-    html: (fs.readFileSync __dirname + '/pages/editor.html').toString()
-    getExercise: api.get.exercise
-    saveExercise: api.put.exercise
-    taskInitialized: (task) ->
-      prev = createPreview "preview-" + task.id()
-      markdownPreview = (editor) ->
-        prev.render editor.getValue()
+module.exports = (task) ->
+  prev = createPreview "preview-" + task.id()
+  markdownPreview = (editor) ->
+    prev.render editor.getValue()
 
-      if document.getElementById 'editor-' + task.id()
-        editor = markdownEditor.create 'editor-' + task.id(), task.solution(), plugins: [
-          markdownPreview,
-          markdownEditor.clearResults,
-          javascriptEditorErrors prev
-        ]
+  if document.getElementById 'editor-' + task.id()
+    editor = markdownEditor.create 'editor-' + task.id(), task.solution(), plugins: [
+      markdownPreview,
+      markdownEditor.clearResults,
+      javascriptEditorErrors prev
+    ]
 
-      prev.render task.solution()
+  prev.render task.solution()

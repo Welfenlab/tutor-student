@@ -1,6 +1,7 @@
 ko = require 'knockout'
 api = require '../../api'
 ExerciseEditor = require '@tutor/exercise-editor'
+markdown = require './markdown'
 
 class ViewModel extends ExerciseEditor(ko).ExercisePageViewModel
   constructor: (params) ->
@@ -13,6 +14,9 @@ class ViewModel extends ExerciseEditor(ko).ExercisePageViewModel
     .done(callback)
     .fail ->
       alert 'Loading the exercise failed.'
+  
+  init: (task) ->
+    markdown task
 
 fs = require 'fs'
 module.exports = ->
