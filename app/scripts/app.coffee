@@ -23,4 +23,5 @@ i18n.init {
   }, 'en', ko
 viewModel.language.subscribe (v) -> i18n.setLanguage v
 
+
 module.exports = viewModel

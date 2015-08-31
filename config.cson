@@ -27,3 +27,11 @@ session:
   secret: "DUMMY_SECRET"
   login_redirect: "/"
   restrict: "/api"
+sharejs:
+  rethinkdb:
+    host: "srv2"
+    port: 28015
+    name: "ShareJS"
+  ports:
+    sharejs: 8005
+  url: '0.0.0.0'
