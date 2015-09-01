@@ -4,7 +4,7 @@ api = require '../../api'
 
 class ViewModel
   constructor: ->
-    @pin = ko.observable ''
+    @pin = ko.observable 'ABC-DEF'
 
     @mayLogin = ko.computed =>  @pin() isnt ''
     @isLoggingIn = ko.observable no
