@@ -8,7 +8,7 @@ restAPI = require("./src/rest")(MemDB);
 //restAPI = require("./src/rest")(rethinkDB);
 
 config.modules = [
-  require("@tutor/dummy-auth"), // This must be array element #0
+  require("@tutor/dummy-auth")(MemDB.Student.userExists), // This must be array element #0
 ];
 
 if(config.development){

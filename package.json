@@ -27,7 +27,7 @@
     "@tutor/javascript-sandbox": "^0.2.1",
     "@tutor/login-form": "^0.1.1",
     "@tutor/markdown-editor": "^0.1.3",
-    "@tutor/memory-database": "^0.2.1",
+    "@tutor/memory-database": "^0.2.3",
     "@tutor/rethinkdb-database": "^0.1.1",
     "@tutor/server": "^0.1.1",
     "@tutor/test-suite": "^0.2.2",

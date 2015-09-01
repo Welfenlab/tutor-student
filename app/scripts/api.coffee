@@ -18,7 +18,7 @@ api =
   put:
     exercise: (id, content) -> put "/exercises/#{id}", content
   post:
-    login: (uuid) -> post "/login",
-        uuid: uuid
+    login: (id) -> post "/login",
+        id: id
 
 module.exports = api
