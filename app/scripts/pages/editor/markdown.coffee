@@ -18,6 +18,8 @@ jsSandbox      = require '@tutor/javascript-sandbox'
 jailedSandbox  = require '@tutor/jailed-sandbox'
 browserDebug   = require '@tutor/browser-debug-js'
 
+aceRethink     = require '@tutor/share-ace-rethinkdb/src/test.js'
+
 createPreview = (id) ->
   moreMarkdown.create id,
     processors: [
@@ -80,14 +82,16 @@ createPreview = (id) ->
       catch
         return ''
 
+
 module.exports = (task) ->
   prev = createPreview "preview-" + task.id()
   markdownPreview = (editor) ->
     prev.render editor.getValue()
-
+  
   if document.getElementById 'editor-' + task.id()
     editor = markdownEditor.create 'editor-' + task.id(), task.solution(), plugins: [
       markdownPreview,
+      (aceRethink markdownEditor.Range, "GRP", task.id()),
       markdownEditor.clearResults,
       javascriptEditorErrors "js", prev
     ]

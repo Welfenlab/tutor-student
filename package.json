@@ -53,7 +53,9 @@
     "gulp-util": "^3.0.6",
     "gulp-watch": "^4.3.3",
     "mocha": "^2.2.5",
-    "vinyl-source-stream": "^1.1.0"
+    "vinyl-source-stream": "^1.1.0",
+    "vinyl-transform": "^1.0.0",
+    "watchify": "^3.4.0"
   },
   "private": true
 }

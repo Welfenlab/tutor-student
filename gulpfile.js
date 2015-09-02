@@ -3,6 +3,7 @@ var source      = require('vinyl-source-stream');
 var browserify  = require('browserify');
 var less        = require('gulp-less');
 var concat      = require('gulp-concat');
+var watch       = require('gulp-watch');
 
 // browserify bundle for direct browser use.
 gulp.task("bundle", function(){
@@ -16,6 +17,7 @@ gulp.task("bundle", function(){
     });
 
   return bundler.bundle()
+    .on('error', function(err){ console.log(err.message); this.emit('end');})
     .pipe(source('tutor.js'))
     .pipe(gulp.dest('build'));
 });
@@ -30,3 +32,7 @@ gulp.task("styles", function(){
 gulp.task("build", ["bundle","styles"]);
 
 gulp.task("default", ["build"]);
+
+gulp.task('watch', ['bundle'], function () {
+    gulp.watch("./app/**/*.coffee", ['bundle']);
+});
