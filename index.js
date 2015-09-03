@@ -8,12 +8,19 @@ restAPI = require("./src/rest")(MemDB);
 //restAPI = require("./src/rest")(rethinkDB);
 
 config.modules = [
-  require("@tutor/dummy-auth")(MemDB.Student.userExists), // This must be array element #0
+  require("@tutor/dummy-auth")(MemDB.Student.userExists, "ABC-DEF"), // This must be array element #0
 ];
 
 if(config.development){
   config.modules.push(function(app, config){
     app.use(express.static('./build'));
+    // enable cors for development
+    app.use(function(req, res, next) {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+      next();
+    });
+    app.use(require('morgan')('dev'));
   });
 }
 
