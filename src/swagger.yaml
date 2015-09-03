@@ -1,0 +1,193 @@
+
+swagger: '2.0'
+
+info:
+  version: "0.1.3"
+  title: Tutor Student REST API
+
+host: localhost:8080
+basePath: /api
+
+paths:
+  /exercises:
+    get:
+      description: "Returns all exercises that are currently visible to the student."
+      responses:
+        200:
+          description: Returns an array of exercise objects
+          
+          schema:
+            title: ArrayOfExercises
+            type: array
+            items:
+              title: Exercise
+              type: object
+              properties:
+                number:
+                  type: number
+                activationDate:
+                  type: string
+                  format: ISO-8601
+                dueDate:
+                  type: string
+                  format: ISO-8601
+                id:
+                  type: string
+                  format: uuid
+                tasks:
+                  type: array
+                  items:
+                    title: Task ID
+                    type: string
+                    format: uuid
+                title:
+                  type: string
+  /exercises/active:
+    get:
+      description: "Returns all exercises that are currently visible and editable by the student."
+      responses:
+        200:
+          description: An array of exercise objects
+          
+          schema:
+            title: ArrayOfExercises
+            type: array
+            items:
+              title: Exercise
+              type: object
+              properties:
+                number:
+                  type: number
+                activationDate:
+                  type: string
+                  format: ISO-8601
+                dueDate:
+                  type: string
+                  format: ISO-8601
+                id:
+                  type: string
+                  format: uuid
+                tasks:
+                  type: array
+                  items:
+                    title: Task ID
+                    type: string
+                    format: uuid
+                title:
+                  type: string
+  /exercises/detailed:
+    get:
+      description: "Returns all exercises that are currently visible to the student."
+      responses:
+        200:
+          description: An array of exercise objects
+          
+          schema:
+            title: ArrayOfExercises
+            type: array
+            items:
+              title: Exercise
+              type: object
+              properties:
+                number:
+                  type: number
+                activationDate:
+                  type: string
+                  format: ISO-8601
+                dueDate:
+                  type: string
+                  format: ISO-8601
+                id:
+                  type: string
+                  format: uuid
+                tasks:
+                  type: array
+                  items:
+                    title: Task ID
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+                      number:
+                        type: string
+                      title:
+                        type: string
+                      text:
+                        type: string
+                        format: markdown
+                      maxPoinbts:
+                        type: number
+                      
+                title:
+                  type: string
+  /user:
+    get:
+      description: |
+        Returns the user information. The user is identified by the session.
+      responses:
+        500:
+          description: If the user has a non consistent state (like no group).
+        200:
+          description: Returns the user object
+          schema:
+            title: UserObject
+            type: object
+            properties:
+              id:
+                type: string
+              group:
+                type: object
+                properties: 
+                  name:
+                    type: string
+                  id:
+                    type: string
+                    format: uuid
+                  users:
+                    type: array
+                    items:
+                      title: User ID
+                      type: string
+              pseudonym:
+                type: string
+  /user/pseudonym:
+    get:
+      description: Get the pseudonym of the user
+      responses:
+        200:
+          description: The user pseudonym
+          schema:
+            title: Pseudonym
+            type: string
+    put:
+      description: Set the Pseudonym of the user
+      parameters:
+        - 
+          name: Pseudonym
+          in: body
+          description: The new pseudonym
+          required: true
+          schema:
+            type: object
+            properties:
+              pseudonym:
+                type: string
+      responses:
+        409:
+          description: The pseudonym is not allowed or already taken
+        204:
+          description: The pseudonym was changed
+  /pseudonyms:
+    get:
+      description: Returns all the pseudonyms of all users
+      responses:
+        200:
+          description: A list of all pseudonyms
+          schema:
+            title: ArrayOfPseudonyms
+            type: array
+            items:
+              title: Pseudonym
+              type: string
+  
