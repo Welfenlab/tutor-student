@@ -44,6 +44,7 @@
     "brfs": "^1.4.0",
     "browserify": "^11.0.1",
     "browserify-shim": "^3.8.10",
+    "chai": "^3.2.0",
     "coffeeify": "^1.1.0",
     "gulp": "^3.9.0",
     "gulp-coffee": "^2.3.1",
@@ -53,7 +54,8 @@
     "gulp-plumber": "^1.0.1",
     "gulp-util": "^3.0.6",
     "gulp-watch": "^4.3.3",
-    "mocha": "^2.2.5",
+    "mocha": "^2.3.0",
+    "request": "^2.61.0",
     "vinyl-source-stream": "^1.1.0",
     "vinyl-transform": "^1.0.0",
     "watchify": "^3.4.0"
