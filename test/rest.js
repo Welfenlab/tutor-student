@@ -13,6 +13,7 @@ restAPI = require("../src/rest")(memDB);
 config.modules = [function(app,config){
   app.use(function(req,res,next){ req.session = {uid:"ABC-DEF"}; next() });
 }];
+config.log = {error:function(){},log:function(){}};
 var server = TutorServer(config);
 
 // register rest API
@@ -37,7 +38,13 @@ var doRequest = function(method,path,data,fn){
     data = null;
   }
   doSimpleRequest(method,path,data,function(err,res,body){
-    fn(err,res,JSON.parse(body));
+    var parsed = null;
+    try{
+      parsed = JSON.parse(body);
+      fn(err,res,parsed);
+    } catch(e){
+      fn(e);
+    }
   });
 }
 
@@ -135,10 +142,22 @@ describe("Student REST API", function(){
       }
     );
   });
-  it("should be able to leave a group", function(done){
-    doRequest("DELETE", "/group",
+  it("should not be able to leave a one man group", function(done){
+    doSimpleRequest("DELETE", "/group",null,
       function(err, res, body){
         (err == null).should.be.true;
+        res.statusCode.should.equal(500);
+        done();
+      }
+    );
+  });
+  it("should be able to create a group with others", function(done){
+    doRequest("POST", "/group", {ids:["NO-GROUP-2","NO-GROUP-1"]},
+      function(err,res,body){
+        (err == null).should.be.true;
+        res.statusCode.should.equal(200);
+        body.users.should.deep.equal(["ABC-DEF"]);
+        body.pendingUsers.should.deep.equal(["NO-GROUP-2","NO-GROUP-1"]);
         done();
       }
     );

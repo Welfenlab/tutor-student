@@ -10,6 +10,7 @@ restAPI = require("./src/rest")(MemDB);
 config.modules = [
   require("@tutor/dummy-auth")(MemDB.Student.userExists), // This must be array element #0
 ];
+config.log = console;
 
 if(config.development){
   config.modules.push(function(app, config){
