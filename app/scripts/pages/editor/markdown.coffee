@@ -87,13 +87,16 @@ module.exports = (task) ->
   prev = createPreview "preview-" + task.id()
   markdownPreview = (editor) ->
     prev.render editor.getValue()
-  
+
+  shareDocConnection = (aceRethink markdownEditor.Range, "GRP0", task.id())
+
   if document.getElementById 'editor-' + task.id()
     editor = markdownEditor.create 'editor-' + task.id(), task.solution(), plugins: [
       markdownPreview,
-      (aceRethink markdownEditor.Range, "GRP", task.id()),
       markdownEditor.clearResults,
       javascriptEditorErrors "js", prev
     ]
+
+    shareDocConnection.connect(editor);
 
   prev.render task.solution()
