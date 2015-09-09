@@ -7,8 +7,10 @@ var express = require("express");
 restAPI = require("./src/rest")(MemDB);
 //restAPI = require("./src/rest")(rethinkDB);
 
+
 config.modules = [
   require("@tutor/dummy-auth")(MemDB.Student.userExists), // This must be array element #0
+  require('@tutor/share-ace-rethinkdb'),
 ];
 
 if(config.development){

@@ -1,4 +1,6 @@
-address = 'http://localhost:8080/api'
+
+host = window.location.host.toString().split(":");
+address = 'http://'+host[0]+':8080/api'
 
 ajax = (method, url, data) ->
   $.ajax
@@ -14,7 +16,7 @@ del = ajax.bind undefined, 'DELETE'
 api =
   get:
     exercises: -> get('/exercises')
-    exercise: (id) -> get("/exercises/#{id}")
+    exercise: (id) -> get("/exercises/detailed/#{id}")
   put:
     exercise: (id, content) -> put "/exercises/#{id}", content
   post:

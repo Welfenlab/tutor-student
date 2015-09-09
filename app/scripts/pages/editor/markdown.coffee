@@ -88,7 +88,7 @@ module.exports = (task) ->
   markdownPreview = (editor) ->
     prev.render editor.getValue()
 
-  shareDocConnection = (aceRethink markdownEditor.Range, "GRP0", task.id())
+  shareDocConnection = (aceRethink markdownEditor.Range, "GRP", task.id(), {port:'8015'})
 
   if document.getElementById 'editor-' + task.id()
     editor = markdownEditor.create 'editor-' + task.id(), task.solution(), plugins: [

@@ -32,6 +32,5 @@ sharejs:
     host: "srv2"
     port: 28015
     name: "ShareJS"
-  ports:
-    sharejs: 8005
+  port: 8015
   url: '0.0.0.0'
