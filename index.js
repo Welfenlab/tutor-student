@@ -12,6 +12,7 @@ config.modules = [
   require("@tutor/dummy-auth")(MemDB.Student.userExists), // This must be array element #0
   require('@tutor/share-ace-rethinkdb'),
 ];
+config.log = console;
 
 if(config.development){
   config.modules.push(function(app, config){

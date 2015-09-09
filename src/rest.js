@@ -30,6 +30,6 @@ module.exports = function(DB) {
 
     { path: '/api/group', dataCall: DB.Student.getGroupForUser, apiMethod: "getBySessionUID" },
     { path: '/api/group', dataCall: DB.Student.leaveGroup, apiMethod: "deleteBySessionUID" },
-    { path: '/api/group', dataCall: DB.Student.createGroup, apiMethod: "postByBodyParam", param: "ids" }
+    { path: '/api/group', dataCall: DB.Student.createGroup, apiMethod: "postBySessionUIDAndBodyParam", param: "ids" }
   ];
 };
