@@ -11,17 +11,20 @@ module.exports = function(DB) {
     { path: '/api/user/pseudonym', dataCall: DB.Users.getPseudonym, apiMethod: "getBySessionUID" },
     { path: '/api/user/pseudonym', dataCall: DB.Users.setPseudonym, apiMethod: "putBySessionUIDAndBodyParam", param: "pseudonym" },
     { path: '/api/user/group', dataCall: DB.Groups.getGroupForUser, apiMethod: "getBySessionUID" },
-    { path: '/api/user/', dataCall: function(id, res){
-        DB.Student.getGroupForUser(id).then(function(group){
-          DB.Student.getPseudonym(id, function(pseudonym){
-            res(null,{id: id, group: group, pseudonym: pseudonym});
-          }).catch(function(err){ res(err);});
-        }).catch(function(err){ res(err);});
+    { path: '/api/user', dataCall: function(id){
+      return Promise.all([
+          DB.Groups.getGroupForUser(id),
+          DB.Users.getPseudonym(id)]).then(function(values){
+            return {group: values[0], pseudonym: values[1], id: id};
+          });
       }, apiMethod: "getBySessionUID"
     },
     { path: '/api/pseudonyms', dataCall: DB.Users.getPseudonymList, apiMethod: "get" },
 
     { path: '/api/group', dataCall: DB.Groups.getGroupForUser, apiMethod: "getBySessionUID" },
-    { path: '/api/group', dataCall: DB.Groups.createGroup, apiMethod: "postBySessionUIDAndBodyParam", param: "ids" }
+    { path: '/api/group', dataCall: DB.Groups.create, apiMethod: "postBySessionUIDAndBodyParam", param: "ids" },
+    { path: '/api/group/join', dataCall: DB.Groups.joinGroup, apiMethod: "postBySessionUIDAndBodyParam", param: "group" },
+    { path: '/api/group/pending', dataCall: DB.Groups.pending, apiMethod: "getBySessionUID"},
+    { path: '/api/group/reject', dataCall: DB.Groups.rejectInvitation, apiMethod: "postBySessionUIDAndBodyParam", param: "group"}
   ];
 };
