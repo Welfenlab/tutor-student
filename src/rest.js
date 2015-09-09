@@ -2,34 +2,26 @@
 
 module.exports = function(DB) {
   return [
-    { path: '/api/exercises', dataCall: DB.Student.getExercises, apiMethod: "get" },
-    { path: '/api/exercises/active', dataCall: DB.Student.getAllActiveExercises, apiMethod: "get" },
-    { path: '/api/exercises/detailed/:id', dataCall: DB.Student.getDetailedExercise, apiMethod: "getByParam", param: "id" },
-    { path: '/api/exercises/:id', dataCall: DB.Student.getExerciseById, apiMethod: "getByParam", param: "id" },
-    { path: '/api/total', dataCall: DB.Student.getTotalPoints, apiMethod: "getBySessionUID" },
+    { path: '/api/exercises', dataCall: DB.Exercises.get, apiMethod: "get" },
+    { path: '/api/exercises/active', dataCall: DB.Exercises.getAllActive, apiMethod: "get" },
+    { path: '/api/exercises/detailed/:id', dataCall: DB.Exercises.getDetailed, apiMethod: "getByParam", param: "id" },
+    { path: '/api/exercises/:id', dataCall: DB.Exercises.getById, apiMethod: "getByParam", param: "id" },
+    { path: '/api/total', dataCall: DB.Exercises.getTotalPoints, apiMethod: "getBySessionUID" },
 
-    { path: '/api/user/pseudonym', dataCall: DB.Student.getUserPseudonym, apiMethod: "getBySessionUID" },
-    { path: '/api/user/pseudonym', dataCall: DB.Student.setUserPseudonym, apiMethod: "putBySessionUIDAndBodyParam", param: "pseudonym" },
-    { path: '/api/user/group', dataCall: DB.Student.getGroupForUser, apiMethod: "getBySessionUID" },
+    { path: '/api/user/pseudonym', dataCall: DB.Users.getPseudonym, apiMethod: "getBySessionUID" },
+    { path: '/api/user/pseudonym', dataCall: DB.Users.setPseudonym, apiMethod: "putBySessionUIDAndBodyParam", param: "pseudonym" },
+    { path: '/api/user/group', dataCall: DB.Groups.getGroupForUser, apiMethod: "getBySessionUID" },
     { path: '/api/user/', dataCall: function(id, res){
-        DB.Student.getGroupForUser(id, function(err,group){
-          if(err){
-            res(err)
-            return;
-          }
-          DB.Student.getUserPseudonym(id, function(err,pseudonym){
-            if(err)
-              res(err);
-            else
-              res(null,{id: id, group: group, pseudonym: pseudonym});
-          });
-        });
+        DB.Student.getGroupForUser(id).then(function(group){
+          DB.Student.getPseudonym(id, function(pseudonym){
+            res(null,{id: id, group: group, pseudonym: pseudonym});
+          }).catch(function(err){ res(err);});
+        }).catch(function(err){ res(err);});
       }, apiMethod: "getBySessionUID"
     },
-    { path: '/api/pseudonyms', dataCall: DB.Student.getPseudonymList, apiMethod: "get" },
+    { path: '/api/pseudonyms', dataCall: DB.Users.getPseudonymList, apiMethod: "get" },
 
-    { path: '/api/group', dataCall: DB.Student.getGroupForUser, apiMethod: "getBySessionUID" },
-    { path: '/api/group', dataCall: DB.Student.leaveGroup, apiMethod: "deleteBySessionUID" },
-    { path: '/api/group', dataCall: DB.Student.createGroup, apiMethod: "postBySessionUIDAndBodyParam", param: "ids" }
+    { path: '/api/group', dataCall: DB.Groups.getGroupForUser, apiMethod: "getBySessionUID" },
+    { path: '/api/group', dataCall: DB.Groups.createGroup, apiMethod: "postBySessionUIDAndBodyParam", param: "ids" }
   ];
 };
