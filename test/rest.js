@@ -137,6 +137,16 @@ describe("Student REST API", function(){
     )
   });
 
+  it("should be able to get a list of all pseudonyms", function(done){
+    doRequest("GET", "/pseudonyms",
+      function(err, res, body){
+        (err == null).should.be.true;
+        Array.isArray(body).should.be.true;
+        body.should.have.length(3);
+        done();
+    });
+  });
+
   it("should be able to get group information", function(done){
     doRequest("GET", "/group",
       function(err, res, body){
@@ -149,12 +159,12 @@ describe("Student REST API", function(){
     );
   });
   it("should be able to create a group with others", function(done){
-    doRequest("POST", "/group", {ids:["NO-GROUP-2","NO-GROUP-1"]},
+    doRequest("POST", "/group", {ids:["Lonely Gates","Tiny Knuth"]},
       function(err,res,body){
         (err == null).should.be.true;
         res.statusCode.should.equal(200);
-        body.users.should.deep.equal(["ABC-DEF"]);
-        body.pendingUsers.should.deep.equal(["NO-GROUP-2","NO-GROUP-1"]);
+        body.users.should.deep.equal(["Lazy Dijkstra"]);
+        body.pendingUsers.should.deep.equal(["Lonely Gates","Tiny Knuth"]);
         done();
       }
     );
