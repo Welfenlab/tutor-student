@@ -46,7 +46,7 @@ createPreview = (id) ->
       testProcessor(["test","tests"],
         {
           tests: [
-            (testSuite.itTests 
+            (testSuite.itTests
               registerTest: ((name, elem)-> elem.innerHTML += "<li>#{name}</li>")
               testResult: ((status, index, elem)->
                   if status == null
@@ -54,7 +54,7 @@ createPreview = (id) ->
                   else
                     elem.children[index].innerHTML += " <span style='color:red'>Failed (#{status.exception})</span>";
                 )
-              allResults: ((error, passed, failed) -> 
+              allResults: ((error, passed, failed) ->
                 console.log "passed #{passed}, failed #{failed} (error: #{error})")
               ),
             testSuite.jsTests,
