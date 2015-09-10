@@ -8,7 +8,9 @@ var TutorServer = require("@tutor/server");
 
 
 var memDB = require("@tutor/memory-database")();
-memDB.Restore("./test/fixtures/db.json");
+var restoreDB = function(){
+  memDB.Restore("./test/fixtures/db.json");
+};
 restAPI = require("../src/rest")(memDB);
 config.modules = [function(app,config){
   app.use(function(req,res,next){ req.session = {uid:"ABC-DEF"}; next() });
@@ -47,6 +49,10 @@ var doRequest = function(method,path,data,fn){
     }
   });
 }
+
+beforeEach(function(){
+  restoreDB();
+})
 
 describe("Student REST API", function(){
   it("should return all exercises",function(done){
@@ -131,6 +137,16 @@ describe("Student REST API", function(){
     )
   });
 
+  it("should be able to get a list of all pseudonyms", function(done){
+    doRequest("GET", "/pseudonyms",
+      function(err, res, body){
+        (err == null).should.be.true;
+        Array.isArray(body).should.be.true;
+        body.should.have.length(3);
+        done();
+    });
+  });
+
   it("should be able to get group information", function(done){
     doRequest("GET", "/group",
       function(err, res, body){
@@ -142,24 +158,54 @@ describe("Student REST API", function(){
       }
     );
   });
-  it("should not be able to leave a one man group", function(done){
-    doSimpleRequest("DELETE", "/group",null,
-      function(err, res, body){
+  it("should be able to create a group with others", function(done){
+    doRequest("POST", "/group", {ids:["Lonely Gates","Tiny Knuth"]},
+      function(err,res,body){
         (err == null).should.be.true;
-        res.statusCode.should.equal(500);
+        res.statusCode.should.equal(200);
+        body.users.should.deep.equal(["Lazy Dijkstra"]);
+        body.pendingUsers.should.deep.equal(["Lonely Gates","Tiny Knuth"]);
         done();
       }
     );
   });
-  it("should be able to create a group with others", function(done){
-    doRequest("POST", "/group", {ids:["NO-GROUP-2","NO-GROUP-1"]},
-      function(err,res,body){
+  it("should be able to list pending groups", function(done){
+    doRequest("GET", "/group/pending",
+      function(err, res, body){
         (err == null).should.be.true;
         res.statusCode.should.equal(200);
-        body.users.should.deep.equal(["ABC-DEF"]);
-        body.pendingUsers.should.deep.equal(["NO-GROUP-2","NO-GROUP-1"]);
+        Array.isArray(body).should.be.true;
+        body.should.have.length(1);
         done();
-      }
-    );
+    });
+  });
+  it("should be able to join a pending group", function(done){
+    doRequest("POST", "/group/join", {group: "fd8c6b08-572d-11e5-9824-685b35b5d746"},
+      function(err, res, body){
+        (err == null).should.be.true;
+        res.statusCode.should.equal(200);
+        body.id.should.equal("fd8c6b08-572d-11e5-9824-685b35b5d746");
+        // ensure persistence
+        doRequest("GET", "/group",
+          function(err, res, body){
+            (err == null).should.be.true;
+            body.id.should.equal("fd8c6b08-572d-11e5-9824-685b35b5d746");
+            done();
+        });
+    });
+  });
+  it("should be able to reject an invitation", function(done){
+    doSimpleRequest("POST", "/group/reject", {group: "fd8c6b08-572d-11e5-9824-685b35b5d746"},
+      function(err, res, body){
+        (err == null).should.be.true;
+        res.statusCode.should.equal(204);
+        // ensure persistence
+        doRequest("GET", "/group/pending",
+          function(err, res, body){
+            (err == null).should.be.true;
+            body.should.have.length(0);
+            done();
+        });
+    });
   });
 });

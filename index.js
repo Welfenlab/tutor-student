@@ -9,7 +9,7 @@ restAPI = require("./src/rest")(MemDB);
 
 
 config.modules = [
-  require("@tutor/dummy-auth")(MemDB.Student.userExists), // This must be array element #0
+  require("@tutor/dummy-auth")(MemDB.Users.getPseudonym), // This must be array element #0
   require('@tutor/share-ace-rethinkdb'),
 ];
 config.log = console;
