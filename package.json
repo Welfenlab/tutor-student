@@ -30,6 +30,7 @@
     "@tutor/memory-database": "^0.2.3",
     "@tutor/rethinkdb-database": "^0.1.1",
     "@tutor/server": "^0.2.1",
+    "@tutor/share-ace-rethinkdb": "^0.1.7",
     "@tutor/test-suite": "^0.2.2",
     "cson": "^3.0.1",
     "express": "^4.13.3",
