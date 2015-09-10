@@ -14,7 +14,7 @@ del = ajax.bind undefined, 'DELETE'
 api =
   get:
     exercises: -> get('/exercises')
-    exercise: (id) -> get("/exercises/#{id}")
+    exercise: (id) -> get("/exercises/detailed/#{id}")
   put:
     exercise: (id, content) -> put "/exercises/#{id}", content
   post:

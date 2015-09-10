@@ -23,7 +23,7 @@ module.exports = function(DB) {
 
     { path: '/api/group', dataCall: DB.Groups.getGroupForUser, apiMethod: "getBySessionPseudo" },
     { path: '/api/group', dataCall: DB.Groups.create, apiMethod: "postBySessionPseudoAndParam", param: "ids" },
-    { path: '/api/group/join', dataCall: DB.Groups.joinGroup, apiMethod: "postBySessionPseudoAndBodyParam", param: "group" },
+    { path: '/api/group/join', dataCall: DB.Groups.joinGroup, apiMethod: "postBySessionPseudoAndParam", param: "group" },
     { path: '/api/group/pending', dataCall: DB.Groups.pending, apiMethod: "getBySessionPseudo"},
     { path: '/api/group/reject', dataCall: DB.Groups.rejectInvitation, apiMethod: "postBySessionPseudoAndParam", param: "group"}
   ];
