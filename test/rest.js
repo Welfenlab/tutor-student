@@ -45,6 +45,8 @@ var doRequest = function(method,path,data,fn){
       parsed = JSON.parse(body);
       fn(err,res,parsed);
     } catch(e){
+      console.log("Error parsing body\n"+body);
+      console.log(e);
       fn(e);
     }
   });
@@ -124,11 +126,11 @@ describe("Student REST API", function(){
   it("should be able to change ones pseudonym", function(done){
     doSimpleRequest("PUT", "/user/pseudonym", {pseudonym: "NEW PSEUDO"},
       function(err, res, body){
-        (err == null).should.be.true;
+        if(err) err.should.be.null;
         res.statusCode.should.equal(204);
         doRequest("GET", "/user/pseudonym",
           function(err, res, body){
-            (err == null).should.be.true;
+            if(err) err.should.be.null;
             body.should.equal("NEW PSEUDO");
             done();
           }
