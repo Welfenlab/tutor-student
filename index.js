@@ -1,33 +1,27 @@
 var config = require("cson").load("config.cson");
 var TutorServer = require("@tutor/server");
-var MemDB = require("@tutor/memory-database")(config);
-//var rethinkDB = require("@tutor/rethinkdb-database")(config);
 var express = require("express");
 
-restAPI = require("./src/rest")(MemDB);
-//restAPI = require("./src/rest")(rethinkDB);
 
+config.modules = []
+var restAPI = null;
 
-config.modules = [
-  require("@tutor/dummy-auth")(MemDB.Users.exists), // This must be array element #0
-  require('@tutor/share-ace-rethinkdb'),
-];
-config.log = console;
-
-if(config.development){
-  config.modules.push(function(app, config){
-    app.use(express.static('./build'));
-    // enable cors for development
-    app.use(function(req, res, next) {
-      res.header("Access-Control-Allow-Origin", "*");
-      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-      next();
-    });
-    app.use(require('morgan')('dev'));
-  });
+// initialize the appropiate environment
+if(process.env.NODE_ENV != "production"){
+  restAPI = require("./src/development")(config)
+} else {
+  restAPI = require("./src/production")(config)
 }
 
-// create a server
+// load logging modules
+require("./src/logging")(config);
+
+// additional server modules for all environments
+config.modules = config.modules.concat([
+  require('@tutor/share-ace-rethinkdb'),
+]);
+
+// create the server
 var server = TutorServer(config);
 
 // register rest API

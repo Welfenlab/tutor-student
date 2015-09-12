@@ -3,6 +3,7 @@
 development: true
 developmentPort: 8080
 domainname: "localhost"
+restAPIPath: "/api"
 ssl:
   enable: false
   # if enabled provide `keyfile` and `certfile`
@@ -34,3 +35,10 @@ sharejs:
     name: "ShareJS"
   port: 8015
   url: '0.0.0.0'
+saml:
+  privateKey: '/mnt/certificates/saml.tutor.gdv.uni-hannover.de.key'
+  certificate: '/mnt/certificates/saml.tutor.gdv.uni-hannover.de.crt'
+  entityPath: ''
+  assertEndpoint: '/Shibboleth.sso/SAML2/POST'
+  idpLoginUrl: 'https://sso.idm.uni-hannover.de/idp/profile/SAML2/POST/SSO'
+  idpCertificate: '/mnt/certificates/sso.idm.uni-hannover.de.crt'

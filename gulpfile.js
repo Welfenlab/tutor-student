@@ -21,6 +21,11 @@ var libs = [
   "lodash"
 ];
 
+// libs that are not used in production and thus can be removed
+var devLibs = [
+  "@tutor/dummy-auth"
+]
+
 // browserify bundle for direct browser use.
 gulp.task("app", function(){
   bundler = browserify('./app/scripts/tutor.coffee',
@@ -35,6 +40,12 @@ gulp.task("app", function(){
   libs.forEach(function(lib) {
     bundler.external(lib);
   });
+  if(process.env.NODE_ENV == "production"){
+    devLibs.forEach(function(lib){
+      // exclude dev libs in production build
+      bundler.external(lib);
+    });
+  }
 
   return bundler.bundle()
     .on('error', function(err){ console.log(err.message); this.emit('end');})
