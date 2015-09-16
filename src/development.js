@@ -2,14 +2,15 @@ var express = require("express");
 
 // initialize the development environment
 module.exports = function(config){
+  console.log("development environment");
   var MemDB = require("@tutor/memory-database")(config);
 
   restAPI = require("./rest")(MemDB);
 
   config.modules = []
-  //config.modules.push(require("@tutor/dummy-auth")(MemDB.Users.exists));
+  config.modules.push(require("@tutor/dummy-auth")(MemDB.Users.exists));
   config.domainname = "tutor.gdv.uni-hannover.de"
-  config.modules.push(require("@tutor/saml"));
+  //config.modules.push(require("@tutor/saml"));
 
   config.modules.push(function(app, config){
     app.use(express.static('./build'));

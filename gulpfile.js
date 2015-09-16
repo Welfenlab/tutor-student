@@ -40,9 +40,10 @@ gulp.task("app", function(){
   libs.forEach(function(lib) {
     bundler.external(lib);
   });
-  if(process.env.NODE_ENV == "production"){
+
+  if (process.env.NODE_ENV != "production"){
+    // exclude dev libs in production build
     devLibs.forEach(function(lib){
-      // exclude dev libs in production build
       bundler.external(lib);
     });
   }
