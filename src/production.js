@@ -10,5 +10,7 @@ module.exports = function(app, config){
   config.modules = []
   config.modules.push(require("@tutor/saml"));
 
-  return restAPI;
+  return new Promise(function(resolve){
+    resolve(restAPI);
+  });
 }

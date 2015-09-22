@@ -23,5 +23,7 @@ module.exports = function(config){
     app.use(require('morgan')('dev'));
   });
 
-  return restAPI;
+  return new Promise(function(resolve){
+    resolve(restAPI);
+  });
 }

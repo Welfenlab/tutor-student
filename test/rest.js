@@ -11,7 +11,7 @@ var memDB = require("@tutor/memory-database")();
 var restoreDB = function(){
   memDB.Restore("./test/fixtures/db.json");
 };
-restAPI = require("../src/rest")(memDB);
+var restAPI = require("../src/rest")(memDB);
 config.modules = [function(app,config){
   app.use(function(req,res,next){ req.session = {uid:"ABC-DEF"}; next() });
 }];
@@ -66,14 +66,12 @@ describe("Student REST API", function(){
         done();
       });
   });
-  it("list of exercises should only contain task ids",function(done){
+  it("list of exercises should not contain tasks",function(done){
     doRequest("GET","/exercises",
       function(err, res, body){
         (err == null).should.be.true;
         body.forEach(function(ex){
-          ex.tasks.forEach(function(t){
-            (typeof(t)).should.equal("string");
-          });
+          ex.should.not.have.key("tasks");
         });
         done();
       });
@@ -139,16 +137,6 @@ describe("Student REST API", function(){
     )
   });
 
-  it("should be able to get a list of all pseudonyms", function(done){
-    doRequest("GET", "/pseudonyms",
-      function(err, res, body){
-        (err == null).should.be.true;
-        Array.isArray(body).should.be.true;
-        body.should.have.length(3);
-        done();
-    });
-  });
-
   it("should be able to get group information", function(done){
     doRequest("GET", "/group",
       function(err, res, body){
@@ -161,7 +149,7 @@ describe("Student REST API", function(){
     );
   });
   it("should be able to create a group with others", function(done){
-    doRequest("POST", "/group", {ids:["Lonely Gates","Tiny Knuth"]},
+    doRequest("POST", "/group", {users:["Lonely Gates","Tiny Knuth"]},
       function(err,res,body){
         (err == null).should.be.true;
         res.statusCode.should.equal(200);
@@ -196,6 +184,14 @@ describe("Student REST API", function(){
         });
     });
   });
+  it("should not be able to join any group without an invitation", function(done){
+    doSimpleRequest("POST", "/group/join", {group: "fd8c6b07-572d-11e5-9824-685b35b5d746"},
+      function(err, res, body){
+        res.statusCode.should.equal(401);
+        //(err == null).should.be.false;
+        done();
+    });
+  });
   it("should be able to reject an invitation", function(done){
     doSimpleRequest("POST", "/group/reject", {group: "fd8c6b08-572d-11e5-9824-685b35b5d746"},
       function(err, res, body){
@@ -206,6 +202,32 @@ describe("Student REST API", function(){
           function(err, res, body){
             (err == null).should.be.true;
             body.should.have.length(0);
+            done();
+        });
+    });
+  });
+
+  it("should be possible to get the solution for an exercise", function(done){
+    doRequest("GET", "/solution/ee256059-9d92-4774-9db2-456378e04586",
+      function(err, res, body){
+        (err == null).should.be.true;
+        res.statusCode.should.equal(200);
+        body.solution.should.have.length(3);
+        done();
+    });
+  });
+
+  it("should be possible to store a solution", function(done){
+    doSimpleRequest("PUT", "/solution",
+      {exercise: "f31ad341-9d92-4774-9db2-456378e04586", solution: ["a","b","c"]},
+      function(err, res, body){
+        (err == null).should.be.true;
+        res.statusCode.should.equal(204);
+        // ensure persistence
+        doRequest("GET", "/solution/f31ad341-9d92-4774-9db2-456378e04586",
+          function(err, res, body){
+            (err == null).should.be.true;
+            body.solution.should.deep.equal(["a","b","c"]);
             done();
         });
     });

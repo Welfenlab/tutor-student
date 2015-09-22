@@ -15,7 +15,7 @@ paths:
       responses:
         200:
           description: Returns an array of exercise objects
-          
+
           schema:
             title: ArrayOfExercises
             type: array
@@ -48,7 +48,7 @@ paths:
       responses:
         200:
           description: An array of exercise objects
-          
+
           schema:
             title: ArrayOfExercises
             type: array
@@ -77,11 +77,19 @@ paths:
                   type: string
   /exercises/detailed:
     get:
-      description: "Returns all exercises that are currently visible to the student."
+      description: "Returns an exercise containg the task information."
+      parameters:
+        -
+          name: exercise
+          in: path
+          description: The exercise id
+          required: true
+          type: string
+          format: UUID
       responses:
         200:
           description: An array of exercise objects
-          
+
           schema:
             title: ArrayOfExercises
             type: array
@@ -118,7 +126,7 @@ paths:
                         format: markdown
                       maxPoinbts:
                         type: number
-                      
+
                 title:
                   type: string
   /user:
@@ -138,7 +146,7 @@ paths:
                 type: string
               group:
                 type: object
-                properties: 
+                properties:
                   name:
                     type: string
                   id:
@@ -163,7 +171,7 @@ paths:
     put:
       description: Set the Pseudonym of the user
       parameters:
-        - 
+        -
           name: Pseudonym
           in: body
           description: The new pseudonym
@@ -178,6 +186,108 @@ paths:
           description: The pseudonym is not allowed or already taken
         204:
           description: The pseudonym was changed
+  /user/group:
+    get:
+      description: Get the group of the user
+      responses:
+        200:
+          description: The group of the user
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+                format: UUID
+              users:
+                type: array
+                items:
+                  title: User pseudonyms
+                  type: string
+              pendingUsers:
+                type: array
+                items:
+                  title: User pseudonyms
+                  type: string
+    post:
+      description: Create a new group
+      parameters:
+        -
+          name: users
+          in: body
+          description: The list of users for the group. The user who created this group will be added to the group. The other users are added to the pendingUsers array and need to confirm the group. The user who created this group may not be in this list.
+          required: true
+          schema:
+            type: array
+            items:
+              title: User pseudonyms
+              type: string
+      responses:
+        200:
+          description: The creation was successful and returns the new group
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+                format: UUID
+              users:
+                type: array
+                items:
+                  title: User pseudonyms
+                  type: string
+              pendingUsers:
+                type: array
+                items:
+                  title: User pseudonyms
+                  type: string
+  /group/join:
+    post:
+      description: Join a group for which an invitation exists (a pending group)
+      parameters:
+        -
+          name: Group ID
+          in: body
+          description: The ID of the group the user wants to join
+          required: true
+          schema:
+            title: group
+            type: string
+      responses:
+        200:
+          description: Joining the group was successful. The group is returned
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+                format: UUID
+              users:
+                type: array
+                items:
+                  title: User pseudonyms
+                  type: string
+              pendingUsers:
+                type: array
+                items:
+                  title: User pseudonyms
+                  type: string
+        401:
+          description: It was not possible to join the given group due to a missing invitation or a wrong group id.
+  /group/reject:
+    post:
+      describe: Reject an invitation for a group.
+      parameters:
+        -
+          name: Group ID
+          in: body
+          description: The ID of the group the user wants to join
+          required: true
+          schema:
+            title: group
+            type: string
+      responses:
+        200:
+          description: Rejecting the group invitation was successful.
   /pseudonyms:
     get:
       description: Returns all the pseudonyms of all users
@@ -190,4 +300,71 @@ paths:
             items:
               title: Pseudonym
               type: string
-  
+  /solution:
+    get:
+      description: Get the currently stored solution for this exercise. This solution must be saved explicitly and is the solution that is used for the correction.
+      parameters:
+        -
+          name: exercise
+          in: path
+          description: The exercise id
+          required: true
+          schema:
+            title: exercise
+            type: string
+            format: UUID
+      responses:
+        200:
+          description: The solution object. If no solution was stored yet it simply contains an empty solution. If the PDF is already generated it also contains the URL to the PDF
+          schema:
+            title: Solution object
+            type: object
+            properties:
+              id:
+                type: string
+                format: UUID
+              group:
+                type: string
+                format: UUID
+              exercise:
+                type: string
+                fromat: UUID
+              pdf:
+                type: string
+                format: URL
+              solution:
+                type: array
+                items:
+                  title: Solution markdown string
+                  type: string
+                  format: markdown
+        404:
+          description: The exercise was not found and thus no solution exists.
+    put:
+      description: Change the solution for a given exercise.
+      parameters:
+        -
+          name: exercise
+          in: body
+          description: The exercise id
+          required: true
+          schema:
+            title: exercise
+            type: string
+            format: UUID
+        -
+          name: solution
+          in: body
+          description: An array of the solution strings (markdown)
+          required: true
+          schema:
+            type: array
+            items:
+              title: Solution markdown string
+              type: string
+              format: markdown
+      responses:
+        204:
+          description: The solution was stored succesfully
+        404:
+          description: The exercise was not found

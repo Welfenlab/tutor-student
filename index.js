@@ -6,28 +6,35 @@ var express = require("express");
 config.modules = []
 var restAPI = null;
 
-// initialize the appropiate environment
-if(process.env.NODE_ENV != "production"){
-  restAPI = require("./src/development")(config)
-} else {
-  restAPI = require("./src/production")(config)
+var startServer = function(restAPI){
+  // load logging modules
+  require("./src/logging")(config);
+
+  // additional server modules for all environments
+  config.modules = config.modules.concat([
+    require('@tutor/share-ace-rethinkdb'),
+  ]);
+
+  // create the server
+  var server = TutorServer(config);
+
+  // register rest API
+  restAPI.forEach(function(rest){
+    server.createRestCall(rest);
+  });
+
+  // start the server
+  server.start();
 }
 
-// load logging modules
-require("./src/logging")(config);
+var starter;
+// initialize the appropiate environment
+if(process.env.NODE_ENV != "production"){
+  starter = require("./src/development")(config);
+} else {
+  starter = require("./src/production")(config);
+}
 
-// additional server modules for all environments
-config.modules = config.modules.concat([
-  require('@tutor/share-ace-rethinkdb'),
-]);
-
-// create the server
-var server = TutorServer(config);
-
-// register rest API
-restAPI.forEach(function(rest){
-  server.createRestCall(rest);
+starter.then(startServer).catch(function(e){
+  console.error(e);
 });
-
-// start the server
-server.start();
