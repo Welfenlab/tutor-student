@@ -79,8 +79,7 @@ paths:
     get:
       description: "Returns an exercise containg the task information."
       parameters:
-        -
-          name: exercise
+        - name: exercise
           in: path
           description: The exercise id
           required: true
@@ -171,8 +170,7 @@ paths:
     put:
       description: Set the Pseudonym of the user
       parameters:
-        -
-          name: Pseudonym
+        - name: Pseudonym
           in: body
           description: The new pseudonym
           required: true
@@ -211,8 +209,7 @@ paths:
     post:
       description: Create a new group
       parameters:
-        -
-          name: users
+        - name: users
           in: body
           description: The list of users for the group. The user who created this group will be added to the group. The other users are added to the pendingUsers array and need to confirm the group. The user who created this group may not be in this list.
           required: true
@@ -244,8 +241,7 @@ paths:
     post:
       description: Join a group for which an invitation exists (a pending group)
       parameters:
-        -
-          name: Group ID
+        - name: Group ID
           in: body
           description: The ID of the group the user wants to join
           required: true
@@ -275,10 +271,9 @@ paths:
           description: It was not possible to join the given group due to a missing invitation or a wrong group id.
   /group/reject:
     post:
-      describe: Reject an invitation for a group.
+      description: Reject an invitation for a group.
       parameters:
-        -
-          name: Group ID
+        - name: Group ID
           in: body
           description: The ID of the group the user wants to join
           required: true
@@ -304,20 +299,16 @@ paths:
     get:
       description: Get the currently stored solution for this exercise. This solution must be saved explicitly and is the solution that is used for the correction.
       parameters:
-        -
-          name: exercise
+        - name: exercise
           in: path
           description: The exercise id
           required: true
-          schema:
-            title: exercise
-            type: string
-            format: UUID
+          type: string
+          format: UUID
       responses:
         200:
           description: The solution object. If no solution was stored yet it simply contains an empty solution. If the PDF is already generated it also contains the URL to the PDF
           schema:
-            title: Solution object
             type: object
             properties:
               id:
@@ -328,7 +319,7 @@ paths:
                 format: UUID
               exercise:
                 type: string
-                fromat: UUID
+                format: UUID
               pdf:
                 type: string
                 format: URL
@@ -343,8 +334,7 @@ paths:
     put:
       description: Change the solution for a given exercise.
       parameters:
-        -
-          name: exercise
+        - name: exercise
           in: body
           description: The exercise id
           required: true
@@ -352,8 +342,7 @@ paths:
             title: exercise
             type: string
             format: UUID
-        -
-          name: solution
+        - name: solution
           in: body
           description: An array of the solution strings (markdown)
           required: true
