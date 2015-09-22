@@ -27,7 +27,7 @@
     "@tutor/javascript-sandbox": "^0.2.1",
     "@tutor/login-form": "^0.1.1",
     "@tutor/markdown-editor": "^0.1.4",
-    "@tutor/rethinkdb-database": "^0.2.3",
+    "@tutor/rethinkdb-database": "^0.2.4",
     "@tutor/saml": "^0.1.1",
     "@tutor/server": "^0.2.3",
     "@tutor/share-ace-rethinkdb": "^0.1.9",
@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "@tutor/dummy-auth": "^0.1.5",
-    "@tutor/memory-database": "^0.4.4",
+    "@tutor/memory-database": "^0.4.5",
     "ascii2mathml": "^0.5.3",
     "async": "^1.4.2",
     "babelify": "^6.3.0",
