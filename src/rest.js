@@ -4,7 +4,6 @@ module.exports = function(DB) {
   return [
     { path: '/api/exercises', dataCall: DB.Exercises.get, apiMethod: "get" },
     { path: '/api/exercises/active', dataCall: DB.Exercises.getAllActive, apiMethod: "get" },
-    { path: '/api/exercises/detailed/:id', dataCall: DB.Exercises.getDetailed, apiMethod: "getByParam", param: "id" },
     { path: '/api/exercises/:id', dataCall: DB.Exercises.getById, apiMethod: "getByParam", param: "id" },
     { path: '/api/total', dataCall: DB.Exercises.getTotalPoints, apiMethod: "getBySessionUID" },
 

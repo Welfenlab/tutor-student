@@ -12,10 +12,16 @@ paths:
   /exercises:
     get:
       description: "Returns all exercises that are currently visible to the student."
+      parameters:
+        - name: exercise
+          in: path
+          description: Filter for a specific exercise by its ID. This returns exactly one exercise and not an array!
+          required: false
+          type: string
+          format: UUID
       responses:
         200:
           description: Returns an array of exercise objects
-
           schema:
             title: ArrayOfExercises
             type: array
@@ -73,59 +79,6 @@ paths:
                     title: Task ID
                     type: string
                     format: uuid
-                title:
-                  type: string
-  /exercises/detailed:
-    get:
-      description: "Returns an exercise containg the task information."
-      parameters:
-        - name: exercise
-          in: path
-          description: The exercise id
-          required: true
-          type: string
-          format: UUID
-      responses:
-        200:
-          description: An array of exercise objects
-
-          schema:
-            title: ArrayOfExercises
-            type: array
-            items:
-              title: Exercise
-              type: object
-              properties:
-                number:
-                  type: number
-                activationDate:
-                  type: string
-                  format: ISO-8601
-                dueDate:
-                  type: string
-                  format: ISO-8601
-                id:
-                  type: string
-                  format: uuid
-                tasks:
-                  type: array
-                  items:
-                    title: Task ID
-                    type: object
-                    properties:
-                      id:
-                        type: string
-                        format: uuid
-                      number:
-                        type: string
-                      title:
-                        type: string
-                      text:
-                        type: string
-                        format: markdown
-                      maxPoinbts:
-                        type: number
-
                 title:
                   type: string
   /user:
