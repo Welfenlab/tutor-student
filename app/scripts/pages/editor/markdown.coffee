@@ -88,7 +88,12 @@ module.exports = (task) ->
   markdownPreview = (editor) ->
     prev.render editor.getValue()
 
-  shareDocConnection = (aceRethink markdownEditor.Range, "GRP", task.id(), {port:'8015'})
+  #FIXME: this request is done for each task, could be improved
+  var group
+  req = ($.getJSON '/api/group').done (data) ->
+    group = data
+
+  shareDocConnection = (aceRethink markdownEditor.Range, group.id, task.id(), {})
 
   if document.getElementById 'editor-' + task.id()
     editor = markdownEditor.create 'editor-' + task.id(), task.solution(), plugins: [
