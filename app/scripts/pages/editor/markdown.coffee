@@ -83,14 +83,10 @@ createPreview = (id) ->
         return ''
 
 
-module.exports = (task) ->
+module.exports = (task, group) ->
   prev = createPreview "preview-" + task.id()
   markdownPreview = (editor) ->
     prev.render editor.getValue()
-
-  #FIXME: this request is done for each task, could be improved
-  req = ($.getJSON '/api/group').done (data) ->
-    group = data
 
   shareDocConnection = (aceRethink markdownEditor.Range, group.id, task.id(), {})
 

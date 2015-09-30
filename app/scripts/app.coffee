@@ -12,7 +12,7 @@ class ViewModel
     @user = ko.observable()
     @isLoggedIn = ko.computed => @user()?
     @avatarUrl = ko.computed =>
-      if @isLoggedIn() then "http://www.gravatar.com/avatar/#{md5(@user().id)}?d=wavatar"
+      if @isLoggedIn() then "http://www.gravatar.com/avatar/#{md5(@user().pseudonym)}?d=wavatar"
 
     @availableLanguages = ['en']
     @language = ko.observable 'en'

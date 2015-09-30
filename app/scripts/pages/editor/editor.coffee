@@ -10,13 +10,15 @@ class ViewModel extends ExerciseEditor(ko).ExercisePageViewModel
   show: (id) -> window.location.hash = '#exercise/' + id
 
   getExercise: (id, callback) ->
-    api.get.exercise(id)
-    .done(callback)
-    .fail ->
+    api.get.group()
+    .then (data) => @group = data
+    .then -> api.get.exercise(id)
+    .then(callback)
+    .catch ->
       alert 'Loading the exercise failed.'
-  
+
   init: (task) ->
-    markdown task
+    markdown task, @group
 
 fs = require 'fs'
 module.exports = ->
