@@ -19,6 +19,10 @@ app.router.pages [
     as: ['id'] #name the parameters
     component: require('./pages/editor/editor')()
   }
+  {
+    path: 'group'
+    component: require('./pages/group/group')()
+  }
 ]
 
 app.router.goto 'login'
