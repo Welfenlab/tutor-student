@@ -66,10 +66,12 @@
                         <i class="file text outline icon"></i>
                         Übung 1
                     </a>
-                    <a href="" class="right item user" data-bind="if: user().loggedIn">
-                        <i class="icon"><img class="ui mini avatar image" data-bind="attr: { src: user().avatar }"/></i>
-                        <span data-bind="text: user().name"></span>
-                    </a>
+                    <!-- ko if: isLoggedIn -->
+                      <a class="right item user">
+                          <i class="icon"><img class="ui mini avatar image" data-bind="attr: { src: avatarUrl }"/></i>
+                          <span data-bind="text: user().pseudonym"></span>
+                      </a>
+                    <!-- /ko -->
                 </div>
             </div>
         </div>
@@ -88,7 +90,7 @@
                                     <i class="sign in icon"></i>
                                     Login
                                 </a>
-                                <a href="#overview" class="ui item">
+                                <a href="#overview" class="ui item">
                                     <i class="list icon"></i>
                                     Overview
                                 </a>
