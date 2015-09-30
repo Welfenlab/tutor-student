@@ -1,6 +1,7 @@
 ko = require 'knockout'
 api = require '../../api'
 markdown = require './markdown'
+_ = require 'lodash'
 
 class TaskViewModel
   constructor: (data) ->
@@ -16,7 +17,10 @@ class ViewModel
     @exerciseNotFound = ko.observable(no)
     @isOld = ko.observable true
 
-    api.get.exercise params.id
+    api.get.group()
+    .then (group) =>
+      @group = group
+    .then -> api.get.exercise params.id
     .then (exercise) =>
       @exercise = exercise
       @number exercise.number
@@ -27,7 +31,8 @@ class ViewModel
         return task
 
       @isOld Date.parse(exercise.dueDate) < Date.now()
-    .catch ->
+    .catch (e) ->
+      console.log e
       alert 'an error occurred' #TODO add better error messages
 
   init: (task) =>
