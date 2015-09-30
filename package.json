@@ -44,7 +44,7 @@
     "morgan": "^1.6.1"
   },
   "devDependencies": {
-    "@tutor/dummy-auth": "^0.1.5",
+    "@tutor/dummy-auth": "^0.1.6",
     "@tutor/memory-database": "^0.4.7",
     "ascii2mathml": "^0.5.3",
     "async": "^1.4.2",
