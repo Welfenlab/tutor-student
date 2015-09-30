@@ -7,6 +7,10 @@ app.router.pages [
     component: require('./pages/login/login')()
   }
   {
+    path: 'register'
+    component: require('./pages/register/register')()
+  }
+  {
     path: 'overview'
     component: require('./pages/exercises/exercises')()
   }

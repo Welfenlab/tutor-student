@@ -1,0 +1,8 @@
+# test config
+development: true
+developmentPort: 8090
+domainname: "localhost"
+ssl:
+  enable: false
+app:
+  path: "./app"

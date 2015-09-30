@@ -4,25 +4,14 @@ api = require '../../api'
 
 class ViewModel
   constructor: ->
-    @pin = ko.observable 'ABC-DEF'
+    @pseudonym = ko.observable ''
 
-    @mayLogin = ko.computed =>  @pin() isnt ''
-    @isLoggingIn = ko.observable no
-
-    @error = ko.observable null
-    @hasError = ko.computed => @error() isnt null
-
-  login: ->
-    @isLoggingIn yes
-    api.post.login @pin()
-    .then -> api.get.me()
+  generate: ->
+    api.get.pseudonym()
     .then (data) =>
-      @isLoggingIn no
-      app.user data
-      app.router.goto 'overview'
-    .catch (e) =>
-      @isLoggingIn no
-      @error jqxhr.responseJSON.msg
+      @pseudonym data.pseudonym
+    .catch ->
+      alert('Could not generate pseudonym')
 
 fs = require 'fs'
 module.exports = ->

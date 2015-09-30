@@ -1,18 +1,42 @@
 ko = require 'knockout'
 api = require '../../api'
-ExerciseEditor = require '@tutor/exercise-editor'
+markdown = require './markdown'
+_ = require 'lodash'
 
-class ViewModel extends ExerciseEditor(ko).ExercisePageViewModel
+class TaskViewModel
+  constructor: (data) ->
+    if data?
+      ko.mapping.fromJS data, {}, this
+    @hasTitle = ko.computed => @title()? and @title().trim() isnt ''
+    @solution or= ko.observable ''
+
+class ViewModel
   constructor: (params) ->
-    super(params)
+    @number = ko.observable()
+    @tasks = ko.observableArray()
+    @exerciseNotFound = ko.observable(no)
+    @isOld = ko.observable true
 
-  show: (id) -> window.location.hash = '#exercise/' + id
+    api.get.group()
+    .then (group) =>
+      @group = group
+    .then -> api.get.exercise params.id
+    .then (exercise) =>
+      @exercise = exercise
+      @number exercise.number
 
-  getExercise: (id, callback) ->
-    api.get.exercise(id)
-    .done(callback)
-    .fail ->
-      alert 'Loading the exercise failed.'
+      @tasks _.map exercise.tasks, (t) ->
+        task = new TaskViewModel t
+        task.solution.subscribe => @submit t
+        return task
+
+      @isOld Date.parse(exercise.dueDate) < Date.now()
+    .catch (e) ->
+      console.log e
+      alert 'an error occurred' #TODO add better error messages
+
+  init: (task) =>
+    markdown task, @group
 
 fs = require 'fs'
 module.exports = ->

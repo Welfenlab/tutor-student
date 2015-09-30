@@ -1,7 +1,10 @@
-address = 'http://localhost:8080/api'
+Q = require 'q'
+
+host = window.location.host.toString().split(":");
+address = 'http://'+host[0]+':8080/api'
 
 ajax = (method, url, data) ->
-  $.ajax
+  Q $.ajax
     url: address + url
     data: data
     method: method
@@ -15,10 +18,15 @@ api =
   get:
     exercises: -> get('/exercises')
     exercise: (id) -> get("/exercises/#{id}")
+    me: -> get('/user')
+    group: -> get('/group')
+    pseudonyms: -> get('/pseudonyms')
+    pseudonym: -> get('/generatepseudonym')
   put:
     exercise: (id, content) -> put "/exercises/#{id}", content
+    pseudonym: (pseudonym) -> put "/user/pseudonym", pseudonym: pseudonym
   post:
-    login: (uuid) -> post "/login",
-        uuid: uuid
+    login: (id) -> post "/login",
+        id: id
 
 module.exports = api
