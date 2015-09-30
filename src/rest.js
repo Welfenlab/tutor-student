@@ -1,4 +1,5 @@
 // for apiMethod see tutor-server rest folder (exercises.coffee, ...)
+var pseudonym = require('tutor-pseudonyms')
 
 module.exports = function(DB) {
   return [
@@ -28,5 +29,8 @@ module.exports = function(DB) {
 
     { path: '/api/solution/:id', dataCall: DB.Exercises.getExerciseSolution, apiMethod: "getBySessionUIDAndParam", param: "id", errStatus: 404 },
     { path: '/api/solution/', dataCall: DB.Exercises.setExerciseSolution, apiMethod: "putBySessionUIDAndParams", params: ["exercise","solution"], errStatus: 404 },
+    { path: '/api/generatepseudonym', dataCall: function () {
+      return Promise.resolve({ pseudonym: pseudonym() });
+    }, apiMethod: 'get' }
   ];
 };

@@ -24,6 +24,7 @@ api =
     pseudonym: -> get('/generatepseudonym')
   put:
     exercise: (id, content) -> put "/exercises/#{id}", content
+    pseudonym: (pseudonym) -> put "/user/pseudonym", pseudonym: pseudonym
   post:
     login: (id) -> post "/login",
         id: id

@@ -42,7 +42,8 @@
     "lodash": "^3.10.1",
     "more-markdown": "^0.1.2",
     "morgan": "^1.6.1",
-    "q": "^1.4.1"
+    "q": "^1.4.1",
+    "tutor-pseudonyms": "welfenlab/tutor-pseudonyms"
   },
   "devDependencies": {
     "@tutor/dummy-auth": "^0.1.6",

@@ -8,7 +8,7 @@ class ViewModel
 
   generate: ->
     api.get.pseudonym()
-    .then (data) ->
+    .then (data) =>
       @pseudonym data.pseudonym
     .catch ->
       alert('Could not generate pseudonym')

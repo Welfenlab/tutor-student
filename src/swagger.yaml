@@ -310,3 +310,13 @@ paths:
           description: The solution was stored succesfully
         404:
           description: The exercise was not found
+  /generatepseudonym:
+    get:
+      description: Get a random peudonym and lock it for some time.
+      responses:
+        200:
+          schema:
+            type: object
+            properties:
+              pseudonym:
+                type: string
