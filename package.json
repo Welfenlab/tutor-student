@@ -19,7 +19,6 @@
     "@more-markdown/mathjax-processor": "^0.1.2",
     "@more-markdown/test-processor": "^0.1.4",
     "@tutor/browser-debug-js": "^0.1.0",
-    "@tutor/exercise-editor": "^0.1.3",
     "@tutor/exercise-list": "^0.1.2",
     "@tutor/graph-test-suite": "^0.2.1",
     "@tutor/jailed-sandbox": "^0.2.0",
