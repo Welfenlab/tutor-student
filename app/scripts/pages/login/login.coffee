@@ -15,13 +15,14 @@ class ViewModel
   login: ->
     @isLoggingIn yes
     api.post.login @pin()
-    .always =>
+    .then -> api.get.me()
+    .then (data) =>
       @isLoggingIn no
-    .done (data) =>
-        app.user data
-        app.router.goto 'overview'
-    .fail (jqxhr) =>
-        @error jqxhr.responseJSON.msg
+      app.user data
+      app.router.goto 'overview'
+    .catch (e) =>
+      @isLoggingIn no
+      @error jqxhr.responseJSON.msg
 
 fs = require 'fs'
 module.exports = ->

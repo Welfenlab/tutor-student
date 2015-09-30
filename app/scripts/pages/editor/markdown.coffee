@@ -89,7 +89,6 @@ module.exports = (task) ->
     prev.render editor.getValue()
 
   #FIXME: this request is done for each task, could be improved
-  var group
   req = ($.getJSON '/api/group').done (data) ->
     group = data
 

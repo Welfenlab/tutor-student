@@ -21,7 +21,7 @@ i18n.init {
   en:
     translation: require '../i18n/en'
   }, 'en', ko
-viewModel.language.subscribe (v) -> i18n.setLanguage v
 
+viewModel.language.subscribe (v) -> i18n.setLanguage v
 
 module.exports = viewModel
