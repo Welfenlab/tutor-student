@@ -1,12 +1,22 @@
-<div class="login">
-  <div class="ui segment form centered">
-    <div class="field">
-      <label data-bind="i18n: 'login.pin'"></label>
-      <div class="ui icon input">
-        <input type="text" data-bind="value: pin" />
-        <i class="lock icon"></i>
+<div class="ui middle aligned center aligned grid">
+  <div class="column login">
+    <h2 class="ui blue image header">
+      <i class="ui student icon"></i>
+      <div class="content">Log-in to your account</div>
+    </h2>
+    <div class="ui large form">
+      <div class="ui stacked segment">
+        <div class="field">
+          <label></label>
+          <div class="ui left icon input">
+            <i class="lock icon"></i>
+            <input type="text" data-bind="value: pin, i18n: { placeholder: 'login.pin' }" />
+          </div>
+        </div>
+        <div class="ui fluid large blue submit button"
+             data-bind="css: { disabled: !mayLogin(), loading: isLoggingIn }, click: login, i18n: 'login.submit'"></div>
       </div>
     </div>
-    <div class="ui submit button" data-bind="css: { disabled: !mayLogin(), loading: isLoggingIn }, click: login, i18n: 'login.submit'"></div>
+    <div class="ui message">Hello there!</div>
   </div>
 </div>
