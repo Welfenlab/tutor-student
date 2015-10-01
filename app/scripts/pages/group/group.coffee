@@ -38,6 +38,14 @@ class ViewModel
     @selectedUsers.remove user
     @users.push user
 
+  save: ->
+    api.create.group _.map @users(), (u) -> u.pseudonym()
+    .then (group) =>
+      ko.mapping.fromJS group, app.user().group #updates the group of the user object
+      alert 'Invitations sent.'
+    .catch (e) ->
+      alert 'The group could not be created.'
+
 fs = require 'fs'
 module.exports = ->
   ko.components.register __filename.substr(__dirname.length, __filename.length - 7),
