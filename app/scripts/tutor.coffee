@@ -25,8 +25,6 @@ app.router.pages [
   }
 ]
 
-app.router.goto 'login'
-
 $(window).bind "popstate", ->
   app.router.goto location.hash.substr(1)
 

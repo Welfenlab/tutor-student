@@ -105,7 +105,9 @@
             </div>
         </div>
     </div>
+    <!-- ko if: router.selected() -->
     <div class="content" data-bind="component: { name: router.selected, params: router.parameters }"></div>
+    <!-- /ko -->
 </div>
 
 <script src="tutor.js"></script>
