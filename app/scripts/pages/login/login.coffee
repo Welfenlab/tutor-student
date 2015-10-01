@@ -1,4 +1,5 @@
 ko = require 'knockout'
+Q = require 'q'
 app = require '../../app'
 api = require '../../api'
 
@@ -14,6 +15,7 @@ class ViewModel
 
   login: ->
     @isLoggingIn yes
+
     api.post.login @pin()
     .then -> api.get.me()
     .then (data) =>
@@ -21,8 +23,9 @@ class ViewModel
       app.user data
       app.router.goto 'overview'
     .catch (e) =>
+      @error 'Login failed'
       @isLoggingIn no
-      @error jqxhr.responseJSON.msg
+      $('.login').transition('shake')
 
 fs = require 'fs'
 module.exports = ->
