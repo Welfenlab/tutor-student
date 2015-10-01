@@ -1,0 +1,14 @@
+<input type="text" data-bind="textInput: search"/>
+<div class="ui segment" data-bind="foreach: displayedUsers">
+  <i class="icon"><img class="ui mini avatar image" data-bind="attr: { src: avatarUrl }"/></i>
+  <span data-bind="text: pseudonym"></span>
+  <button data-bind="click: add">add</button>
+</div>
+<div data-bind="visible: displayedUsers().length == 0">No users found.</div>
+
+<h1>Selected users</h1>
+<div class="ui segment" data-bind="foreach: selectedUsers">
+  <i class="icon"><img class="ui mini avatar image" data-bind="attr: { src: avatarUrl }"/></i>
+  <span data-bind="text: pseudonym"></span>
+  <button data-bind="click: remove">remove</button>
+</div>
