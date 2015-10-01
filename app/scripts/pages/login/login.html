@@ -10,13 +10,17 @@
           <label></label>
           <div class="ui left icon input">
             <i class="lock icon"></i>
-            <input type="text" data-bind="value: pin, i18n: { placeholder: 'login.pin' }" />
+            <input type="text" data-bind="textInput: pin, i18n: { placeholder: 'login.pin' }" />
           </div>
         </div>
         <div class="ui fluid large blue submit button"
              data-bind="css: { disabled: !mayLogin(), loading: isLoggingIn }, click: login, i18n: 'login.submit'"></div>
       </div>
     </div>
-    <div class="ui message">Hello there!</div>
+    <div class="ui info message">
+      Wenn Sie noch keinen Zugang zum WebSSO-Dienst der LUH haben, können Sie
+      ihn im <a href="https://login.uni-hannover.de/" target="_blank">Account-Manager</a>
+      beantragen.
+    </div>
   </div>
 </div>
