@@ -159,6 +159,7 @@ paths:
                 items:
                   title: User pseudonyms
                   type: string
+  /group:
     post:
       description: Create a new group
       parameters:

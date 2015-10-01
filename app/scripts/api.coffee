@@ -28,5 +28,7 @@ api =
   post:
     login: (id) -> post "/login",
         id: id
+  create:
+    group: (members) -> post '/group', members
 
 module.exports = api
