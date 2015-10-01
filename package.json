@@ -1,6 +1,6 @@
 {
   "name": "@tutor/student",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Tutor Student Server for Welfenlab",
   "main": "index.js",
   "scripts": {
@@ -27,7 +27,7 @@
     "@tutor/login-form": "^0.1.1",
     "@tutor/markdown-editor": "^0.1.4",
     "@tutor/rethinkdb-database": "^0.2.6",
-    "@tutor/saml": "^0.1.1",
+    "@tutor/saml": "^0.1.2",
     "@tutor/server": "^0.2.3",
     "@tutor/share-ace-rethinkdb": "^0.2.0",
     "@tutor/test-suite": "^0.2.2",
