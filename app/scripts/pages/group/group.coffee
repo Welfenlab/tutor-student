@@ -1,5 +1,6 @@
 ko = require 'knockout'
 md5 = require 'js-md5'
+_ = require 'lodash'
 app = require '../../app'
 api = require '../../api'
 
@@ -7,6 +8,7 @@ class UserViewModel
   constructor: (pseudonym, @parent) ->
     @pseudonym = ko.observable pseudonym
     @avatarUrl = "http://www.gravatar.com/avatar/#{md5(@pseudonym())}?d=wavatar"
+    @isMe = ko.computed => @pseudonym() is app.user().pseudonym()
 
   add: -> @parent.add this
   remove: -> @parent.remove this
@@ -18,11 +20,14 @@ class ViewModel
 
     @search = ko.observable ''
     @displayedUsers = ko.computed =>
-      @users().filter (user) =>
+      users = _.filter @users(), (user) =>
         user.pseudonym().toLowerCase().indexOf(@search().toLowerCase()) >= 0
+      _.take users, 20
 
     api.get.pseudonyms()
-    .then (pseudonyms) => @users pseudonyms.map (p) => new UserViewModel(p, this)
+    .then (pseudonyms) =>
+      @users pseudonyms.map (p) => new UserViewModel(p, this)
+      @add _.find @users(), (user) -> user.isMe()
     .catch (e) -> console.log e #-> alert('Could not get pseudonyms.')
 
   add: (user) ->

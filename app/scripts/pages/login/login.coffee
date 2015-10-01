@@ -20,7 +20,7 @@ class ViewModel
     .then -> api.get.me()
     .then (data) =>
       @isLoggingIn no
-      app.user data
+      app.user ko.mapping.fromJS data
       app.router.goto 'overview'
     .catch (e) =>
       @error 'Login failed'
