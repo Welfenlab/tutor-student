@@ -45,7 +45,7 @@
     your browser</a> to improve your experience.</p>
 <![endif]-->
 
-<div class="TutorApp ui page">
+<div class="TutorApp ui page" data-bind="template: { afterRender: $data.afterRender }">
     <div class="ui grid">
         <div class="computer tablet only row">
             <div class="ui column">
@@ -71,10 +71,18 @@
                         Übung 1
                     </a>
                     <!-- ko if: isLoggedIn -->
-                      <a class="right item user">
+                      <div class="ui button right item user">
                           <i class="icon"><img class="ui mini avatar image" data-bind="attr: { src: avatarUrl }"/></i>
                           <span data-bind="text: user().pseudonym"></span>
-                      </a>
+                      </div>
+                      <div class="ui flowing bottom right popup transition hidden">
+                        <div class="ui basic segment">
+                          <img class="ui circular centered tiny image" data-bind="attr: { src: avatarUrl }">
+                          <div class="ui small header" data-bind="text: user().pseudonym"></div>
+                        </div>
+                        <div class="ui divider"></div>
+                        <div class="ui primary fluid button" data-bind="click: logout">Logout</div>
+                      </div>
                     <!-- /ko -->
                 </div>
             </div>

@@ -28,6 +28,7 @@ api =
   post:
     login: (id) -> post "/login",
         id: id
+  logout: -> post '/logout'
   create:
     group: (members) -> post '/group', members
 

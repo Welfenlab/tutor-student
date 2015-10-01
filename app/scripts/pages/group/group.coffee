@@ -7,7 +7,7 @@ api = require '../../api'
 class UserViewModel
   constructor: (pseudonym, @parent) ->
     @pseudonym = ko.observable pseudonym
-    @avatarUrl = "http://www.gravatar.com/avatar/#{md5(@pseudonym())}?d=wavatar"
+    @avatarUrl = "http://www.gravatar.com/avatar/#{md5(@pseudonym())}?d=wavatar&f=y"
     @isMe = ko.computed => @pseudonym() is app.user().pseudonym()
 
   add: -> @parent.add this

@@ -12,21 +12,30 @@ class ViewModel
   constructor: ->
     @router = new Router()
 
-    @user = ko.observable()
+    @user = ko.observable({})
     api.get.me()
     .then (me) =>
       @user ko.mapping.fromJS me
       @router.goto location.hash.substr(1) #go to the page the user wants to go to
-    .catch => @router.goto 'login'
+    .catch (e) => @router.goto 'login'
 
-    @isLoggedIn = ko.computed => @user()?
+    @isLoggedIn = ko.computed => @user()? and @user().pseudonym?
     @avatarUrl = ko.computed =>
-      if @isLoggedIn() then "http://www.gravatar.com/avatar/#{md5(@user().pseudonym())}?d=wavatar"
+      if @isLoggedIn() then "http://www.gravatar.com/avatar/#{md5(@user().pseudonym())}?d=wavatar&f=y"
 
     @availableLanguages = ['en']
     @language = ko.observable 'en'
     @language.subscribe (v) -> i18n.setLanguage v
 
+  afterRender: ->
+    setTimeout (-> $('.button').popup(position: 'bottom right', hoverable: true)), 100
+
+  logout: ->
+    api.logout()
+    .then =>
+      @user {}
+      @router.goto 'login'
+    .catch (e) -> console.log e
 
 i18n.init {
   en:
