@@ -36,5 +36,5 @@ if(process.env.NODE_ENV != "production"){
 }
 
 starter.then(startServer).catch(function(e){
-  console.error(e);
+  console.error(e.stack);
 });
