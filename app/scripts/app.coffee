@@ -27,8 +27,8 @@ class ViewModel
     @language = ko.observable 'en'
     @language.subscribe (v) -> i18n.setLanguage v
 
-  afterRender: ->
-    setTimeout (-> $('.button').popup(position: 'bottom right', hoverable: true)), 100
+  registerPopup: ->
+    $('.button').popup(position: 'bottom right', hoverable: true)
 
   logout: ->
     api.logout()
