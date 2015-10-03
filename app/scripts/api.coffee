@@ -1,7 +1,8 @@
 Q = require 'q'
 
 host = window.location.host.toString().split(":");
-address = 'http://'+host[0]+':8080/api'
+port = host[1].split("/")[0];
+address = 'http://'+host[0]+':'+port+'/api'
 
 ajax = (method, url, data) ->
   Q $.ajax
@@ -28,6 +29,7 @@ api =
   post:
     login: (id) -> post "/login",
         id: id
+        password: ""
   logout: -> post '/logout'
   create:
     group: (members) -> post '/group', members

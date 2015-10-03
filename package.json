@@ -1,6 +1,6 @@
 {
   "name": "@tutor/student",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Tutor Student Server for Welfenlab",
   "main": "index.js",
   "scripts": {
@@ -26,9 +26,9 @@
     "@tutor/javascript-sandbox": "^0.2.1",
     "@tutor/login-form": "^0.1.1",
     "@tutor/markdown-editor": "^0.1.4",
-    "@tutor/rethinkdb-database": "^0.2.6",
+    "@tutor/rethinkdb-database": "^0.2.7",
     "@tutor/saml": "^0.3.0",
-    "@tutor/server": "^0.2.3",
+    "@tutor/server": "^0.2.6",
     "@tutor/share-ace-rethinkdb": "^0.2.0",
     "@tutor/test-suite": "^0.2.2",
     "bunyan": "^1.5.1",
@@ -47,7 +47,7 @@
   },
   "devDependencies": {
     "@tutor/dummy-auth": "^0.1.6",
-    "@tutor/memory-database": "^0.4.11",
+    "@tutor/memory-database": "^0.6.0",
     "ascii2mathml": "^0.5.3",
     "async": "^1.4.2",
     "babelify": "^6.3.0",
