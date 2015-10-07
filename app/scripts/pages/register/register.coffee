@@ -13,12 +13,11 @@ class ViewModel
       @pseudonym data.pseudonym
     .catch ->
       alert('Could not generate pseudonym')
-  
-  choose: ->
-    api.put.pseudonym(@pseudonym)
-    .then ->
-      
 
+  choose: ->
+    api.put.pseudonym(@pseudonym())
+    .then => app.user().pseudonym @pseudonym()
+    .catch -> alert 'The pseudonym could not be selected. Please try again.'
 fs = require 'fs'
 module.exports = ->
   ko.components.register __filename.substr(__dirname.length, __filename.length - 7),
