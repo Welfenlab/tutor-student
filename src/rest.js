@@ -3,6 +3,7 @@ var pseudonym = require('tutor-pseudonyms')
 
 module.exports = function(DB) {
   return [
+    { path: '/api/time', dataCall: function(){ return Promise.resolve(new Date()); }, apiMethod: "get" },
     { path: '/api/exercises', dataCall: DB.Exercises.get, apiMethod: "get" },
     { path: '/api/exercises/active', dataCall: DB.Exercises.getAllActive, apiMethod: "get" },
     { path: '/api/exercises/:id', dataCall: DB.Exercises.getById, apiMethod: "getByParam", param: "id" },
