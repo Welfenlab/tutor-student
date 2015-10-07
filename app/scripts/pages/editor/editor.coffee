@@ -14,6 +14,7 @@ class ViewModel
   constructor: (params) ->
     @number = ko.observable()
     @tasks = ko.observableArray()
+    @title = ko.observable()
     @exerciseNotFound = ko.observable(no)
     @isOld = ko.observable true
 
@@ -24,7 +25,7 @@ class ViewModel
     .then (exercise) =>
       @exercise = exercise
       @number exercise.number
-
+      @title exercise.title
       @tasks _.map exercise.tasks, (t) ->
         task = new TaskViewModel t
         task.solution.subscribe => @submit t
