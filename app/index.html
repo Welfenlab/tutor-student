@@ -66,10 +66,6 @@
                         <i class="users icon"></i>
                         Groups
                     </a>
-                    <a href="#exercise/ee256059-9d92-4774-9db2-456378e04586" class="ui item">
-                        <i class="file text outline icon"></i>
-                        Übung 1
-                    </a>
                     <!-- ko if: isLoggedIn -->
                       <div class="ui button right item user" data-bind="template: { afterRender: $data.registerPopup }">
                           <i class="icon"><img class="ui mini avatar image" data-bind="attr: { src: avatarUrl }"/></i>
@@ -79,6 +75,7 @@
                         <div class="ui basic segment">
                           <img class="ui circular centered tiny image" data-bind="attr: { src: avatarUrl }">
                           <div class="ui small header" data-bind="text: user().pseudonym"></div>
+                          <a href="#register"><i class="edit icon"></i></a>
                         </div>
                         <div class="ui divider"></div>
                         <div class="ui primary fluid button" data-bind="click: logout">Logout</div>

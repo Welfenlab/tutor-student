@@ -5,6 +5,7 @@ api = require '../../api'
 class ViewModel
   constructor: ->
     @pseudonym = ko.observable ''
+    @generate()
 
   generate: ->
     api.get.pseudonym()
@@ -12,6 +13,11 @@ class ViewModel
       @pseudonym data.pseudonym
     .catch ->
       alert('Could not generate pseudonym')
+  
+  choose: ->
+    api.put.pseudonym(@pseudonym)
+    .then ->
+      
 
 fs = require 'fs'
 module.exports = ->

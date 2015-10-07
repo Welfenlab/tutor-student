@@ -6,6 +6,9 @@
         <input type="text" data-bind="value: pseudonym" readonly="readonly" />
       </div>
     </div>
-    <div class="ui submit button" data-bind="i18n: 'register.generate', click: generate"></div>
+    <div class="ui buttons">
+      <div class="ui submit button" data-bind="i18n: 'register.generate', click: generate"></div>
+      <div class="ui submit button primary" data-bind="i18n: 'register.choose', click: choose"></div>
+    </div>
   </div>
 </div>

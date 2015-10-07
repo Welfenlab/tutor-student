@@ -6,3 +6,4 @@ login:
 register:
     generate: 'Generate another pseudonym'
     pseudonym: 'Your pseudonym:'
+    choose: 'Choose pseudonym'
