@@ -9,6 +9,7 @@ mathjaxProcessor = require '@more-markdown/mathjax-processor'
 codeControls     = require '@more-markdown/code-controls'
 dotProcessor     = require '@more-markdown/dot-processor'
 testProcessor    = require '@more-markdown/test-processor'
+treeProcessor    = require '@more-markdown/tree-processor'
 
 markdownEditor = require '@tutor/markdown-editor'
 javascriptEditorErrors = require '@tutor/javascript-editor-errors'
@@ -40,6 +41,9 @@ createPreview = (id) ->
       # for these
       dotProcessor("dot", (_.template "<svg data-element-id=\"<%= id %>\"><g/></svg>"),
         _.template "<p style='background-color:red'><%= error %></p>")
+
+      treeProcessor("tree", (_.template "<svg data-element-id=\"<%= id %>\"></svg>"),
+        _.template "<p style='background-color:red'><%= error %></p>")  
 
       # The test processor creates the "test" code environment in which one can
       # define tests in yasmine syntax
