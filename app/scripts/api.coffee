@@ -23,6 +23,7 @@ api =
     group: -> get('/group')
     pseudonyms: -> get('/pseudonyms')
     pseudonym: -> get('/generatepseudonym')
+    time: -> get('/time')
   put:
     exercise: (id, content) -> put "/exercises/#{id}", content
     pseudonym: (pseudonym) -> put "/user/pseudonym", pseudonym: pseudonym

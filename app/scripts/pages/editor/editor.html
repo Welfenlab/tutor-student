@@ -1,4 +1,4 @@
-<div class="ui segment">
+<div class="ui segment editor" data-bind="template: { afterRender: init }">
   <div class="ui fluid">
     <!-- ko ifnot: exerciseNotFound -->
       <div class="ui grid">
@@ -16,7 +16,7 @@
       </div>
       <!-- ko foreach: tasks -->
         <!-- ko ifnot: $parent.isOld -->
-        <div class="ui grid" data-bind="attr: {'id': 'task-' + $index}, template: { afterRender: function(){$parent.init($data)} }">
+        <div class="ui grid" data-bind="attr: {'id': 'task-' + $index}, template: { afterRender: $parent.initTask.bind(null, $data) }">
           <div class="eight wide column exerciseEditor">
             <div class="task">
               <span class="task">
@@ -42,7 +42,7 @@
         </div>
         <!-- /ko -->
         <!-- ko if: $parent.isOld -->
-        <div class="ui grid" data-bind="attr: {'id': 'task-' + $data.number()}, template: { afterRender: $data.init }">
+        <div class="ui grid" data-bind="attr: {'id': 'task-' + $data.number()}, template: { afterRender: $parent.initTask.bind(null, $data) }">
           <div class="four wide column" />
           <div class="eight wide column exercisePreview">
             <div class="task">
@@ -90,6 +90,19 @@
               <a class="ui circular icon popupinfo button" data-content="Abgaben können bis zum Abgabedatum beliebig oft aktualisiert werden!" data-variation="very wide"><i class="info icon"></i></a>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div class="bar" data-bind="visible: !isOld()">
+        <div class="centered column" style="margin-left:5px">
+            <i class="save icon"></i>
+            Your solution is saved automatically as you type.
+        </div>
+
+        <div class="right column" style="width:250px">
+            <i class="clock icon"></i>
+            <span style="font-weight:bold">Time left:</span><br/>
+            <span data-bind="text: timeLeft"></span>
         </div>
       </div>
     <!-- /ko -->
