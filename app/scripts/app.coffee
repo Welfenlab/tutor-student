@@ -15,7 +15,11 @@ class ViewModel
     @user = ko.observable({})
     api.get.me()
     .then (me) =>
-      @user ko.mapping.fromJS me
+      mappedUser = ko.mapping.fromJS me
+      mappedUser.group.users mappedUser.group.users().map (member) ->
+        name: member
+        avatarUrl: "http://www.gravatar.com/avatar/#{md5(member)}?d=wavatar&f=y"
+      @user mappedUser
       @router.goto location.hash.substr(1) #go to the page the user wants to go to
     .catch (e) => @router.goto 'login'
 

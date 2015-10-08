@@ -71,11 +71,32 @@
                           <i class="icon"><img class="ui mini avatar image" data-bind="attr: { src: avatarUrl }"/></i>
                           <span data-bind="text: user().pseudonym"></span>
                       </div>
-                      <div class="ui flowing bottom right popup transition hidden">
+                      <div class="ui flowing bottom right popup transition hidden" style="width:250px">
                         <div class="ui basic segment">
                           <img class="ui circular centered tiny image" data-bind="attr: { src: avatarUrl }">
-                          <div class="ui small header" data-bind="text: user().pseudonym"></div>
-                          <a href="#register"><i class="edit icon"></i></a>
+                          <div class="ui small centered header">
+                            <span data-bind="text: user().pseudonym"></span>
+                            <a href="#register"><i class="edit icon" style="margin:0 0 0 0.25rem"></i></a>
+                          </div>
+                        </div>
+                        <div class="ui divider"></div>
+                        <div class="ui basic segment" data-bind="visible: user().group.users().length > 1">
+                          <div class="ui small header">
+                              Your group:
+                            <a href="#groups"><i class="edit icon" style="margin:0 0 0 0.25rem"></i></a>
+                          </div>
+                          <div class="ui middle aligned list" data-bind="foreach: user().group.users">
+                            <div class="item">
+                              <img class="ui avatar image" data-bind="attr: { src: avatarUrl }"/>
+                              <div class="content">
+                                <div class="header" data-bind="text: name"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="ui basic segment center aligned" data-bind="visible: user().group.users().length == 1">
+                          You are not in a group.<br/>
+                          <a href="#groups">Create one</a> to make learning easier and more fun!
                         </div>
                         <div class="ui divider"></div>
                         <div class="ui primary fluid button" data-bind="click: logout">Logout</div>
