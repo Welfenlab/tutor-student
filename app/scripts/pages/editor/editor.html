@@ -6,8 +6,20 @@
         <span data-bind="text: timeLeft"></span>
     </div>
     <div class="ui segment">
-        <i class="save icon"></i>
-        Your solution is saved automatically as you type.
+      <!-- ko if: connected -->
+        <!-- ko if: saved -->
+          <i class="save icon"></i>
+          Your solution is saved automatically as you type.
+        <!-- /ko -->
+        <!-- ko ifnot: saved -->
+          <i class="wait icon"></i>
+          Saving&hellip;
+        <!-- /ko -->
+      <!-- /ko -->
+      <!-- ko ifnot: connected -->
+        <i class="red warning icon"></i>
+        You are disconnected. Changes cannot be saved right now.
+      <!-- /ko -->
     </div>
   </div>
   <div class="ui segment editor" data-bind="template: { afterRender: init }">
@@ -28,7 +40,7 @@
         </div>
         <!-- ko foreach: tasks -->
           <!-- ko ifnot: $parent.isOld -->
-          <div class="ui grid" data-bind="attr: {'id': 'task-' + $index}, template: { afterRender: $parent.initTask.bind(null, $data) }">
+          <div class="ui grid" data-bind="attr: {'id': 'task-' + $index}, template: { afterRender: $parent.initTask.bind(null, $data, $element)}">
             <div class="eight wide column exerciseEditor">
               <div class="task">
                 <span class="task">
@@ -54,7 +66,7 @@
           </div>
           <!-- /ko -->
           <!-- ko if: $parent.isOld -->
-          <div class="ui grid" data-bind="attr: {'id': 'task-' + $data.number()}, template: { afterRender: $parent.initTask.bind(null, $data) }">
+          <div class="ui grid" data-bind="attr: {'id': 'task-' + $data.number()}, template: { afterRender: $parent.initTask.bind(null, $data, $element)}">
             <div class="four wide column" />
             <div class="eight wide column exercisePreview">
               <div class="task">

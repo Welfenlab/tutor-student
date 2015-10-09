@@ -13,12 +13,28 @@ class TaskViewModel
       @prefilled = ko.observable ''
     @hasTitle = ko.computed => @title()? and @title().trim() isnt ''
     @solution or= ko.observable ''
+    @editor = ko.observable()
+
+    @saved = ko.observable true
+    @connected = ko.observable true
+
+    @editor.subscribe (editor) =>
+      editor.on 'connect', => @connected true
+      editor.on 'disconnect', => @connected false
+      editor.on 'save', => @saved true
+      editor.on 'unsavedChanges', => @saved false
+
+  destroy: ->
+    if @editor()
+      @editor().destroy()
 
 class ViewModel
   constructor: (params) ->
     @exercise = ko.observable({})
     @number = ko.computed => @exercise().number
     @tasks = ko.computed => _.map @exercise().tasks, (t) -> new TaskViewModel t
+    @saved = ko.computed => _.every @tasks(), (t) -> t.saved()
+    @connected = ko.computed => _.every @tasks(), (t) -> t.connected()
     @selectedTaskIndex = ko.observable -1 #TODO set this to -1 if no task is focused, or to the index of the focused task
     @selectedTask = ko.computed =>
       if @selectedTaskIndex() >= 0
@@ -95,8 +111,9 @@ class ViewModel
   init: ->
     $('#showtests').popup(inline: true)
 
-  initTask: (task) =>
-    mdeditor task, @group, @theExercise
+  initTask: (task, element) =>
+    ko.utils.domNodeDisposal.addDisposeCallback element, task.destroy.bind(task)
+    task.editor mdeditor task, @group, @theExercise
     markdown('text-'+task.number()).render(task.text())
     markdown('text-sol-'+task.number()).render(task.text())
 

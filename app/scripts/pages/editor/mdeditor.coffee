@@ -1,8 +1,8 @@
 
 exerciseEditor = require '@tutor/exercise-editor'
 fs = require 'fs'
-
 _ = require 'lodash'
+EventEmitter = require 'event-emitter'
 
 markdownEditor = require '@tutor/markdown-editor'
 javascriptEditorErrors = require '@tutor/javascript-editor-errors'
@@ -18,6 +18,9 @@ module.exports = (task, group, exercise )  ->
 
   shareDocConnection = (aceRethink markdownEditor.Range, group.id, exercise.id+task.number(), {})
 
+  returnedObject = {destroy: _.noop}
+  EventEmitter.installOn returnedObject
+
   if document.getElementById 'editor-' + task.number()
     editor = markdownEditor.create 'editor-' + task.number(), task.prefilled(), plugins: [
       markdownPreview,
@@ -27,8 +30,32 @@ module.exports = (task, group, exercise )  ->
 
     getStatus = shareDocConnection.connect(editor);
 
+    previousStatus = {}
     checkStatus = ->
-      status = getStatus();
+      previousStatus = status
+      status = getStatus()
+
+      if previousStatus
+        if previousStatus.pending > 0 and status.pending == 0
+          returnedObject.trigger 'save'
+        else if previousStatus.pending == 0 and status.pending > 0
+          returnedObject.trigger 'unsavedChanges'
+
+        if previousStatus.state == 'connected' and status.state != 'connected'
+          returnedObject.trigger 'disconnect'
+        else if previousStatus.state != 'connected' and status.state == 'connected'
+          returnedObject.trigger 'connect'
+      else
+        if status.state == 'connected'
+          returnedObject.trigger 'connect'
+        else
+          returnedObject.trigger 'disconnect'
+        if status.pending == 0
+          returnedObject.trigger 'save'
+        else
+          returnedObject.trigger 'unsavedChanges'
+
+      #TODO Now that we have events, the GUI shouldn't be changed here...
       if status.pending > 0 && status.state != "connected"
         editor.container.style.opacity=0.1
         #console.log "not connected and pending changes"
@@ -42,6 +69,10 @@ module.exports = (task, group, exercise )  ->
         editor.container.style.opacity=1.0
         #console.log "connected"
 
-    setInterval checkStatus, 5000
+    interval = setInterval checkStatus, 5000
+    returnedObject.destroy = ->
+      returnedObject.off() #remove all event listeners
+      clearInterval interval
 
   prev.render task.prefilled()
+  return returnedObject
