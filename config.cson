@@ -1,7 +1,7 @@
 # Use this configuration for the development.
 # Deployment will replace it with an appropriate one
 development: true
-developmentPort: 8080
+developmentPort: 8090
 domainname: "localhost"
 restAPIPath: "/api"
 ssl:

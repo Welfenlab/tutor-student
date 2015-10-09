@@ -10,7 +10,10 @@ module.exports = function(DB) {
     { path: '/api/total', dataCall: DB.Exercises.getTotalPoints, apiMethod: "getBySessionUID" },
 
     { path: '/api/user/pseudonym', dataCall: DB.Users.getPseudonym, apiMethod: "getBySessionUID" },
-    { path: '/api/user/pseudonym', dataCall: DB.Users.setPseudonym, apiMethod: "putBySessionUIDAndParam", param: "pseudonym", errStatus: 409 },
+    { path: '/api/user/pseudonym', dataCall: function(uid,p){
+      debugger;
+      return DB.Users.setPseudonym(uid,p);
+    }, apiMethod: "putBySessionUIDAndParam", param: "pseudonym", errStatus: 409 },
     { path: '/api/user/group', dataCall: DB.Groups.getGroupForUser, apiMethod: "getBySessionUID" },
     { path: '/api/user', dataCall: function(id){
       return Promise.all([

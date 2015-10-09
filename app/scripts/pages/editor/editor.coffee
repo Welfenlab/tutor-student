@@ -1,5 +1,6 @@
 ko = require 'knockout'
 api = require '../../api'
+mdeditor = require './mdeditor'
 markdown = require './markdown'
 moment = require 'moment'
 _ = require 'lodash'
@@ -65,7 +66,9 @@ class ViewModel
 
 
   initTask: (task) =>
-    markdown task, @group, @theExercise
+    mdeditor task, @group, @theExercise
+    markdown('text-'+task.number()).render(task.text())
+    markdown('text-sol-'+task.number()).render(task.text())
 
 fs = require 'fs'
 module.exports = ->
