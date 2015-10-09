@@ -31,7 +31,7 @@ module.exports = function(config){
     restAPI = require("./rest")(MemDB);
     return new Promise(function(resolve){
       configureServer(restAPI, MemDB, MemDB.Users.exists);
-      resolve(restAPI);
+      resolve({api:restAPI, db:MemDB});
     });
   } else {
     console.log("### development environment with RethinkDB @" +
@@ -58,7 +58,7 @@ module.exports = function(config){
           }
         });
       });
-      return restAPI;
+      return {api: restAPI, db: DB}; // NOT TESTED
     });
 
   }

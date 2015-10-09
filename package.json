@@ -16,6 +16,7 @@
   "dependencies": {
     "@more-markdown/code-controls": "^0.1.2",
     "@more-markdown/dot-processor": "^0.1.2",
+    "@more-markdown/tree-processor": "^0.0.1",
     "@more-markdown/mathjax-processor": "^0.1.2",
     "@more-markdown/test-processor": "^0.1.4",
     "@tutor/browser-debug-js": "^0.1.0",

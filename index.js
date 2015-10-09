@@ -12,20 +12,20 @@ var express = require("express");
 config.modules = []
 var restAPI = null;
 
-var startServer = function(restAPI){
+var startServer = function(data){
   // load logging modules
   require("./src/logging")(config);
 
   // additional server modules for all environments
   config.modules = config.modules.concat([
-    require('@tutor/share-ace-rethinkdb'),
+    require('@tutor/share-ace-rethinkdb')(data.db),
   ]);
 
   // create the server
   var server = TutorServer(config);
 
   // register rest API
-  restAPI.forEach(function(rest){
+  data.api.forEach(function(rest){
     server.createRestCall(rest);
   });
 
