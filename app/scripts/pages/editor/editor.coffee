@@ -42,6 +42,7 @@ class ViewModel
       @group = group
     .then -> api.get.exercise params.id
     .then (exercise) =>
+      @theExercise = exercise
       @exercise exercise
     .catch (e) ->
       console.log e
@@ -51,7 +52,7 @@ class ViewModel
 
 
   initTask: (task) =>
-    markdown task, @group
+    markdown task, @group, @theExercise
 
 fs = require 'fs'
 module.exports = ->

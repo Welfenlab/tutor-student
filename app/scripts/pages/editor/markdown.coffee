@@ -87,12 +87,12 @@ createPreview = (id) ->
         return ''
 
 
-module.exports = (task, group) ->
+module.exports = (task, group, exercise )  ->
   prev = createPreview "preview-" + task.number()
   markdownPreview = (editor) ->
     prev.render editor.getValue()
 
-  shareDocConnection = (aceRethink markdownEditor.Range, group.id, task.number(), {})
+  shareDocConnection = (aceRethink markdownEditor.Range, group.id, exercise.id+task.number(), {})
 
   if document.getElementById 'editor-' + task.number()
     editor = markdownEditor.create 'editor-' + task.number(), task.prefilled(), plugins: [
