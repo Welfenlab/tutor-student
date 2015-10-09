@@ -1,46 +1,52 @@
 <div class="ui two column row grid">
   <div class="column">
-    <h3 class="ui top attached header">All users</h3>
-    <div class="ui attached segment">
-      <div class="ui fluid left icon input">
-        <input type="text" placeholder="Search users&hellip;" data-bind="textInput: search">
-        <i class="users icon"></i>
+    <div class="ui vertical segments">
+      <div class="ui segment">
+        <h3 class="ui header">All users</h3>
       </div>
+      <div class="ui segment">
+        <div class="ui fluid left icon input">
+          <input type="text" placeholder="Search users&hellip;" data-bind="textInput: search">
+          <i class="users icon"></i>
+        </div>
 
-      <div class="ui message" data-bind="visible: displayedUsers().length == 0">No users found.</div>
-      <div class="ui middle aligned divided list" data-bind="foreach: displayedUsers">
-        <div class="item" data-bind="click: add">
-          <div class="right floated content">
-            <div class="ui mini circular icon button">
-              <i class="add icon"></i>
+        <div class="ui message" data-bind="visible: displayedUsers().length == 0">No users found.</div>
+        <div class="ui middle aligned divided list" data-bind="foreach: displayedUsers">
+          <div class="item" data-bind="click: add">
+            <div class="right floated content">
+              <div class="ui mini circular icon button">
+                <i class="add icon"></i>
+              </div>
             </div>
+            <img class="ui avatar image" data-bind="attr: { src: avatarUrl }">
+            <div class="content" data-bind="text: pseudonym"></div>
           </div>
-          <img class="ui avatar image" data-bind="attr: { src: avatarUrl }">
-          <div class="content" data-bind="text: pseudonym"></div>
         </div>
       </div>
     </div>
   </div>
 
   <div class="column">
-    <h3 class="ui top attached header">
-      Selected users
-    </h3>
-    <div class="ui attached segment">
-      <div class="ui middle aligned divided list" data-bind="foreach: selectedUsers">
-        <div class="item">
-          <div class="right floated content" data-bind="click: remove, visible: !isMe()">
-            <div class="ui red mini circular icon button">
-              <i class="remove icon"></i>
+    <div class="ui vertical segments">
+      <div class="ui segment">
+        <h3 class="ui header">Selected users</h3>
+      </div>
+      <div class="ui segment">
+        <div class="ui middle aligned divided list" data-bind="foreach: selectedUsers">
+          <div class="item">
+            <div class="right floated content" data-bind="click: remove, visible: !isMe()">
+              <div class="ui red mini circular icon button">
+                <i class="remove icon"></i>
+              </div>
             </div>
+            <img class="ui avatar image" data-bind="attr: { src: avatarUrl }">
+            <div class="content" data-bind="text: pseudonym"></div>
           </div>
-          <img class="ui avatar image" data-bind="attr: { src: avatarUrl }">
-          <div class="content" data-bind="text: pseudonym"></div>
         </div>
       </div>
-    </div>
-    <div class="ui primary bottom attached button" data-bind="click: save">
-      Create group
+      <div class="ui primary bottom attached button" data-bind="click: save">
+        Create group
+      </div>
     </div>
   </div>
 </div>
