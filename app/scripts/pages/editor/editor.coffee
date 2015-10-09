@@ -20,6 +20,19 @@ class ViewModel
     @tasks = ko.computed => _.map @exercise().tasks, (t) -> new TaskViewModel t
     @title = ko.computed => @exercise().title
     @exerciseNotFound = ko.observable(no)
+    @tests = ko.observableArray()
+    @exercise.subscribe =>
+      #TODO initialize the array like this later:
+      #new Array(@exercise().tasks.length).map(-> [])
+      taskTests = new Array(@exercise().tasks.length).map(-> [])
+      for tests in taskTests
+        tests.push
+          description: 'Solution should be correct.'
+          passes: true
+        tests.push
+          description: 'This test should fail (paradoxon, lol).'
+          passes: false
+      @tests taskTests
 
     @timeDifference = ko.observable 0
     @localTime = ko.observable Date.now()
@@ -27,7 +40,7 @@ class ViewModel
 
     @isOld = ko.computed => Date.parse(@exercise().dueDate) < @serverTime()
     @timeLeft = ko.computed =>
-      moment(@exercise().dueDate).from(@serverTime())
+      moment(@exercise().dueDate).from(@serverTime(), true)
 
     @updateServertimeInterval = setInterval(=>
       api.get.time().then (time) =>
