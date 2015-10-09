@@ -23,6 +23,7 @@ class ViewModel
       app.user ko.mapping.fromJS data
       app.router.goto 'overview'
     .catch (e) =>
+      console.log e
       @error 'Login failed'
       @isLoggingIn no
       $('.login').transition('shake')
