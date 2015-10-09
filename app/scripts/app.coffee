@@ -13,6 +13,16 @@ class ViewModel
     @router = new Router()
 
     @user = ko.observable({})
+
+    @isLoggedIn = ko.computed => @user()? and @user().pseudonym?
+    @avatarUrl = ko.computed =>
+      if @isLoggedIn() and @user()
+        "http://www.gravatar.com/avatar/#{md5(@user().pseudonym())}?d=wavatar&f=y"
+
+    @availableLanguages = ['en']
+    @language = ko.observable 'en'
+    @language.subscribe (v) -> i18n.setLanguage v
+    
     api.get.me()
     .then (me) =>
       mappedUser = ko.mapping.fromJS me
@@ -22,14 +32,6 @@ class ViewModel
       @user mappedUser
       @router.goto location.hash.substr(1) #go to the page the user wants to go to
     .catch (e) => @router.goto 'login'
-
-    @isLoggedIn = ko.computed => @user()? and @user().pseudonym?
-    @avatarUrl = ko.computed =>
-      if @isLoggedIn() then "http://www.gravatar.com/avatar/#{md5(@user().pseudonym())}?d=wavatar&f=y"
-
-    @availableLanguages = ['en']
-    @language = ko.observable 'en'
-    @language.subscribe (v) -> i18n.setLanguage v
 
   registerPopup: ->
     $('.button').popup(position: 'bottom right', hoverable: true)
