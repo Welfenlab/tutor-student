@@ -18,21 +18,51 @@ class ViewModel
     @exercise = ko.observable({})
     @number = ko.computed => @exercise().number
     @tasks = ko.computed => _.map @exercise().tasks, (t) -> new TaskViewModel t
+    @selectedTaskIndex = ko.observable -1 #TODO set this to -1 if no task is focused, or to the index of the focused task
+    @selectedTask = ko.computed =>
+      if @selectedTaskIndex() >= 0
+        @tasks()[@selectedTaskIndex()]
     @title = ko.computed => @exercise().title
     @exerciseNotFound = ko.observable(no)
-    @tests = ko.observableArray()
+
+    @allTests = ko.observableArray()
+    @tests = ko.computed =>
+      if @selectedTaskIndex() >= 0
+        @allTests()[@selectedTaskIndex()]
+      _.flattenDeep(@allTests())
+    @failedTests = ko.computed => _.reject @tests(), 'passes'
+
     @exercise.subscribe =>
       #TODO initialize the array like this later:
-      #new Array(@exercise().tasks.length).map(-> [])
-      taskTests = new Array(@exercise().tasks.length).map(-> [])
-      for tests in taskTests
-        tests.push
-          description: 'Solution should be correct.'
-          passes: true
-        tests.push
-          description: 'This test should fail (paradoxon, lol).'
-          passes: false
-      @tests taskTests
+      #@tests new Array(@exercise().tasks.length).map(-> [])
+      @allTests [
+        [
+          {
+            name: 'Solution should be correct.'
+            passes: false
+          },
+          {
+            name: 'This test should fail (paradoxon, lol).'
+            passes: true
+          }
+        ]
+        [
+          {
+            name: 'Solution should be correct.'
+            passes: false
+          },
+          {
+            name: 'This checkmark should be green.'
+            passes: true
+          }
+        ]
+        [
+          {
+            name: 'Solution should be correct.'
+            passes: false
+          }
+        ]
+      ]
 
     @timeDifference = ko.observable 0
     @localTime = ko.observable Date.now()
@@ -62,7 +92,7 @@ class ViewModel
       alert 'an error occurred' #TODO add better error messages
 
   init: ->
-
+    $('#showtests').popup(inline: true)
 
   initTask: (task) =>
     markdown task, @group, @theExercise
