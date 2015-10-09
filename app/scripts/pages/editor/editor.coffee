@@ -1,6 +1,7 @@
 ko = require 'knockout'
 api = require '../../api'
 markdown = require './markdown'
+moment = require 'moment'
 _ = require 'lodash'
 
 class TaskViewModel
@@ -26,20 +27,7 @@ class ViewModel
 
     @isOld = ko.computed => Date.parse(@exercise().dueDate) < @serverTime()
     @timeLeft = ko.computed =>
-      delta = @serverTime() - Date.parse(@exercise().dueDate)
-      days = delta / (24 * 60 * 60 * 1000)
-      delta %= 24 * 60 * 60 * 1000
-      hours = delta / (60 * 60 * 1000)
-      delta %= 60 * 60 * 1000
-      minutes = delta / (60 * 1000)
-      delta %= 60 * 1000
-      seconds = delta / 1000
-      if days > 0
-        "#{days|0} days and #{hours|0} hours"
-      else if hours > 0
-        "#{hours|0} hours and #{minutes|0} minutes"
-      else
-        "#{minutes|0} minutes and #{seconds|0} seconds"
+      moment(@exercise().dueDate).from(@serverTime())
 
     @updateServertimeInterval = setInterval(=>
       api.get.time().then (time) =>
