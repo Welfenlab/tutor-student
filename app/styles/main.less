@@ -188,11 +188,19 @@ body {
   height: 5px;
 }
 
-.editor {
-  margin-bottom: 56px;
+.editorpage {
+  margin-bottom: 50px !important;
 
+  & > .segments:first-child, & > .segment:first-child {
+    border-top: 0 !important;
+  }
+}
+
+.editor {
   .bar {
+    z-index: 5;
     height: 46px;
+    line-height: 36px;
     position: fixed;
     bottom: 0;
     width: 100%;

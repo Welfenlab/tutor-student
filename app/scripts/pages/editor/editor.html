@@ -1,88 +1,99 @@
-<div class="ui segment editor" data-bind="template: { afterRender: init }">
-  <div class="ui fluid">
-    <!-- ko ifnot: exerciseNotFound -->
-      <div class="ui grid">
-        <!-- ko ifnot: isOld -->
-        <div class="eight wide column">
-          <div class="ui header">Exercise <span data-bind="text: title"></span></div>
-        </div>
-        <!-- /ko -->
-        <!-- ko if: isOld -->
-          <div class="four wide column" />
-        <!-- /ko -->
-        <div class="eight wide column">
-          <div class="ui header">Preview</div>
-        </div>
-      </div>
-      <!-- ko foreach: tasks -->
-        <!-- ko ifnot: $parent.isOld -->
-        <div class="ui grid" data-bind="attr: {'id': 'task-' + $index}, template: { afterRender: $parent.initTask.bind(null, $data) }">
-          <div class="eight wide column exerciseEditor">
-            <div class="task">
-              <span class="task">
-                Task <span data-bind="text: $data.number()"></span>
-                <!--ko if: $data.hasTitle --> &ndash; <span data-bind="text: $data.title()"></span><!-- /ko -->
-                <span class="points">(<span data-bind="text: $data.maxPoints()"></span> points)</span>
-              </span><br/>
-              <span class="description" data-bind="text: $data.text()"></span>
-            </div>
-            <div data-bind="attr: {'id': 'editor-' + $data.number()}"></div>
+<div class="ui segments editorpage">
+  <div class="ui horizontal segments" data-bind="visible: !isOld()">
+    <div class="ui segment">
+        <i class="clock icon"></i>
+        <span style="font-weight:bold">Time left:</span>
+        <span data-bind="text: timeLeft"></span>
+    </div>
+    <div class="ui segment">
+        <i class="save icon"></i>
+        Your solution is saved automatically as you type.
+    </div>
+  </div>
+  <div class="ui segment editor" data-bind="template: { afterRender: init }">
+    <div class="ui fluid">
+      <!-- ko ifnot: exerciseNotFound -->
+        <div class="ui grid">
+          <!-- ko ifnot: isOld -->
+          <div class="eight wide column">
+            <div class="ui header">Exercise <span data-bind="text: title"></span></div>
           </div>
-          <div class="eight wide column exercisePreview">
-            <div class="task">
-              <span class="task">
-                Task <span data-bind="text: $data.number()"></span>
-                <!--ko if: $data.hasTitle --> &ndash; <span data-bind="text: $data.title()"></span><!-- /ko -->
-                <span class="points">(<span data-bind="text: $data.maxPoints()"></span> points)</span>
-              </span><br/>
-              <span class="description" data-bind="text: $data.text()"></span>
-            </div>
-            <div data-bind="attr: {'id': 'preview-' + $data.number()}"></div>
+          <!-- /ko -->
+          <!-- ko if: isOld -->
+            <div class="four wide column" />
+          <!-- /ko -->
+          <div class="eight wide column">
+            <div class="ui header">Preview</div>
           </div>
         </div>
-        <!-- /ko -->
-        <!-- ko if: $parent.isOld -->
-        <div class="ui grid" data-bind="attr: {'id': 'task-' + $data.number()}, template: { afterRender: $parent.initTask.bind(null, $data) }">
-          <div class="four wide column" />
-          <div class="eight wide column exercisePreview">
-            <div class="task">
-              <span class="task">
-                Task <span data-bind="text: $data.number()"></span>
-                <!--ko if: $data.hasTitle --> &ndash; <span data-bind="text: $data.title()"></span><!-- /ko -->
-                <span class="points">(<span data-bind="text: $data.maxPoints()"></span> points)</span>
-              </span><br/>
-              <span class="description" data-bind="text: $data.text()"></span>
+        <!-- ko foreach: tasks -->
+          <!-- ko ifnot: $parent.isOld -->
+          <div class="ui grid" data-bind="attr: {'id': 'task-' + $index}, template: { afterRender: $parent.initTask.bind(null, $data) }">
+            <div class="eight wide column exerciseEditor">
+              <div class="task">
+                <span class="task">
+                  Task <span data-bind="text: $data.number()"></span>
+                  <!--ko if: $data.hasTitle --> &ndash; <span data-bind="text: $data.title()"></span><!-- /ko -->
+                  <span class="points">(<span data-bind="text: $data.maxPoints()"></span> points)</span>
+                </span><br/>
+                <span class="description" data-bind="attr: {'id': 'text-' + $data.number()}"></span>
+              </div>
+              <div data-bind="attr: {'id': 'editor-' + $data.number()}"></div>
             </div>
-            <div data-bind="attr: {'id': 'preview-' + $index}"></div>
+            <div class="eight wide column exercisePreview">
+              <div class="task">
+                <span class="task">
+                  Task <span data-bind="text: $data.number()"></span>
+                  <!--ko if: $data.hasTitle --> &ndash; <span data-bind="text: $data.title()"></span><!-- /ko -->
+                  <span class="points">(<span data-bind="text: $data.maxPoints()"></span> points)</span>
+                </span><br/>
+                <span class="description" data-bind="attr: {'id': 'text-sol-' + $data.number()}"></span>
+              </div>
+              <div data-bind="attr: {'id': 'preview-' + $data.number()}"></div>
+            </div>
+          </div>
+          <!-- /ko -->
+          <!-- ko if: $parent.isOld -->
+          <div class="ui grid" data-bind="attr: {'id': 'task-' + $data.number()}, template: { afterRender: $parent.initTask.bind(null, $data) }">
+            <div class="four wide column" />
+            <div class="eight wide column exercisePreview">
+              <div class="task">
+                <span class="task">
+                  Task <span data-bind="text: $data.number()"></span>
+                  <!--ko if: $data.hasTitle --> &ndash; <span data-bind="text: $data.title()"></span><!-- /ko -->
+                  <span class="points">(<span data-bind="text: $data.maxPoints()"></span> points)</span>
+                </span><br/>
+                <span class="description" data-bind="text: $data.text()"></span>
+              </div>
+              <div data-bind="attr: {'id': 'preview-' + $index}"></div>
+            </div>
+          </div>
+          <!-- /ko -->
+        <!-- /ko -->
+
+        <div class="bar" data-bind="visible: !isOld()">
+          <div class="column" style="margin-left:5px">
+              <i class="green thumbs up icon"></i>
+              Your solution for <strong>Task 1.1</strong> looks good.
+          </div>
+          <div class="column">
+              <i class="orange meh icon"></i>
+              You should review your solution for <strong>Task 1.2</strong>.
           </div>
         </div>
-        <!-- /ko -->
       <!-- /ko -->
-
-      <div class="bar" data-bind="visible: !isOld()">
-        <div class="centered column" style="margin-left:5px">
-            <i class="save icon"></i>
-            Your solution is saved automatically as you type.
+      <!-- ko if: exerciseNotFound -->
+        <div class="ui warning icon message">
+          <i class="frown icon"></i>
+          <div class="content">
+            <div class="header">Unknown exercise.</div>
+            <p>
+              The exercise you requested could not be found. Please go back to the <a href="#overview">overview page</a>
+              and select one that exists.
+            </p>
+          </div>
         </div>
-
-        <div class="right column" style="width:250px">
-            <i class="clock icon"></i>
-            <span style="font-weight:bold">Time left:</span><br/>
-            <span data-bind="text: timeLeft"></span>
-        </div>
-      </div>
-    <!-- /ko -->
-    <!-- ko if: exerciseNotFound -->
-      <div class="ui warning icon message">
-        <i class="frown icon"></i>
-        <div class="content">
-          <div class="header">Unknown exercise.</div>
-          <p>
-            The exercise you requested could not be found. Please go back to the <a href="#overview">overview page</a>
-            and select one that exists.
-          </p>
-        </div>
-      </div>
-    <!-- /ko -->
+      <!-- /ko -->
+    </div>
   </div>
 </div>

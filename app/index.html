@@ -121,7 +121,7 @@
                     <div class="right menu">
                           <div class="ui dropdown link item">
                             <i class="content icon"></i>
-                            <div class="menu">
+                            <div class="menu" style="width:250px">
                                 <!-- ko ifnot: isLoggedIn -->
                                 <a href="#login" class="ui item">
                                     <i class="sign in icon"></i>
@@ -130,7 +130,7 @@
                                 <!-- /ko -->
                                 <!-- ko if: isLoggedIn -->
                                 <a href="#register" class="ui item" data-bind="template: { afterRender: $data.registerPopup }">
-                                  <i class="icon"><img class="ui mini avatar image" data-bind="attr: { src: avatarUrl }"/></i>
+                                  <img class="ui mini avatar image" data-bind="attr: { src: avatarUrl }"/>
                                   <span data-bind="text: user().pseudonym"></span>
                                 </a>
                                 <a href="#overview" class="ui item">
