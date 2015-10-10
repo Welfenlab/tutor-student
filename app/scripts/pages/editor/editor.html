@@ -50,6 +50,9 @@
                 </span><br/>
                 <span class="description" data-bind="attr: {'id': 'text-' + $data.number()}"></span>
               </div>
+              <div class="ui horizontal divider">
+                Ihre Lösung
+              </div>
               <div data-bind="attr: {'id': 'editor-' + $data.number()}"></div>
             </div>
             <div class="eight wide column exercisePreview">
@@ -60,6 +63,9 @@
                   <span class="points">(<span data-bind="text: $data.maxPoints()"></span> points)</span>
                 </span><br/>
                 <span class="description" data-bind="attr: {'id': 'text-sol-' + $data.number()}"></span>
+              </div>
+              <div class="ui horizontal divider">
+                Ihre Lösung
               </div>
               <div data-bind="attr: {'id': 'preview-' + $data.number()}"></div>
             </div>
