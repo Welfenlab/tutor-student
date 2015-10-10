@@ -52,7 +52,7 @@
   },
   "devDependencies": {
     "@tutor/dummy-auth": "^0.1.6",
-    "@tutor/memory-database": "0.6.7",
+    "@tutor/memory-database": "^0.6.9",
     "ascii2mathml": "^0.5.3",
     "async": "^1.4.2",
     "babelify": "^6.3.0",
