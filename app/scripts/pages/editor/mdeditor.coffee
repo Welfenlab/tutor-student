@@ -9,12 +9,29 @@ javascriptEditorErrors = require '@tutor/javascript-editor-errors'
 
 aceRethink     = require '@tutor/share-ace-rethinkdb/src/test.js'
 
-module.exports = (task, group, exercise )  ->
-  createPreview = (require './markdown')()
-  
+module.exports = (task, group, exercise, allTests, selectedIndex)  ->
+  taskIdx = task.number() - 1
+
+  createPreview = (require './markdown')({
+    testProcessor:
+      register: (name) ->
+        tr = allTests()
+        tr[taskIdx].push({name: name, passes: false})
+        allTests(tr)
+      testResult: (err, idx) ->
+        tr = allTests()
+        tr[taskIdx][idx].passes = (err == null)
+        allTests tr
+        selectedIndex taskIdx
+      template: -> ""
+    })
+
   prev = createPreview "preview-" + task.number()
   markdownPreview = (editor) ->
-    prev.render editor.getValue()
+    tr = allTests()
+    tr[taskIdx] = []
+    allTests(tr)
+    prev.render task.tests() + "\n\n" + editor.getValue()
 
   shareDocConnection = (aceRethink markdownEditor.Range, group.id, exercise.id+task.number(), {})
 
@@ -24,8 +41,8 @@ module.exports = (task, group, exercise )  ->
   if document.getElementById 'editor-' + task.number()
     editor = markdownEditor.create 'editor-' + task.number(), task.prefilled(), plugins: [
       markdownPreview,
-      markdownEditor.clearResults,
-      javascriptEditorErrors "js", prev
+#      markdownEditor.clearResults,
+#      javascriptEditorErrors "js", prev
     ]
 
     getStatus = shareDocConnection.connect(editor);
@@ -74,5 +91,6 @@ module.exports = (task, group, exercise )  ->
       returnedObject.off() #remove all event listeners
       clearInterval interval
 
-  prev.render task.prefilled()
+  #prev.render task.prefilled()
+  markdownPreview editor
   return returnedObject

@@ -1,7 +1,7 @@
 ko = require 'knockout'
 api = require '../../api'
 mdeditor = require './mdeditor'
-markdown = (require './markdown')()
+markdown = require './markdown'
 moment = require 'moment'
 _ = require 'lodash'
 
@@ -49,38 +49,6 @@ class ViewModel
       _.flattenDeep(@allTests())
     @failedTests = ko.computed => _.reject @tests(), 'passes'
 
-    @exercise.subscribe =>
-      #TODO initialize the array like this later:
-      #@tests new Array(@exercise().tasks.length).map(-> [])
-      @allTests [
-        [
-          {
-            name: 'Solution should be correct.'
-            passes: false
-          },
-          {
-            name: 'This test should fail (paradoxon, lol).'
-            passes: true
-          }
-        ]
-        [
-          {
-            name: 'Solution should be correct.'
-            passes: false
-          },
-          {
-            name: 'This checkmark should be green.'
-            passes: true
-          }
-        ]
-        [
-          {
-            name: 'Solution should be correct.'
-            passes: false
-          }
-        ]
-      ]
-
     @timeDifference = ko.observable 0
     @localTime = ko.observable Date.now()
     @serverTime = ko.computed => @localTime() + @timeDifference()
@@ -113,11 +81,13 @@ class ViewModel
 
   initTask: (task, element) =>
     ko.utils.domNodeDisposal.addDisposeCallback element, task.destroy.bind(task)
-    task.editor mdeditor task, @group, @theExercise
-    markdown('text-'+task.number()).render(task.text())
-    markdown('text-sol-'+task.number()).render(task.text())
-    
-    
+    task.editor mdeditor task, @group, @theExercise, @allTests, @selectedTaskIndex
+
+    # render the task texts (required only once)
+    md = markdown()
+    md('text-'+task.number()).render(task.text())
+    md('text-sol-'+task.number()).render(task.text())
+
 
 fs = require 'fs'
 module.exports = ->
