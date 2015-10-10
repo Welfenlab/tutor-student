@@ -72,6 +72,7 @@ class ViewModel
     .then (exercise) =>
       @theExercise = exercise
       @exercise exercise
+      api.post.solution exercise.id
     .catch (e) ->
       console.log e
       alert 'an error occurred' #TODO add better error messages

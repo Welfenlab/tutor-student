@@ -31,6 +31,8 @@ api =
     login: (id) -> post "/login",
         id: id
         password: ""
+    solution: (exercise_id) -> post "/solution",
+        exercise: exercise_id
   logout: -> post '/logout'
   create:
     group: (members) -> post '/group', members

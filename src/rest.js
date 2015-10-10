@@ -29,7 +29,7 @@ module.exports = function(DB) {
     { path: '/api/group/reject', dataCall: DB.Groups.rejectInvitation, apiMethod: "postBySessionUIDAndParam", param: "group"},
 
     { path: '/api/solution/:id', dataCall: DB.Exercises.getExerciseSolution, apiMethod: "getBySessionUIDAndParam", param: "id", errStatus: 404 },
-    { path: '/api/solution/', dataCall: DB.Exercises.setExerciseSolution, apiMethod: "putBySessionUIDAndParams", params: ["exercise","solution"], errStatus: 404 },
+    { path: '/api/solution/', dataCall: DB.Exercises.createExerciseSolution, apiMethod: "postBySessionUIDAndParam", param: "exercise", errStatus: 404 },
     { path: '/api/generatepseudonym', dataCall: function () {
       return Promise.resolve({ pseudonym: pseudonym() });
     }, apiMethod: 'get' }
