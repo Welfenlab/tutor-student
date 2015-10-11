@@ -22,7 +22,6 @@ module.exports = (task, group, exercise, allTests, selectedIndex)  ->
         tr = allTests()
         tr[taskIdx][idx].passes = (err == null)
         allTests tr
-        selectedIndex taskIdx
       template: -> ""
     })
 
@@ -44,6 +43,8 @@ module.exports = (task, group, exercise, allTests, selectedIndex)  ->
 #      markdownEditor.clearResults,
 #      javascriptEditorErrors "js", prev
     ]
+    editor.on 'focus', -> selectedIndex taskIdx
+    editor.on 'blur', -> selectedIndex(-1) if selectedIndex() == taskIdx
 
     getStatus = shareDocConnection.connect(editor);
 
