@@ -9,7 +9,8 @@ module.exports = function(app, config){
 
   return rethinkDB.then(function(DB){
     restAPI = require("./rest")(DB);
-    config.modules.push(require("@tutor/saml")(DB.Users.create));
+    config.modules.push(require("@tutor/saml")(DB.Users.create, DB.Users.exists,
+        Promise.resolve() ));
     resolve(restAPI);
   });
 }
