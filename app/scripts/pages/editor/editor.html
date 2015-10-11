@@ -40,7 +40,7 @@
         </div>
         <!-- ko foreach: tasks -->
           <!-- ko ifnot: $parent.isOld -->
-          <div class="ui grid" data-bind="attr: {'id': 'task-' + $index}, template: { afterRender: $parent.initTask.bind(null, $data, $element)}">
+          <div class="ui grid" data-bind="attr: {'id': 'task-' + $index()}, template: { afterRender: $parent.initTask.bind(null, $data, $element)}">
             <div class="eight wide column exerciseEditor">
               <div class="task">
                 <span class="task">
@@ -48,7 +48,7 @@
                   <!--ko if: $data.hasTitle --> &ndash; <span data-bind="text: $data.title()"></span><!-- /ko -->
                   <span class="points">(<span data-bind="text: $data.maxPoints()"></span> points)</span>
                 </span><br/>
-                <span class="description" data-bind="attr: {'id': 'text-' + $data.number()}"></span>
+                <div class="description" data-bind="attr: {'id': 'text-' + $data.number()}"></div>
               </div>
               <div class="ui horizontal divider">
                 Ihre Lösung
@@ -62,7 +62,7 @@
                   <!--ko if: $data.hasTitle --> &ndash; <span data-bind="text: $data.title()"></span><!-- /ko -->
                   <span class="points">(<span data-bind="text: $data.maxPoints()"></span> points)</span>
                 </span><br/>
-                <span class="description" data-bind="attr: {'id': 'text-sol-' + $data.number()}"></span>
+                <div class="description" data-bind="attr: {'id': 'text-sol-' + $data.number()}"></div>
               </div>
               <div class="ui horizontal divider">
                 Ihre Lösung
