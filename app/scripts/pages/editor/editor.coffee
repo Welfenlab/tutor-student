@@ -35,7 +35,7 @@ class ViewModel
     @tasks = ko.computed => _.map @exercise().tasks, (t) -> new TaskViewModel t
     @saved = ko.computed => _.every @tasks(), (t) -> t.saved()
     @connected = ko.computed => _.every @tasks(), (t) -> t.connected()
-    @selectedTaskIndex = ko.observable -1 #TODO set this to -1 if no task is focused, or to the index of the focused task
+    @selectedTaskIndex = ko.observable -1
     @selectedTask = ko.computed =>
       if @selectedTaskIndex() >= 0
         @tasks()[@selectedTaskIndex()]
@@ -46,40 +46,14 @@ class ViewModel
     @tests = ko.computed =>
       if @selectedTaskIndex() >= 0
         @allTests()[@selectedTaskIndex()]
-      _.flattenDeep(@allTests())
+      else
+        _.flattenDeep(@allTests())
     @failedTests = ko.computed => _.reject @tests(), 'passes'
 
     @exercise.subscribe =>
-      #TODO initialize the array like this later:
-      #@tests new Array(@exercise().tasks.length).map(-> [])
-      @allTests [
-        [
-          {
-            name: 'Solution should be correct.'
-            passes: false
-          },
-          {
-            name: 'This test should fail (paradoxon, lol).'
-            passes: true
-          }
-        ]
-        [
-          {
-            name: 'Solution should be correct.'
-            passes: false
-          },
-          {
-            name: 'This checkmark should be green.'
-            passes: true
-          }
-        ]
-        [
-          {
-            name: 'Solution should be correct.'
-            passes: false
-          }
-        ]
-      ]
+      # yes, this must be done like this. creates an array of empty arrays
+      # see http://stackoverflow.com/a/28599347
+      @allTests Array.apply(null, Array(@exercise().tasks.length)).map -> []
 
     @timeDifference = ko.observable 0
     @localTime = ko.observable Date.now()

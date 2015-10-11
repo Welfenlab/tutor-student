@@ -109,6 +109,10 @@
                 You should review your solution.
               <!-- /ko -->
             <!-- /ko -->
+            <!-- ko if: tests().length == 0 -->
+              <i class="info icon"></i>
+              Write some tests to automatically check if your solution looks good.
+            <!-- /ko -->
           </div>
           <div class="ui flowing popup top left transition hidden">
             <!-- ko if: selectedTask() -->
@@ -125,6 +129,9 @@
                 <div class="item">
                   <div class="header">Task <span data-bind="text: $parent.tasks()[$index()].number"></span>:</div>
                 </div>
+                <!-- ko if: $data.length == 0 -->
+                  <em>There are no tests for this task.</em>
+                <!-- /ko -->
                 <!-- ko foreach: $data -->
                 <div class="item">
                   <i class="green checkmark icon" data-bind="visible: passes"></i>
@@ -133,6 +140,9 @@
                 </div>
                 <!-- /ko -->
               </div>
+            <!-- /ko -->
+            <!-- ko if: tests().length == 0 -->
+              <em>There are no tests.</em>
             <!-- /ko -->
           </div>
         </div>
