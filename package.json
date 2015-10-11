@@ -31,7 +31,7 @@
     "@tutor/markdown2html": "^0.1.3",
     "@tutor/rethinkdb-database": "0.5.7",
     "@tutor/saml": "^0.3.2",
-    "@tutor/server": "^0.2.7",
+    "@tutor/server": "^0.3.1",
     "@tutor/share-ace-rethinkdb": "0.4.2",
     "@tutor/test-suite": "^0.2.2",
     "bunyan": "^1.5.1",
