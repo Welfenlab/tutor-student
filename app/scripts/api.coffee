@@ -1,9 +1,8 @@
 Q = require 'q'
 
-host = window.location.hostname;
-port = window.location.port;
+host = window.location.host;
 proto = window.location.protocol;
-address = proto + '://'+host+':'+port+'/api'
+address = proto + '://'+host+'/api'
 
 ajax = (method, url, data) ->
   Q $.ajax
