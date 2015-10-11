@@ -122,6 +122,9 @@
                   <i class="red remove icon" data-bind="visible: !passes"></i>
                   <div class="content" data-bind="text: name"></div>
                 </div>
+                <!-- ko if: $data.length == 0 -->
+                  <em>There are no tests.</em>
+                <!-- /ko -->
               </div>
             <!-- /ko -->
             <!-- ko ifnot: selectedTask() -->
@@ -140,9 +143,6 @@
                 </div>
                 <!-- /ko -->
               </div>
-            <!-- /ko -->
-            <!-- ko if: tests().length == 0 -->
-              <em>There are no tests.</em>
             <!-- /ko -->
           </div>
         </div>

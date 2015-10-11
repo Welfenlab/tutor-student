@@ -21,7 +21,7 @@ module.exports = (task, group, exercise, allTests, selectedIndex)  ->
       testResult: (err, idx) ->
         tr = allTests()
         tr[taskIdx][idx].passes = (err == null)
-        allTests tr
+        allTests(tr)
       template: -> ""
     })
 

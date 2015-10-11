@@ -35,7 +35,7 @@ class ViewModel
     @tasks = ko.computed => _.map @exercise().tasks, (t) -> new TaskViewModel t
     @saved = ko.computed => _.every @tasks(), (t) -> t.saved()
     @connected = ko.computed => _.every @tasks(), (t) -> t.connected()
-    @selectedTaskIndex = ko.observable -1
+    @selectedTaskIndex = ko.observable(-1)
     @selectedTask = ko.computed =>
       if @selectedTaskIndex() >= 0
         @tasks()[@selectedTaskIndex()]
@@ -51,7 +51,7 @@ class ViewModel
     @failedTests = ko.computed => _.reject @tests(), 'passes'
 
     @exercise.subscribe =>
-      # yes, this must be done like this. creates an array of empty arrays
+      # yes, this must be done like this. creates an array of empty observable arrays
       # see http://stackoverflow.com/a/28599347
       @allTests Array.apply(null, Array(@exercise().tasks.length)).map -> []
 
@@ -75,6 +75,9 @@ class ViewModel
     .then (group) =>
       @group = group
     .then -> api.get.exercise params.id
+    .then (exercise) =>
+      api.post.solution exercise.id
+      return exercise
     .then (exercise) =>
       @theExercise = exercise
       @exercise exercise
