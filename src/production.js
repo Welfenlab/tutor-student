@@ -23,7 +23,7 @@ module.exports = function(config){
     return rethinkDB.then(function(DB){
       restAPI = require("./rest")(DB);
       config.modules.push(require("@tutor/saml")(DB.Users.create, DB.Users.exists,
-          Promise.resolve() ));
+          function(){return Promise.resolve()} ));
       config.modules.push(function(app, config){
         app.use(express.static('./build'));
       });
