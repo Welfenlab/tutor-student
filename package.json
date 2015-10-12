@@ -32,7 +32,7 @@
     "@tutor/rethinkdb-database": "0.5.10",
     "@tutor/saml": "0.4.2",
     "@tutor/server": "^0.3.1",
-    "@tutor/share-ace-rethinkdb": "0.6.0",
+    "@tutor/share-ace-rethinkdb": "0.6.1",
     "@tutor/test-suite": "^0.2.2",
     "bunyan": "^1.5.1",
     "cson": "^3.0.1",
