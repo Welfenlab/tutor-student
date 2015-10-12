@@ -122,10 +122,10 @@
                   <i class="red remove icon" data-bind="visible: !passes"></i>
                   <div class="content" data-bind="text: name"></div>
                 </div>
-                <!-- ko if: $data.length == 0 -->
-                  <em>There are no tests.</em>
-                <!-- /ko -->
               </div>
+              <!-- ko if: tests().length == 0 -->
+                <em>There are no tests.</em>
+              <!-- /ko -->
             <!-- /ko -->
             <!-- ko ifnot: selectedTask() -->
               <div class="ui list" data-bind="foreach: allTests">
