@@ -17,7 +17,7 @@
   ],
   "dependencies": {
     "ace": "~1.1.9",
-    "jailed": "~0.2.0",
+    "jailed": "git@github.com:MegaApuTurkUltra/jailed.git#3ceb94318d3b9ecbe711b0be17ca960cf72120df",
     "semantic-ui": "~2.0.2",
     "highlightjs": "~8.7.0"
   }
