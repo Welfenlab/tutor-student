@@ -5,6 +5,8 @@ _ = require 'lodash'
 tutorMarkdown = require '@tutor/markdown2html'
 
 defaultConfig =
+  runTimeout: 1.5*60*1000 # 1.5 seconds
+  debugTimeout: 2*60*1000 # 2minutes
   codeControls:
     template: _.template fs.readFileSync __dirname + "/js_controls.html", "utf8"
   dotProcessor:

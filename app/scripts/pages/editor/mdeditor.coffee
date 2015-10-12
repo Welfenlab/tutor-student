@@ -12,24 +12,30 @@ aceRethink     = require '@tutor/share-ace-rethinkdb/src/test.js'
 module.exports = (task, group, exercise, allTests, selectedIndex)  ->
   taskIdx = task.number() - 1
 
-  createPreview = (require './markdown')({
-    testProcessor:
-      register: (name) ->
-        tr = allTests()
-        tr[taskIdx].push({name: name, passes: false})
-        allTests(tr)
-      testResult: (err, idx) ->
-        tr = allTests()
-        tr[taskIdx][idx].passes = (err == null)
-        allTests(tr)
-      template: -> ""
-    })
-
-  prev = createPreview "preview-" + task.number()
+  lastEdit = 0
   markdownPreview = (editor) ->
-    tr = allTests()
-    tr[taskIdx] = []
-    allTests(tr)
+    lastEdit = lastEdit + 1
+    curEdit = lastEdit
+    curTests = allTests()
+    curTests[taskIdx] = []
+    createPreview = (require './markdown')({
+      testProcessor:
+        register: (name) ->
+          if lastEdit > curEdit
+            return
+          curTests[taskIdx].push({name: name, passes: false})
+        testResult: (err, idx) ->
+          if lastEdit > curEdit
+            return
+          curTests[taskIdx][idx].passes = (err == null)
+        testsFinished: ->
+          if lastEdit > curEdit
+            return
+          allTests(curTests)
+        template: -> ""
+      })
+
+    prev = createPreview "preview-" + task.number()
     prev.render task.tests() + "\n\n" + editor.getValue()
 
 
