@@ -32,7 +32,6 @@ module.exports = (task, group, exercise, allTests, selectedIndex)  ->
     allTests(tr)
     prev.render task.tests() + "\n\n" + editor.getValue()
 
-  shareDocConnection = (aceRethink markdownEditor.Range, group.id, exercise.id+task.number(), {})
 
   returnedObject = {destroy: _.noop}
   EventEmitter.installOn returnedObject
@@ -46,12 +45,13 @@ module.exports = (task, group, exercise, allTests, selectedIndex)  ->
     editor.on 'focus', -> selectedIndex taskIdx
     editor.on 'blur', -> selectedIndex(-1) if selectedIndex() == taskIdx
 
-    getStatus = shareDocConnection.connect(editor);
+    shareDocConnection = aceRethink editor, markdownEditor.Range, group.id, exercise.id+task.number(), {}
 
     previousStatus = {}
     checkStatus = ->
       previousStatus = status
-      status = getStatus()
+      status = shareDocConnection.status()
+      #TODO use the events of shareDocConnection
 
       if previousStatus
         if previousStatus.pending > 0 and status.pending == 0
@@ -91,6 +91,8 @@ module.exports = (task, group, exercise, allTests, selectedIndex)  ->
     returnedObject.destroy = ->
       returnedObject.off() #remove all event listeners
       clearInterval interval
+      console.log shareDocConnection#'disconnect websocket'
+      shareDocConnection.disconnect()
 
   #prev.render task.prefilled()
   markdownPreview editor
