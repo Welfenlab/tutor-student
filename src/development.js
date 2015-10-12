@@ -3,8 +3,8 @@ var _ = require("lodash");
 
 // initialize the development environment
 module.exports = function(config){
-  var configureServer = function(API, DB, userlogin){
-    config.modules.push(require("@tutor/dummy-auth")(userlogin));
+  var configureServer = function(API, DB, userlogin, con){
+    config.modules.push(require("@tutor/dummy-auth")(con, DB.Rethinkdb, userlogin));
     config.domainname = "tutor.gdv.uni-hannover.de"
     //config.modules.push(require("@tutor/saml"));
 
@@ -57,7 +57,7 @@ module.exports = function(config){
             return true;
           }
         });
-      });
+      }, DB.Connection);
       return {api: restAPI, db: DB}; // NOT TESTED
     });
 
