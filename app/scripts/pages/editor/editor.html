@@ -46,7 +46,6 @@
                 <span class="task">
                   Task <span data-bind="text: $data.number()"></span>
                   <!--ko if: $data.hasTitle --> &ndash; <span data-bind="text: $data.title()"></span><!-- /ko -->
-                  <span class="points">(<span data-bind="text: $data.maxPoints()"></span> points)</span>
                 </span><br/>
                 <div class="description" data-bind="attr: {'id': 'text-' + $data.number()}"></div>
               </div>
@@ -60,7 +59,6 @@
                 <span class="task">
                   Task <span data-bind="text: $data.number()"></span>
                   <!--ko if: $data.hasTitle --> &ndash; <span data-bind="text: $data.title()"></span><!-- /ko -->
-                  <span class="points">(<span data-bind="text: $data.maxPoints()"></span> points)</span>
                 </span><br/>
                 <div class="description" data-bind="attr: {'id': 'text-sol-' + $data.number()}"></div>
               </div>
