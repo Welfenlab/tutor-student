@@ -38,20 +38,19 @@ module.exports = (task, group, exercise, allTests, selectedIndex)  ->
 
   if document.getElementById 'editor-' + task.number()
     editor = markdownEditor.create 'editor-' + task.number(), task.prefilled(), plugins: [
-      markdownPreview,
-      markdownEditor.clearResults,
-      javascriptEditorErrors "js", prev
+      _.throttle(markdownPreview,500),
+#      markdownEditor.clearResults,
+#      javascriptEditorErrors "js", prev
     ]
     editor.on 'focus', -> selectedIndex taskIdx
     editor.on 'blur', -> selectedIndex(-1) if selectedIndex() == taskIdx
 
     shareDocConnection = aceRethink editor, markdownEditor.Range, group.id, exercise.id, task.number(), {document:"DummyUebung201516"}
-    newStatus = shareDocConnection.connect editor
 
     previousStatus = {}
     checkStatus = ->
       previousStatus = status
-      status = newStatus()
+      status = shareDocConnection.status()
       #TODO use the events of shareDocConnection
 
       if previousStatus

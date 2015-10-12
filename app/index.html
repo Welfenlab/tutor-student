@@ -22,8 +22,10 @@
         tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]},
         processEscapes: true
       });
-      
-      jailed.setChromeHttpsWorkaroundOn(true);
+
+      if(window.location.protocol == "https:"){
+        jailed.setChromeHttpsWorkaroundOn(true);
+      }
     </script>
 
 
