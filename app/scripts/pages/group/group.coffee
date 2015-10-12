@@ -3,11 +3,12 @@ md5 = require 'js-md5'
 _ = require 'lodash'
 app = require '../../app'
 api = require '../../api'
+wavatar = require('../../util/gravatar').wavatar
 
 class UserViewModel
   constructor: (pseudonym, @parent) ->
     @pseudonym = ko.observable pseudonym
-    @avatarUrl = "http://www.gravatar.com/avatar/#{md5(@pseudonym())}?d=wavatar&f=y"
+    @avatarUrl = wavatar @pseudonym()
     @isMe = ko.computed => app.user().pseudonym && @pseudonym() is app.user().pseudonym()
 
   add: -> @parent.add this

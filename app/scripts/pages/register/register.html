@@ -1,13 +1,18 @@
-<div class="login">
-  <div class="ui segment form centered">
-    <div class="field">
-      <label data-bind="i18n: 'register.pseudonym'"></label>
-      <div class="ui icon input">
-        <input type="text" data-bind="value: pseudonym" readonly="readonly" />
+<div class="ui middle aligned center aligned grid">
+  <div class="eight wide column">
+    <div class="ui centered top attached segment">
+      <div class="content">
+        <img class="ui centered circular image" data-bind="attr: { src: avatarUrl }" style="margin-bottom:10px"/>
+
+        <div class="content">
+          <h3 class="header" data-bind="text: pseudonym"></h3>
+        </div>
       </div>
     </div>
-    <div class="ui buttons">
-      <div class="ui submit button" data-bind="i18n: 'register.generate', click: generate"></div>
+    <div class="ui two bottom attached buttons">
+      <div class="ui icon button" data-bind="i18n: {title: 'register.generate'}, click: generate">
+        <i class="repeat icon"></i>
+      </div>
       <div class="ui submit button primary" data-bind="i18n: 'register.choose', click: choose"></div>
     </div>
   </div>
