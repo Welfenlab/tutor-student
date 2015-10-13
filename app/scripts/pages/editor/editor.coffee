@@ -63,6 +63,12 @@ class ViewModel
     @timeLeft = ko.computed =>
       moment(@exercise().dueDate).from(@serverTime(), true)
 
+    @isOld.subscribe (value) =>
+      # this is updated after this subscription, so it will also be called
+      # for exercises that are already due
+      if value #disable editor after due date
+        t.destroy() for t in @tests()
+
     @updateServertimeInterval = setInterval(=>
       api.get.time().then (time) =>
         @timeDifference(Date.parse(time) - Date.now())
