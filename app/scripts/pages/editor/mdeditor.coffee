@@ -2,6 +2,7 @@
 exerciseEditor = require '@tutor/exercise-editor'
 fs = require 'fs'
 _ = require 'lodash'
+md = require './markdown'
 EventEmitter = require 'event-emitter'
 
 markdownEditor = require '@tutor/markdown-editor'
@@ -12,13 +13,15 @@ aceRethink     = require '@tutor/share-ace-rethinkdb/src/test.js'
 module.exports = (task, group, exercise, allTests, selectedIndex)  ->
   taskIdx = task.number() - 1
 
+  simplePrev = md() "preview-" + task.number()
+
   lastEdit = 0
   markdownPreview = (editor) ->
     lastEdit = lastEdit + 1
     curEdit = lastEdit
     curTests = allTests()
     curTests[taskIdx] = []
-    createPreview = (require './markdown')({
+    createPreview = md({
       testProcessor:
         register: (name) ->
           if lastEdit > curEdit
@@ -45,8 +48,8 @@ module.exports = (task, group, exercise, allTests, selectedIndex)  ->
   if document.getElementById 'editor-' + task.number()
     editor = markdownEditor.create 'editor-' + task.number(), task.prefilled(), plugins: [
       _.throttle(markdownPreview,500),
-#      markdownEditor.clearResults,
-#      javascriptEditorErrors "js", prev
+      markdownEditor.clearResults,
+      javascriptEditorErrors "js", simplePrev
     ]
     editor.on 'focus', -> selectedIndex taskIdx
     editor.on 'blur', -> selectedIndex(-1) if selectedIndex() == taskIdx
