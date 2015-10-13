@@ -19,8 +19,8 @@
         <form method="POST" data-bind="attr: { action: samlData().url}">
           <input type="submit" class="ui fluid large blue submit button"
                data-bind="css: { loading: !samlReady() }, i18n: {value: 'login.idm'}"/>
-               <input type="hidden" name="SAMLRequest" data-bind="value: samlData().saml_data">
-         </form>
+          <input type="hidden" name="SAMLRequest" data-bind="value: samlData().saml_data"/>
+        </form>
       </div>
     </div>
     <div class="ui info message">
