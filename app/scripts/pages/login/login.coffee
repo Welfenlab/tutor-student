@@ -7,16 +7,20 @@ class ViewModel
   constructor: ->
     @pin = ko.observable 'ABC-DEF'
 
-    @mayLogin = ko.computed =>  @pin() isnt ''
+    @samlData = ko.observable({})
+    @samlReady = ko.computed => @samlData().url?
     @isLoggingIn = ko.observable no
 
     @error = ko.observable null
     @hasError = ko.computed => @error() isnt null
 
-  login: ->
+    api.get.logindata()
+    .then (data) => @samlData data
+
+  loginDev: ->
     @isLoggingIn yes
 
-    api.post.login @pin()
+    api.post.loginDev @pin()
     .then -> api.get.me()
     .then (data) =>
       @isLoggingIn no

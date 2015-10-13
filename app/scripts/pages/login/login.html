@@ -13,8 +13,14 @@
             <input type="text" data-bind="textInput: pin, i18n: { placeholder: 'login.pin' }" />
           </div>
         </div>
-        <div class="ui fluid large blue submit button"
-             data-bind="css: { disabled: !mayLogin(), loading: isLoggingIn }, click: login, i18n: 'login.submit'"></div>
+        <div class="ui fluid large blue submit button" style="margin-bottom:15px"
+             data-bind="css: { loading: isLoggingIn }, click: loginDev, i18n: 'login.submit'"></div>
+
+        <form method="POST" data-bind="attr: { action: samlData().url}">
+          <input type="submit" class="ui fluid large blue submit button"
+               data-bind="css: { loading: !samlReady() }, i18n: {value: 'login.idm'}"/>
+               <input type="hidden" name="SAMLRequest" data-bind="value: samlData().saml_data">
+         </form>
       </div>
     </div>
     <div class="ui info message">

@@ -4,9 +4,9 @@ host = window.location.host;
 proto = window.location.protocol;
 address = proto + '//'+host+'/api'
 
-ajax = (method, url, data) ->
+ajax = (method, url, data, relative = true) ->
   Q $.ajax
-    url: address + url
+    url: if relative then address + url else url
     data: data
     method: method
 
@@ -24,11 +24,12 @@ api =
     pseudonyms: -> get('/pseudonyms')
     pseudonym: -> get('/generatepseudonym')
     time: -> get('/time')
+    logindata: -> get('/login_data')
   put:
     exercise: (id, content) -> put "/exercises/#{id}", content
     pseudonym: (pseudonym) -> put "/user/pseudonym", pseudonym: pseudonym
   post:
-    login: (id) -> post "/login",
+    loginDev: (id) -> post "/login",
         id: id
         password: ""
     solution: (exercise_id) -> post "/solution",
