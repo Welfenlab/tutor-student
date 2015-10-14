@@ -16,6 +16,12 @@ class UserViewModel
 
 class ViewModel
   constructor: ->
+    @currentGroup = ko.computed =>
+      members = if app.user().group then app.user().group else []
+
+      pending: members.pendingUsers().map (m) => new UserViewModel m, this
+      users: members.users().map (m) => new UserViewModel m, this
+
     @users = ko.observableArray()
     @selectedUsers = ko.observableArray()
 
@@ -46,6 +52,9 @@ class ViewModel
       alert 'Invitations sent.'
     .catch (e) ->
       alert 'The group could not be created.'
+
+  leave: ->
+    #TODO can't be implemented at the moment, see #30
 
 fs = require 'fs'
 module.exports = ->

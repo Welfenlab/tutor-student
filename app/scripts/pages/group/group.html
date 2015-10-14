@@ -2,6 +2,31 @@
   <div class="column">
     <div class="ui vertical segments">
       <div class="ui segment">
+        <h3 class="ui header">Your group</h3>
+      </div>
+      <div class="ui segment">
+        <div class="ui middle aligned divided list" data-bind="foreach: currentGroup().users">
+          <div class="item">
+            <img class="ui avatar image" data-bind="attr: { src: avatarUrl }">
+            <div class="content" data-bind="text: pseudonym"></div>
+          </div>
+        </div>
+      </div>
+      <div class="ui red bottom attached disabled button" data-bind="click: leave">
+        Leave group
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ui horizontal divider">
+  Create a group
+</div>
+
+<div class="ui two column row grid">
+  <div class="column">
+    <div class="ui vertical segments">
+      <div class="ui segment">
         <h3 class="ui header">All users</h3>
       </div>
       <div class="ui segment">
