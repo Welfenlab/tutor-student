@@ -35,7 +35,7 @@ function appBuildBundler(){
 //      standalone: 'tutor',
       extensions: ['.coffee'],
       debug: false,
-      noParse: ['knockout-mapping'],
+      noParse: [require.resolve('knockout-mapping'), require.resolve('js-md5')],
       fullPaths: process.env.NODE_ENV != "production"
     });
   libs.forEach(function(lib) {
@@ -59,7 +59,7 @@ function fullBuildBundler(){
 //      standalone: 'tutor',
       extensions: ['.coffee'],
       debug: false,
-      noParse: ['knockout-mapping'],
+      noParse: [require.resolve('knockout-mapping'), require.resolve('js-md5')],
       fullPaths: process.env.NODE_ENV != "production"
     });
 
@@ -80,7 +80,7 @@ function libsBuildBundler(){
   //      standalone: 'tutor',
       extensions: ['.coffee'],
       debug: false,
-      noParse: ['knockout-mapping'],
+      noParse: [require.resolve('knockout-mapping'), require.resolve('js-md5')],
       fullPaths: process.env.NODE_ENV != "production"
     });
   libs.forEach(function(lib) {
@@ -94,6 +94,15 @@ gulp.task("build-libs", function(){
   libsBuildBundler()
     .on('error', function(err){ console.log(err.message); this.emit('end');})
     .pipe(source('vendor.js'))
+    .pipe(gulp.dest('build'));
+});
+
+gulp.task("full",["build-full", "discify"]);
+
+gulp.task("build-full", function(){
+  fullBuildBundler()
+    .on('error', function(err){ console.log(err.message); this.emit('end');})
+    .pipe(source('full.js'))
     .pipe(gulp.dest('build'));
 });
 
