@@ -17,10 +17,14 @@ class UserViewModel
 class ViewModel
   constructor: ->
     @currentGroup = ko.computed =>
-      members = if app.user().group then app.user().group else []
-
-      pending: members.pendingUsers().map (m) => new UserViewModel m, this
-      users: members.users().map (m) => new UserViewModel m, this
+      if app.user().group
+        members = app.user().group
+        
+        pending: members.pendingUsers().map (m) => new UserViewModel m, this
+        users: members.users().map (m) => new UserViewModel m, this
+      else
+        {pending:[], users:[]}
+    @canLeaveGroup = ko.computed => @currentGroup().users.length > 1 and @currentGroup().pending.length > 0
 
     @users = ko.observableArray()
     @selectedUsers = ko.observableArray()
@@ -54,7 +58,11 @@ class ViewModel
       alert 'The group could not be created.'
 
   leave: ->
-    #TODO can't be implemented at the moment, see #30
+    api.create.group [app.user().pseudonym()]
+    .then (group) =>
+      ko.mapping.fromJS group, app.user().group #updates the group of the user object
+    .catch (e) ->
+      alert 'Leaving the group failed.'
 
 fs = require 'fs'
 module.exports = ->

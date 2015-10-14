@@ -14,6 +14,13 @@ class ViewModel
     @router = new Router()
 
     @user = ko.observable({})
+    @group = ko.computed =>
+      if @user().group
+        @user().group.users().map (member) ->
+          name: member
+          avatarUrl: wavatar member
+      else
+        []
 
     @isLoggedIn = ko.computed => @user()? and @user().pseudonym?
     @avatarUrl = ko.computed =>
@@ -26,11 +33,7 @@ class ViewModel
 
     api.get.me()
     .then (me) =>
-      mappedUser = ko.mapping.fromJS me
-      mappedUser.group.users mappedUser.group.users().map (member) ->
-        name: member
-        avatarUrl: wavatar member
-      @user mappedUser
+      @user ko.mapping.fromJS me
       @router.goto location.hash.substr(1) #go to the page the user wants to go to
     .catch (e) => console.log(e) ; @router.goto 'login'
 
