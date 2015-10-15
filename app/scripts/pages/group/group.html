@@ -79,7 +79,7 @@
 
           <div class="ui message" data-bind="visible: displayedUsers().length == 0">No users found.</div>
           <div class="ui middle aligned divided list" data-bind="foreach: displayedUsers">
-            <div class="item" data-bind="click: $parent.add.bind($parent, $data)">
+            <div class="item" data-bind="click: $parent.add.bind($parent)">
               <div class="right floated content">
                 <div class="ui mini circular icon button">
                   <i class="add icon"></i>
@@ -101,7 +101,7 @@
         <div class="ui segment">
           <div class="ui middle aligned divided list" data-bind="foreach: selectedUsers">
             <div class="item">
-              <div class="right floated content" data-bind="click: $parent.remove.bind($parent, $data), visible: !isMe()">
+              <div class="right floated content" data-bind="click: $parent.remove.bind($parent), visible: !$parent.isMe($data)">
                 <div class="ui red mini circular icon button">
                   <i class="remove icon"></i>
                 </div>

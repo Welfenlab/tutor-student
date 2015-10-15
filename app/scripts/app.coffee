@@ -1,10 +1,12 @@
 ko = require 'knockout'
 require 'knockout-mapping'
+_ = require 'lodash'
 #not_found = './pages/not_found'
 i18n = require 'i18next-ko'
 Router = require './router'
 api = require './api'
 wavatar = require('./util/gravatar').wavatar
+GroupViewModel = require('./common/viewmodels').GroupViewModel
 
 ko.components.register 'page-not-found', template: "<h2>Page not found</h2>"
 
@@ -12,14 +14,8 @@ class ViewModel
   constructor: ->
     @router = new Router()
 
-    @user = ko.observable({})
-    @group = ko.computed =>
-      if @user().group
-        @user().group.users().map (member) ->
-          name: member
-          avatarUrl: wavatar member
-      else
-        []
+    @user = ko.observable({group: _.noop})
+    @group = ko.computed => if @user().group then @user().group() else {}
 
     @isLoggedIn = ko.computed => @user()? and @user().pseudonym?
     @avatarUrl = ko.computed =>
@@ -30,9 +26,12 @@ class ViewModel
     @language = ko.observable 'en'
     @language.subscribe (v) -> i18n.setLanguage v
 
+  load: ->
     api.get.me()
     .then (me) =>
-      @user ko.mapping.fromJS me
+      user = ko.mapping.fromJS me
+      user.group = ko.observable new GroupViewModel(me.group)
+      @user user
       @router.goto location.hash.substr(1) #go to the page the user wants to go to
     .catch (e) => console.log(e) ; @router.goto 'login'
 

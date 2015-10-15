@@ -2,31 +2,13 @@ ko = require 'knockout'
 _ = require 'lodash'
 app = require '../../app'
 api = require '../../api'
-wavatar = require('../../util/gravatar').wavatar
-
-class GroupViewModel
-  constructor: (group) ->
-    @id = group.id
-    @users = ko.observableArray group.users.map (u) -> new UserViewModel u
-    @pendingUsers = ko.observableArray group.pendingUsers.map (u) -> new UserViewModel u
-    @allUsers = ko.computed => _.union @users(), @pendingUsers()
-
-class UserViewModel
-  constructor: (pseudonym) ->
-    @pseudonym = ko.observable pseudonym
-    @avatarUrl = wavatar @pseudonym()
-    @isMe = ko.computed => app.user().pseudonym && @pseudonym() is app.user().pseudonym()
+UserViewModel = require('../../common/viewmodels').UserViewModel
+GroupViewModel = require('../../common/viewmodels').GroupViewModel
 
 class ViewModel
   constructor: ->
-    @currentGroup = ko.computed =>
-      if app.user().group
-        members = app.user().group
+    @currentGroup = ko.computed => app.user().group()
 
-        pendingUsers: members.pendingUsers().map (m) => new UserViewModel m
-        users: members.users().map (m) => new UserViewModel m
-      else
-        {pending:[], users:[], allUsers:[]}
     @canLeaveGroup = ko.computed =>
       @currentGroup().users.length > 1 or @currentGroup().pendingUsers.length > 0
 
@@ -47,8 +29,8 @@ class ViewModel
     api.get.pseudonyms()
     .then (pseudonyms) =>
       @users pseudonyms.map (p) => new UserViewModel p
-      @add _.find @users(), (user) -> user.isMe()
-    .catch (e) -> console.log e #-> alert('Could not get pseudonyms.')
+      @add _.find @users(), @isMe
+    .catch (e) -> alert('Could not get pseudonyms.')
 
   add: (user) ->
     @users.remove user
@@ -83,6 +65,9 @@ class ViewModel
   reject: (group) ->
     api.post.rejectGroup(group.id)
     .then => @invitations.remove group
+
+  isMe: (user) ->
+    app.user() && app.user().pseudonym && user.pseudonym() is app.user().pseudonym()
 
 fs = require 'fs'
 module.exports = ->

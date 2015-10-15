@@ -2,6 +2,7 @@ ko = require 'knockout'
 Q = require 'q'
 app = require '../../app'
 api = require '../../api'
+GroupViewModel = require('../../common/viewmodels').GroupViewModel
 
 class ViewModel
   constructor: ->
@@ -23,8 +24,10 @@ class ViewModel
     api.post.loginDev @pin()
     .then -> api.get.me()
     .then (data) =>
+      user = ko.mapping.fromJS data
+      user.group = ko.observable new GroupViewModel(data.group)
+      app.user user
       @isLoggingIn no
-      app.user ko.mapping.fromJS data
       app.router.goto 'overview'
     .catch (e) =>
       console.log e

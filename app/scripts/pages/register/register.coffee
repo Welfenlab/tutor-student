@@ -18,9 +18,10 @@ class ViewModel
   choose: ->
     api.put.pseudonym(@pseudonym())
     .then (data) =>
-      app.user().group.users app.user().group.users().map (u) =>
+      app.user().group().users app.user().group().users().map (u) =>
         if u == app.user().pseudonym() then @pseudonym() else u
       app.user().pseudonym @pseudonym()
+    .catch (e) -> console.log e
     .catch -> alert 'The pseudonym could not be selected. Please try again.'
 
 fs = require 'fs'
