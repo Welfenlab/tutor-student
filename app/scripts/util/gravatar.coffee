@@ -1,4 +1,4 @@
-md5 = require 'js-md5'
+md5 = require('blueimp-md5').md5
 
 gravatar = (email, size, fallback, forceDefault) ->
   "https://gravatar.com/avatar/#{md5(email)}?d=#{fallback}&s=#{size}&f=#{if forceDefault then 'y' else 'n'}"
