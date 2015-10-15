@@ -32,7 +32,7 @@
     "@tutor/rethinkdb-database": "0.5.10",
     "@tutor/saml": "0.4.2",
     "@tutor/server": "^0.3.1",
-    "@tutor/share-ace-rethinkdb": "0.6.3",
+    "@tutor/share-ace-rethinkdb": "0.6.4",
     "@tutor/test-suite": "^0.2.2",
     "blueimp-md5": "^1.1.1",
     "bunyan": "^1.5.1",
@@ -51,7 +51,7 @@
     "tutor-pseudonyms": "welfenlab/tutor-pseudonyms"
   },
   "devDependencies": {
-    "@tutor/dummy-auth": "^0.1.6",
+    "@tutor/dummy-auth": "^0.1.9",
     "@tutor/memory-database": "^0.6.9",
     "ascii2mathml": "^0.5.3",
     "async": "^1.4.2",
