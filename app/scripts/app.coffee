@@ -2,7 +2,6 @@ ko = require 'knockout'
 require 'knockout-mapping'
 #not_found = './pages/not_found'
 i18n = require 'i18next-ko'
-md5 = require 'js-md5'
 Router = require './router'
 api = require './api'
 wavatar = require('./util/gravatar').wavatar

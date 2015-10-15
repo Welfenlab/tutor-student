@@ -1,5 +1,4 @@
 ko = require 'knockout'
-md5 = require 'js-md5'
 _ = require 'lodash'
 app = require '../../app'
 api = require '../../api'
