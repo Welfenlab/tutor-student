@@ -30,26 +30,30 @@
             <div class="content">Invitations</div>
           </h3>
         </div>
-        <div class="ui vertical segments" data-bind="foreach: invitations">
-          <div class="ui segment">
-            <div class="ui relaxed horizontal list">
-              <!-- ko foreach: users -->
-              <div class="item">
-                <img class="ui avatar image" data-bind="attr: { src: avatarUrl }">
-                <div class="content" data-bind="text: pseudonym"></div>
+        <div class="ui vertical" data-bind="foreach: invitations">
+          <div class="ui basic segment" style="margin:0">
+            <div class="ui vertical segments">
+              <div class="ui segment">
+                <div class="ui relaxed horizontal list">
+                  <!-- ko foreach: users -->
+                  <div class="item">
+                    <img class="ui avatar image" data-bind="attr: { src: avatarUrl }">
+                    <div class="content" data-bind="text: pseudonym"></div>
+                  </div>
+                  <!-- /ko -->
+                  <!-- ko foreach: pendingUsers -->
+                  <div class="item" style="opacity:0.5">
+                    <img class="ui avatar image" data-bind="attr: { src: avatarUrl }">
+                    <div class="content" data-bind="text: pseudonym"></div>
+                  </div>
+                  <!-- /ko -->
+                </div>
               </div>
-              <!-- /ko -->
-              <!-- ko foreach: pendingUsers -->
-              <div class="item" style="opacity:0.5">
-                <img class="ui avatar image" data-bind="attr: { src: avatarUrl }">
-                <div class="content" data-bind="text: pseudonym"></div>
+              <div class="ui two small bottom attached buttons">
+                <div class="ui primary button" data-bind="click: $parent.join.bind($parent, $data)">Accept</div>
+                <div class="ui button" data-bind="click: $parent.reject.bind($parent, $data)">Reject</div>
               </div>
-              <!-- /ko -->
             </div>
-          </div>
-          <div class="ui two small bottom attached buttons">
-            <div class="ui primary button" data-bind="click: $parent.join.bind($parent, $data)">Accept</div>
-            <div class="ui button" data-bind="click: $parent.reject.bind($parent, $data)">Reject</div>
           </div>
         </div>
       </div>
