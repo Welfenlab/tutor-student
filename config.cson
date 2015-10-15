@@ -16,7 +16,7 @@ app:
   path: "./app"
   # files in the `build_path` are served first. If there is no
   # file in the `build_path` the server looks at the `path`
-database:
+database_disabled:
   host : "srv2"
   port : 28015
   name : "TutorDB"
@@ -29,7 +29,7 @@ session:
   login_redirect: "/"
   restrict: "/api"
 sharejs:
-  rethinkdb:
+  rethinkdb_disabled:
     host: "srv2"
     port: 28015
     name: "ShareJS"
