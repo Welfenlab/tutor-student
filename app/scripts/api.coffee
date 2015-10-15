@@ -25,6 +25,7 @@ api =
     pseudonym: -> get('/generatepseudonym')
     time: -> get('/time')
     logindata: -> get('/login_data')
+    invitations: -> get('/group/pending')
   put:
     exercise: (id, content) -> put "/exercises/#{id}", content
     pseudonym: (pseudonym) -> put "/user/pseudonym", pseudonym: pseudonym
@@ -32,8 +33,10 @@ api =
     loginDev: (id) -> post "/login",
         id: id
         password: ""
-    solution: (exercise_id) -> post "/solution",
+    solution: (exercise_id) -> post '/solution',
         exercise: exercise_id
+    joinGroup: (id) -> post '/group/join', group: id
+    rejectGroup: (id) -> post '/group/join', group: id
   logout: -> post '/logout'
   create:
     group: (members) -> post '/group', members

@@ -4,14 +4,18 @@ app = require '../../app'
 api = require '../../api'
 wavatar = require('../../util/gravatar').wavatar
 
+class GroupViewModel
+  constructor: (group) ->
+    @id = group.id
+    @users = ko.observableArray group.users.map (u) -> new UserViewModel u
+    @pendingUsers = ko.observableArray group.pendingUsers.map (u) -> new UserViewModel u
+    @allUsers = ko.computed => _.union @users(), @pendingUsers()
+
 class UserViewModel
-  constructor: (pseudonym, @parent) ->
+  constructor: (pseudonym) ->
     @pseudonym = ko.observable pseudonym
     @avatarUrl = wavatar @pseudonym()
     @isMe = ko.computed => app.user().pseudonym && @pseudonym() is app.user().pseudonym()
-
-  add: -> @parent.add this
-  remove: -> @parent.remove this
 
 class ViewModel
   constructor: ->
@@ -19,11 +23,17 @@ class ViewModel
       if app.user().group
         members = app.user().group
 
-        pending: members.pendingUsers().map (m) => new UserViewModel m, this
-        users: members.users().map (m) => new UserViewModel m, this
+        pendingUsers: members.pendingUsers().map (m) => new UserViewModel m
+        users: members.users().map (m) => new UserViewModel m
       else
-        {pending:[], users:[]}
-    @canLeaveGroup = ko.computed => @currentGroup().users.length > 1 and @currentGroup().pending.length > 0
+        {pending:[], users:[], allUsers:[]}
+    @canLeaveGroup = ko.computed =>
+      @currentGroup().users.length > 1 or @currentGroup().pendingUsers.length > 0
+
+    @invitations = ko.observableArray()
+    api.get.invitations()
+    .then (groups) =>
+      @invitations groups.map (group) -> new GroupViewModel group
 
     @users = ko.observableArray()
     @selectedUsers = ko.observableArray()
@@ -36,7 +46,7 @@ class ViewModel
 
     api.get.pseudonyms()
     .then (pseudonyms) =>
-      @users pseudonyms.map (p) => new UserViewModel(p, this)
+      @users pseudonyms.map (p) => new UserViewModel p
       @add _.find @users(), (user) -> user.isMe()
     .catch (e) -> console.log e #-> alert('Could not get pseudonyms.')
 
@@ -49,7 +59,7 @@ class ViewModel
     @users.push user
 
   save: ->
-    api.create.group _.map @selectedUsers(), (u) -> u.pseudonym()
+    api.create.group users: _.map @selectedUsers(), (u) -> u.pseudonym()
     .then (group) =>
       ko.mapping.fromJS group, app.user().group #updates the group of the user object
       alert 'Invitations sent.'
@@ -57,11 +67,22 @@ class ViewModel
       alert 'The group could not be created.'
 
   leave: ->
-    api.create.group [app.user().pseudonym()]
+    api.create.group users: [app.user().pseudonym()]
     .then (group) =>
       ko.mapping.fromJS group, app.user().group #updates the group of the user object
     .catch (e) ->
       alert 'Leaving the group failed.'
+
+  join: (group) ->
+    api.post.joinGroup(group.id)
+    .then =>
+      ko.mapping.fromJS (ko.mapping.toJS group), app.user().group
+      @invitations.remove group
+    .catch (e) -> console.log e #-> alert 'Joining the group failed.'
+
+  reject: (group) ->
+    api.post.rejectGroup(group.id)
+    .then => @invitations.remove group
 
 fs = require 'fs'
 module.exports = ->
