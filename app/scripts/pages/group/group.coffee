@@ -19,7 +19,7 @@ class ViewModel
     @currentGroup = ko.computed =>
       if app.user().group
         members = app.user().group
-        
+
         pending: members.pendingUsers().map (m) => new UserViewModel m, this
         users: members.users().map (m) => new UserViewModel m, this
       else
@@ -50,7 +50,7 @@ class ViewModel
     @users.push user
 
   save: ->
-    api.create.group _.map @users(), (u) -> u.pseudonym()
+    api.create.group _.map @selectedUsers(), (u) -> u.pseudonym()
     .then (group) =>
       ko.mapping.fromJS group, app.user().group #updates the group of the user object
       alert 'Invitations sent.'
