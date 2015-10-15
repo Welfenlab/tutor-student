@@ -8,7 +8,6 @@ var disc        = require('disc');
 var fs          = require('fs');
 
 var libs = [
-  "brace",
   "knockout",
   "knockout-mapping",
   "d3",
