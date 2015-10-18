@@ -1,23 +1,57 @@
-<div class="ui segment">
-  <div class="ui big animated divided list">
-    <!-- ko foreach: exercises -->
-    <!-- ko ifnot: isOld -->
-    <div class="item" data-bind="click: show" style="cursor:pointer">
-      <i class="icon calendar"></i>
-      <div class="content">
-        Abgabe der <div class="ui label">Übung <span data-bind="text: number"></span></div> bis zum <span data-bind="text: formattedDueDate"></span>
+<div class="ui stackable grid">
+  <div class="row">
+    <div class="six wide column">
+      <div class="ui segment">
+        <h3>Active exercise</h3>
       </div>
     </div>
-    <!-- /ko -->
-    <!-- ko if: isOld -->
-    <div class="item" data-bind="click: show" style="cursor:pointer">
-      <i class="icon checkmark green"></i>
-      <div class="content">
-        <div class="ui label">Übung <span data-bind="text: number"></span></div> ist korrigiert.
-        Sie haben <div class="ui label"><span data-bind="text: points"></span> Punkte </div> von <span data-bind="text: maxPoints"></span> m&ouml;glichen Punkten erreicht.
+    <div class="five wide column">
+      <div class="ui segment">
+        <h3>Previous exercise</h3>
       </div>
     </div>
-    <!-- /ko -->
-    <!-- /ko -->
+    <div class="five wide column">
+      <div class="ui segment center aligned">
+        <div class="ui green statistic">
+          <div class="value">
+            68.5 %
+          </div>
+          <div class="label">
+            of total points reached
+          </div>
+        </div>
+        <div class="ui tiny green progress" data-percent="68.5" style="margin:0">
+          <div class="bar" style="width:68.5%"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="sixteen wide column">
+      <h3 class="ui top attached header">Exercises</h3>
+      <div class="ui bottom attached segment">
+        <div class="ui big animated divided list">
+          <!-- ko foreach: exercises -->
+            <!-- ko ifnot: isOld -->
+            <div class="item" data-bind="click: show" style="cursor:pointer">
+              <i class="icon calendar"></i>
+              <div class="content">
+                Abgabe der <div class="ui label">Übung <span data-bind="text: number"></span></div> bis zum <span data-bind="text: formattedDueDate"></span>
+              </div>
+            </div>
+            <!-- /ko -->
+            <!-- ko if: isOld -->
+            <div class="item" data-bind="click: show" style="cursor:pointer">
+              <i class="icon checkmark green"></i>
+              <div class="content">
+                <div class="ui label">Übung <span data-bind="text: number"></span></div> ist korrigiert.
+                Sie haben <div class="ui label"><span data-bind="text: points"></span> Punkte </div> von <span data-bind="text: maxPoints"></span> m&ouml;glichen Punkten erreicht.
+              </div>
+            </div>
+            <!-- /ko -->
+          <!-- /ko -->
+        </div>
+      </div>
+    </div>
   </div>
 </div>
