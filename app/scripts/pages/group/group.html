@@ -9,11 +9,24 @@
           </h3>
         </div>
         <div class="ui segment">
-          <div class="ui relaxed horizontal list" data-bind="foreach: currentGroup().users">
+          <div class="ui relaxed horizontal list">
+            <!-- ko foreach: currentGroup().users -->
             <div class="item">
               <img class="ui avatar image" data-bind="attr: { src: avatarUrl }">
-              <div class="content" data-bind="text: pseudonym"></div>
+              <div class="content">
+                <div class="header" data-bind="text: pseudonym"></div>
+              </div>
             </div>
+            <!-- /ko -->
+            <!-- ko foreach: currentGroup().pendingUsers -->
+            <div class="item" style="opacity:0.5">
+              <img class="ui avatar image" data-bind="attr: { src: avatarUrl }">
+              <div class="content">
+                <div class="header" data-bind="text: pseudonym"></div>
+                Invitation sent.
+              </div>
+            </div>
+            <!-- /ko -->
           </div>
         </div>
         <div class="ui red bottom attached button" data-bind="click: leave, css: {disabled: !canLeaveGroup()}">
@@ -38,13 +51,18 @@
                   <!-- ko foreach: users -->
                   <div class="item">
                     <img class="ui avatar image" data-bind="attr: { src: avatarUrl }">
-                    <div class="content" data-bind="text: pseudonym"></div>
+                    <div class="content">
+                      <div class="header" data-bind="text: pseudonym"></div>
+                    </div>
                   </div>
                   <!-- /ko -->
                   <!-- ko foreach: pendingUsers -->
                   <div class="item" style="opacity:0.5">
                     <img class="ui avatar image" data-bind="attr: { src: avatarUrl }">
-                    <div class="content" data-bind="text: pseudonym"></div>
+                    <div class="content">
+                      <div class="header" data-bind="text: pseudonym"></div>
+                      Invitation sent.
+                    </div>
                   </div>
                   <!-- /ko -->
                 </div>
