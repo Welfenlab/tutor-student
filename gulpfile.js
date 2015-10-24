@@ -6,6 +6,7 @@ var concat      = require('gulp-concat');
 var watch       = require('gulp-watch');
 var disc        = require('disc');
 var fs          = require('fs');
+var collapse    = require('bundle-collapser/plugin');
 
 var libs = [
   "knockout",
@@ -48,7 +49,7 @@ function appBuildBundler(){
     });
   }
 
-  return bundler.bundle()
+  return bundler.plugin(collapse).bundle()
 }
 
 function fullBuildBundler(){
@@ -62,7 +63,7 @@ function fullBuildBundler(){
       fullPaths: process.env.NODE_ENV != "production"
     });
 
-  return bundler.bundle()
+  return bundler.plugin(collapse).bundle()
 }
 
 // browserify bundle for direct browser use.
@@ -86,7 +87,7 @@ function libsBuildBundler(){
     bundler.require(lib);
   });
 
-  return bundler.bundle()
+  return bundler.plugin(collapse).bundle()
 }
 
 gulp.task("build-libs", function(){
