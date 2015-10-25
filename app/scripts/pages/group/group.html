@@ -43,6 +43,9 @@
             <div class="content">Invitations</div>
           </h3>
         </div>
+        <div class="ui center aligned segment" data-bind="visible: invitations().length == 0">
+          You have no pending invitations.
+        </div>
         <div class="ui vertical" data-bind="foreach: invitations">
           <div class="ui basic segment" style="margin:0">
             <div class="ui vertical segments">
