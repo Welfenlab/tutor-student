@@ -65,17 +65,17 @@
                       Tutor
                     </a>
                     <!-- ko ifnot: isLoggedIn -->
-                    <a href="#login" class="ui item">
+                    <a href="#login" class="ui item" data-bind="css: { active: isActive('login') }">
                         <i class="sign in icon"></i>
                         Login
                     </a>
                     <!-- /ko -->
                     <!-- ko if: isLoggedIn -->
-                      <a href="#overview" class="ui item">
+                      <a href="#overview" class="ui item" data-bind="css: { active: isActive('overview') }">
                           <i class="list icon"></i>
                           Overview
                       </a>
-                      <a href="#groups" class="ui item">
+                      <a href="#groups" class="ui item" data-bind="css: { active: isActive('groups') }">
                           <i class="users icon"></i>
                           Groups
                       </a>
@@ -133,7 +133,7 @@
                         <i class="content icon"></i>
                         <div class="menu" style="width:250px">
                           <!-- ko ifnot: isLoggedIn -->
-                            <a href="#login" class="ui item">
+                            <a href="#login" class="ui item" data-bind="css: { active: isActive('login') }">
                                 <i class="sign in icon"></i>
                                 Login
                             </a>
@@ -143,11 +143,11 @@
                               <img class="ui mini avatar image" data-bind="attr: { src: avatarUrl }"/>
                               <span data-bind="text: user().pseudonym"></span>
                             </a>
-                            <a href="#overview" class="ui item">
+                            <a href="#overview" class="ui item" data-bind="css: { active: isActive('overview') }">
                                   <i class="list icon"></i>
                                   Overview
                               </a>
-                            <a href="#groups" class="ui item">
+                            <a href="#groups" class="ui item" data-bind="css: { active: isActive('groups') }">
                                 <i class="users icon"></i>
                                 Groups
                             </a>

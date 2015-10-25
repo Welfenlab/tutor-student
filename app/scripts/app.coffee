@@ -13,6 +13,7 @@ ko.components.register 'page-not-found', template: "<h2>Page not found</h2>"
 class ViewModel
   constructor: ->
     @router = new Router()
+    @isActive = (path) => ko.computed => @router.path().indexOf(path) == 0
 
     @user = ko.observable({group: _.noop})
     @group = ko.computed => if @user().group then @user().group() else {}
