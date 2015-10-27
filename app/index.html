@@ -20,34 +20,9 @@
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/icon-72.png"/>
     <link rel="apple-touch-icon-precomposed" href="img/icon-57.png"/>
 
-    <!-- MathJax -->
-    <script src="vendor/jailed/lib/jailed.js"></script>
-    <script src="vendor/ace-builds/src-min-noconflict/ace.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script>
-      MathJax.Hub.Config({
-        tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]},
-        processEscapes: true
-      });
-
-      if(window.location.protocol == "https:"){
-        jailed.setChromeHttpsWorkaroundOn(true);
-      }
-    </script>
-
-    <!-- JQuery -->
-    <script src="/vendor/jquery/dist/jquery.min.js"></script>
-
     <!-- SemanticUI Framework -->
     <link rel="stylesheet" href="/vendor/semantic-ui/dist/semantic.min.css">
-    <script src="/vendor/semantic-ui/dist/semantic.min.js"></script>
-
-    <!-- highlightjs -->
-    <script src="/vendor/highlightjs/highlight.pack.min.js"></script>
-
     <link rel="stylesheet" href="/style.css">
-
-    <script src="vendor.js"></script>
 </head>
 <body>
 <!--[if lt IE 10]>
@@ -168,6 +143,30 @@
     <!-- /ko -->
 </div>
 
-<script src="tutor.js"></script>
+<!-- MathJax -->
+<script src="vendor/jailed/lib/jailed.js"></script>
+<script src="vendor/ace-builds/src-min-noconflict/ace.js"></script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]},
+    processEscapes: true
+  });
+
+  if(window.location.protocol == "https:"){
+    jailed.setChromeHttpsWorkaroundOn(true);
+  }
+</script>
+
+<!-- JQuery -->
+<script src="/vendor/jquery/dist/jquery.min.js"></script>
+
+<!-- SemanticUI Framework -->
+<script src="/vendor/semantic-ui/dist/semantic.min.js"></script>
+
+<!-- highlightjs -->
+<script src="/vendor/highlightjs/highlight.pack.min.js"></script>
+<script src="vendor.js"></script>
+<script src="tutor.js" async></script>
 </body>
 </html>
