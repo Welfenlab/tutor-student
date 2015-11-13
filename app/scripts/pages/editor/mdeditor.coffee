@@ -54,7 +54,7 @@ module.exports = (task, group, exercise, allTests, selectedIndex)  ->
     editor.on 'focus', -> selectedIndex taskIdx
     editor.on 'blur', -> selectedIndex(-1) if selectedIndex() == taskIdx
 
-    shareDocConnection = aceRethink editor, markdownEditor.Range, group.id, exercise.id, task.number(), {document:"DummyUebung201516"}
+    shareDocConnection = aceRethink editor, markdownEditor.Range, group.id, exercise.id, task.number(), {document:"DummyUebung201516", prefill: task.prefilled()}
 
     previousStatus = {}
     checkStatus = ->
@@ -100,7 +100,7 @@ module.exports = (task, group, exercise, allTests, selectedIndex)  ->
     returnedObject.destroy = ->
       returnedObject.off() #remove all event listeners
       clearInterval interval
-      console.log shareDocConnection#'disconnect websocket'
+      #console.log shareDocConnection#'disconnect websocket'
       shareDocConnection.disconnect()
 
   #prev.render task.prefilled()
