@@ -42,25 +42,28 @@ class ViewModel
 
   save: ->
     api.create.group users: _.map @selectedUsers(), (u) -> u.pseudonym()
-    .then (group) =>
-      ko.mapping.fromJS group, app.user().group #updates the group of the user object
-      alert 'Invitations sent.'
+    .then (newGroup) =>
+      app.user().group new GroupViewModel(newGroup) #updates the group of the user object
+      if newGroup.pendingUsers.length > 0
+        alert 'Group created, invitations sent.'
+      else
+        alert 'Group created.'
     .catch (e) ->
       alert 'The group could not be created.'
 
   leave: ->
     api.create.group users: [app.user().pseudonym()]
-    .then (group) =>
-      ko.mapping.fromJS group, app.user().group #updates the group of the user object
+    .then (newGroup) =>
+      app.user().group new GroupViewModel(newGroup) #updates the group of the user object
     .catch (e) ->
       alert 'Leaving the group failed.'
 
   join: (group) ->
     api.post.joinGroup(group.id)
-    .then =>
-      ko.mapping.fromJS (ko.mapping.toJS group), app.user().group
+    .then (newGroup) =>
+      app.user().group new GroupViewModel(newGroup) #updates the group of the user object
       @invitations.remove group
-    .catch (e) -> console.log e #-> alert 'Joining the group failed.'
+    .catch (e) -> alert 'Joining the group failed.'
 
   reject: (group) ->
     api.post.rejectGroup(group.id)
