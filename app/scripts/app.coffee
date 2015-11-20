@@ -27,6 +27,8 @@ class ViewModel
     @language = ko.observable 'en'
     @language.subscribe (v) -> i18n.setLanguage v
 
+    @load()
+
   load: ->
     api.get.me()
     .then (me) =>

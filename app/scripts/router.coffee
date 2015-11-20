@@ -24,6 +24,9 @@ class Router
             @parameters {}
           @selected page.component
           found = yes
+
+          if page.forward
+            return @goto page.forward
           break
 
       if not found

@@ -3,6 +3,10 @@ ko = require 'knockout'
 
 app.router.pages [
   {
+    path: '^$'
+    forward: 'overview'
+  }
+  {
     path: 'login'
     component: require('./pages/login/login')()
   }
