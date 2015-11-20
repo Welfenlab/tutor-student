@@ -1,5 +1,5 @@
 // for apiMethod see tutor-server rest folder (exercises.coffee, ...)
-var pseudonym = require('tutor-pseudonyms')
+var pseudonym = require('@tutor/pseudonyms')
 
 module.exports = function(DB) {
   return [
