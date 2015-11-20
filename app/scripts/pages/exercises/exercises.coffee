@@ -17,11 +17,11 @@ class ViewModel extends ExerciseList.OverviewPageViewModel
 
     @exercisesActive = ko.computed =>
       @exercises().filter  (ex) =>
-        Date.parse(ex.dueDate()) < @serverTime()
+        Date.parse(ex.dueDate()) > @serverTime()
 
     @exercisesPrevious = ko.computed =>
       @exercises().filter  (ex) =>
-        Date.parse(ex.dueDate()) > @serverTime()
+        Date.parse(ex.dueDate()) < @serverTime()
       
   getExercises: (callback) ->
     api.get.exercises()
