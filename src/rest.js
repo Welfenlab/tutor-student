@@ -7,7 +7,7 @@ module.exports = function(DB) {
     { path: '/api/exercises', dataCall: DB.Exercises.get, apiMethod: "get" },
     { path: '/api/exercises/active', dataCall: DB.Exercises.getAllActive, apiMethod: "get" },
     { path: '/api/exercises/:id', dataCall: DB.Exercises.getById, apiMethod: "getByParam", param: "id" },
-    { path: '/api/total', dataCall: DB.Exercises.getTotalPoints, apiMethod: "getBySessionUID" },
+    { path: '/api/total', dataCall: DB.Users.getTotalPoints, apiMethod: "getBySessionUID" },
 
     { path: '/api/user/pseudonym', dataCall: DB.Users.getPseudonym, apiMethod: "getBySessionUID" },
     { path: '/api/user/pseudonym', dataCall: DB.Users.setPseudonym, apiMethod: "putBySessionUIDAndParam", param: "pseudonym", errStatus: 409 },
