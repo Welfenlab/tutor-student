@@ -71,7 +71,8 @@ class ViewModel
       @group = group
     .then -> api.get.exercise params.id
     .then (exercise) =>
-      api.post.solution exercise.id
+      if(Date.parse(exercise.dueDate) >= @serverTime)
+        api.post.solution exercise.id
       return exercise
     .then (exercise) =>
       @theExercise = exercise
