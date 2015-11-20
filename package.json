@@ -29,7 +29,7 @@
     "@tutor/markdown-editor": "^0.2.0",
     "@tutor/markdown2html": "^0.2.5",
     "@tutor/pseudonyms": "1.2.1",
-    "@tutor/rethinkdb-database": "^0.5.20",
+    "@tutor/rethinkdb-database": "^0.5.21",
     "@tutor/saml": "0.4.2",
     "@tutor/server": "^0.3.1",
     "@tutor/share-ace-rethinkdb": "^0.7.1",
