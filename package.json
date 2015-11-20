@@ -27,7 +27,7 @@
     "@tutor/javascript-editor-errors": "^0.1.3",
     "@tutor/login-form": "^0.1.1",
     "@tutor/markdown-editor": "^0.2.0",
-    "@tutor/markdown2html": "^0.2.4",
+    "@tutor/markdown2html": "^0.2.5",
     "@tutor/rethinkdb-database": "0.5.19",
     "@tutor/saml": "0.4.2",
     "@tutor/server": "^0.3.1",
