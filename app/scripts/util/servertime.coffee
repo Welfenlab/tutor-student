@@ -1,5 +1,5 @@
 ko = require 'knockout'
-api = require '../../api'
+api = require '../api'
 
 timeDifference = ko.observable 0
 localTime = ko.observable Date.now()
