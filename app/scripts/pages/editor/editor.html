@@ -42,30 +42,11 @@
           <!-- ko ifnot: $parent.isOld -->
           <div class="ui grid" data-bind="attr: {'id': 'task-' + $index()}, template: { afterRender: $parent.initTask.bind(null, $data, $element)}">
             <div class="eight wide column exerciseEditor">
-              <div class="task">
-                <span class="task">
-                  Task <span data-bind="text: $data.number()"></span>
-                  <!--ko if: $data.hasTitle --> &ndash; <span data-bind="text: $data.title()"></span><!-- /ko -->
-                </span><br/>
-                <div class="description" data-bind="attr: {'id': 'text-' + $data.number()}"></div>
-              </div>
-              <div class="ui horizontal divider">
-                Ihre Lösung
-              </div>
+              <tutor-task-preview params="{task: $data, showSolutionPreview: false}"></tutor-task-preview>
               <div data-bind="attr: {'id': 'editor-' + $data.number()}"></div>
             </div>
             <div class="eight wide column exercisePreview">
-              <div class="task">
-                <span class="task">
-                  Task <span data-bind="text: $data.number()"></span>
-                  <!--ko if: $data.hasTitle --> &ndash; <span data-bind="text: $data.title()"></span><!-- /ko -->
-                </span><br/>
-                <div class="description" data-bind="attr: {'id': 'text-sol-' + $data.number()}"></div>
-              </div>
-              <div class="ui horizontal divider">
-                Ihre Lösung
-              </div>
-              <div data-bind="attr: {'id': 'preview-' + $data.number()}"></div>
+              <tutor-task-preview params="{task: $data}"></tutor-task-preview>
             </div>
           </div>
           <!-- /ko -->
@@ -73,15 +54,7 @@
           <div class="ui grid" data-bind="attr: {'id': 'task-' + $data.number()}, template: { afterRender: $parent.initTask.bind(null, $data, $element)}">
             <div class="four wide column" />
             <div class="eight wide column exercisePreview">
-              <div class="task">
-                <span class="task">
-                  Task <span data-bind="text: $data.number()"></span>
-                  <!--ko if: $data.hasTitle --> &ndash; <span data-bind="text: $data.title()"></span><!-- /ko -->
-                  <span class="points">(<span data-bind="text: $data.maxPoints()"></span> points)</span>
-                </span><br/>
-                <span class="description" data-bind="text: $data.text()"></span>
-              </div>
-              <div data-bind="attr: {'id': 'preview-' + $index}"></div>
+              <tutor-task-preview params="{task: $data}"></tutor-task-preview>
             </div>
           </div>
           <!-- /ko -->
