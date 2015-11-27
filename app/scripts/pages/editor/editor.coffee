@@ -4,6 +4,7 @@ mdeditor = require './mdeditor'
 markdown = require './markdown'
 moment = require 'moment'
 _ = require 'lodash'
+serverTime = require '../../util/servertime'
 require '@tutor/task-preview'
 
 class TaskViewModel
@@ -56,13 +57,9 @@ class ViewModel
       # see http://stackoverflow.com/a/28599347
       @allTests Array.apply(null, Array(@exercise().tasks.length)).map -> []
 
-    @timeDifference = ko.observable 0
-    @localTime = ko.observable Date.now()
-    @serverTime = ko.computed => @localTime() + @timeDifference()
-
-    @isOld = ko.computed => Date.parse(@exercise().dueDate) < @serverTime()
+    @isOld = ko.computed => Date.parse(@exercise().dueDate) < serverTime()
     @timeLeft = ko.computed =>
-      moment(@exercise().dueDate).from(@serverTime(), true)
+      moment(@exercise().dueDate).from(serverTime(), true)
 
     @isOld.subscribe (value) =>
       # this is updated after this subscription, so it will also be called
@@ -70,20 +67,13 @@ class ViewModel
       if value #disable editor after due date
         t.destroy() for t in @tests()
 
-    @updateServertimeInterval = setInterval(=>
-      api.get.time().then (time) =>
-        @timeDifference(Date.parse(time) - Date.now())
-    , 5 * 60 * 1000) #every five minutes
-    @updateLocalTimeInterval = setInterval(=>
-      @localTime Date.now()
-    , 1000)
-
     api.get.group()
     .then (group) =>
       @group = group
     .then -> api.get.exercise params.id
     .then (exercise) =>
-      api.post.solution exercise.id
+      if(Date.parse(exercise.dueDate) >= @serverTime)
+        api.post.solution exercise.id
       return exercise
     .then (exercise) =>
       @theExercise = exercise
@@ -98,6 +88,8 @@ class ViewModel
   initTask: (task, element) =>
     ko.utils.domNodeDisposal.addDisposeCallback element, task.destroy.bind(task)
     task.editor mdeditor task, @group, @theExercise, @allTests, @selectedTaskIndex
+    #markdown()('text-'+task.number()).render(task.text())
+    #markdown()('text-sol-'+task.number()).render(task.text())
 
 fs = require 'fs'
 module.exports = ->
