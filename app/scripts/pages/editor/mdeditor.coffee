@@ -21,25 +21,7 @@ module.exports = (task, group, exercise, allTests, selectedIndex)  ->
     curEdit = lastEdit
     curTests = allTests()
     curTests[taskIdx] = []
-    createPreview = md({
-      testProcessor:
-        register: (name) ->
-          if lastEdit > curEdit
-            return
-          curTests[taskIdx].push({name: name, passes: false})
-        testResult: (err, idx) ->
-          if lastEdit > curEdit
-            return
-          curTests[taskIdx][idx].passes = (err == null)
-        testsFinished: ->
-          if lastEdit > curEdit
-            return
-          allTests(curTests)
-        template: -> ""
-      })
-
-    prev = createPreview "preview-" + task.number()
-    prev.render task.tests() + "\n\n" + editor.getValue()
+    task.solution = editor.getValue()
 
 
   returnedObject = {destroy: _.noop}
