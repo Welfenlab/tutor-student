@@ -12,9 +12,7 @@ defaultConfig =
   dotProcessor:
     baseSVGTemplate: _.template "<svg data-element-id=\"<%= id %>\"><g/></svg>"
     errorTemplate: _.template "<p style='background-color:red'><%= error %></p>"
-  treeProcessor:
-    baseSVGTemplate: _.template "<svg data-element-id=\"<%= id %>\"><g/></svg>"
-    errorTemplate: _.template "<p style='background-color:red'><%= error %></p>"
+  treeProcessor: false
   testProcessor:
     registerTest: ->
     testResult:  ->

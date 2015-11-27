@@ -4,6 +4,7 @@ mdeditor = require './mdeditor'
 markdown = require './markdown'
 moment = require 'moment'
 _ = require 'lodash'
+require '@tutor/task-preview'
 
 class TaskViewModel
   constructor: (data) ->
@@ -97,8 +98,6 @@ class ViewModel
   initTask: (task, element) =>
     ko.utils.domNodeDisposal.addDisposeCallback element, task.destroy.bind(task)
     task.editor mdeditor task, @group, @theExercise, @allTests, @selectedTaskIndex
-    markdown()('text-'+task.number()).render(task.text())
-    markdown()('text-sol-'+task.number()).render(task.text())
 
 fs = require 'fs'
 module.exports = ->
