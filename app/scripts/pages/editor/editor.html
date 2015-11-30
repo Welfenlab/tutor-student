@@ -45,7 +45,7 @@
               <tutor-task-preview params="{task: $data, showSolutionPreview: false}"></tutor-task-preview>
               <div data-bind="attr: {'id': 'editor-' + $data.number()}"></div>
             </div>
-            <div class="eight wide column exercisePreview">
+            <div class="eight wide column">
               <tutor-task-preview params="{task: $data}"></tutor-task-preview>
             </div>
           </div>
@@ -53,7 +53,7 @@
           <!-- ko if: $parent.isOld -->
           <div class="ui grid" data-bind="attr: {'id': 'task-' + $data.number()}, template: { afterRender: $parent.initTask.bind(null, $data, $element)}">
             <div class="four wide column" />
-            <div class="eight wide column exercisePreview">
+            <div class="eight wide column">
               <tutor-task-preview params="{task: $data}"></tutor-task-preview>
             </div>
           </div>
