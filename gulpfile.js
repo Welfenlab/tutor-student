@@ -124,8 +124,12 @@ gulp.task("discify", function(){
 gulp.task("bundle", ["build-libs", "app"]);
 
 gulp.task("styles", function(){
+  var NpmImportPlugin = require('less-plugin-npm-import');
+
   gulp.src("./app/styles/*.less")
-    .pipe(less())
+    .pipe(less({
+      plugins: [new NpmImportPlugin()]
+    }))
     .pipe(concat("style.css"))
     .pipe(gulp.dest('build'));
 });
