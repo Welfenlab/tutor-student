@@ -1,4 +1,9 @@
 @import "npm://@tutor/task-preview/res/default-style.less";
+@import "paper-curls";
+
+@import (inline) "lm_regular/stylesheet.css";
+@import (inline) "lm_bold/stylesheet.css";
+@import (inline) "lm_italic/stylesheet.css";
 
 body {
   background: #fafafa;
@@ -127,7 +132,9 @@ body {
   }
 }
 
-.editor {
+.editorpage {
+  background: white;
+
   .bar {
     z-index: 5;
     height: 46px;
@@ -156,5 +163,48 @@ body {
         line-height: 36px;
       }
     }
+  }
+}
+
+.editMode {
+  .edit.wide.column {
+    width: 100% !important;
+  }
+
+  .preview.wide.column {
+    display: none !important;
+  }
+}
+
+
+.previewMode {
+  padding: 50px 20px !important;
+  //background: #eee !important;
+  //box-shadow: 0px 1px 2px 0px rgba(34, 36, 38, 0.15), inset 0 0 10px #fff !important;
+  z-index: 0;
+
+  .ui.fluid {
+    max-width: 21cm !important;
+    .paper-curls();
+  }
+
+  .edit.wide.column {
+    display: none !important;
+  }
+
+  .preview.wide.column {
+    width: 100% !important;
+    font-size: 12pt;
+
+    &, h1, h2, h3, h4, h5, h6, .ui.header {
+      font-family: "Latin Modern Roman", serif !important;
+    }
+  }
+
+  .ui.horizontal.divider {
+    line-height: 1.2;
+    text-transform: none !important;
+    font-family: "Latin Modern Roman Caps", serif !important;
+    font-weight: normal !important;
   }
 }

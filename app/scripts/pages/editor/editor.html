@@ -21,39 +21,54 @@
         You are disconnected. Changes cannot be saved right now.
       <!-- /ko -->
     </div>
+    <div class="ui segment" style="padding: 4.5px;border:0;">
+      <div style="float: right">
+        <button data-bind="click: mode.bind(null, 'both'), css: { active: mode() == 'both' }"
+        class="ui basic circular icon button" title="Side by side mode">
+          <i class="columns icon"></i>
+        </button>
+        <button data-bind="click: mode.bind(null, 'edit'), css: { active: editMode }"
+        class="ui basic circular icon button" title="Edit mode">
+          <i class="edit icon"></i>
+        </button>
+        <button data-bind="click: mode.bind(null, 'preview'), css: { active: previewMode }"
+        class="ui basic circular icon button" title="Preview mode">
+          <i class="eye icon"></i>
+        </button>
+      </div>
+    </div>
   </div>
-  <div class="ui segment editor" data-bind="template: { afterRender: init }">
+  <div class="ui segment" data-bind="template: { afterRender: init }, css: { previewMode: previewMode, editMode: editMode }">
     <div class="ui fluid">
       <!-- ko ifnot: exerciseNotFound -->
         <div class="ui grid">
           <!-- ko ifnot: isOld -->
-          <div class="eight wide column">
-            <div class="ui header">Exercise <span data-bind="text: title"></span></div>
+          <div class="eight wide column edit">
+            <div class="ui header"><span data-bind="text: title"></span></div>
+          </div>
+          <div class="eight wide column preview">
+            <div class="ui header"><span data-bind="text: title"></span></div>
           </div>
           <!-- /ko -->
           <!-- ko if: isOld -->
-            <div class="four wide column" />
+            <div class="four wide column"></div>
           <!-- /ko -->
-          <div class="eight wide column">
-            <div class="ui header">Preview</div>
-          </div>
         </div>
         <!-- ko foreach: tasks -->
           <!-- ko ifnot: $parent.isOld -->
           <div class="ui grid" data-bind="attr: {'id': 'task-' + $index()}, template: { afterRender: $parent.initTask.bind(null, $data, $element)}">
-            <div class="eight wide column exerciseEditor">
+            <div class="eight wide column exerciseEditor edit">
               <tutor-task-preview params="{task: $data, showSolutionPreview: false}"></tutor-task-preview>
               <div data-bind="attr: {'id': 'editor-' + $data.number()}"></div>
             </div>
-            <div class="eight wide column">
+            <div class="eight wide column preview">
               <tutor-task-preview params="{task: $data}"></tutor-task-preview>
             </div>
           </div>
           <!-- /ko -->
           <!-- ko if: $parent.isOld -->
           <div class="ui grid" data-bind="attr: {'id': 'task-' + $data.number()}, template: { afterRender: $parent.initTask.bind(null, $data, $element)}">
-            <div class="four wide column" />
-            <div class="eight wide column">
+            <div class="sixteen wide column preview">
               <tutor-task-preview params="{task: $data}"></tutor-task-preview>
             </div>
           </div>

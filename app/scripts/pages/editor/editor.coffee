@@ -44,6 +44,10 @@ class ViewModel
     @title = ko.computed => @exercise().title
     @exerciseNotFound = ko.observable(no)
 
+    @mode = ko.observable('both') #both, edit, preview
+    @editMode = ko.computed => @mode() == 'edit'
+    @previewMode = ko.computed => @mode() == 'preview'
+
     @allTests = ko.computed =>
       @tasks().map((task) -> task.testResults())
 
