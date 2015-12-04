@@ -15,6 +15,7 @@ class TaskViewModel
     @hasTitle = ko.computed => @title()? and @title().trim() isnt ''
     @solution or= ko.observable ''
     @editor = ko.observable()
+    @testResults = ko.observable([])
 
     @saved = ko.observable true
     @connected = ko.observable true
@@ -43,18 +44,15 @@ class ViewModel
     @title = ko.computed => @exercise().title
     @exerciseNotFound = ko.observable(no)
 
-    @allTests = ko.observableArray()
+    @allTests = ko.computed =>
+      @tasks().map((task) -> task.testResults())
+
     @tests = ko.computed =>
       if @selectedTaskIndex() >= 0
         @allTests()[@selectedTaskIndex()]
       else
         _.flattenDeep(@allTests())
     @failedTests = ko.computed => _.reject @tests(), 'passes'
-
-    @exercise.subscribe =>
-      # yes, this must be done like this. creates an array of empty observable arrays
-      # see http://stackoverflow.com/a/28599347
-      @allTests Array.apply(null, Array(@exercise().tasks.length)).map -> []
 
     @isOld = ko.computed => Date.parse(@exercise().dueDate) < serverTime()
     @timeLeft = ko.computed =>
