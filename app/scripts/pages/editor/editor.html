@@ -58,7 +58,14 @@
           <!-- ko ifnot: $parent.isOld -->
           <div class="ui grid" data-bind="attr: {'id': 'task-' + $index()}, template: { afterRender: $parent.initTask.bind(null, $data, $element)}">
             <div class="eight wide column exerciseEditor edit">
-              <tutor-task-preview params="{task: $data, showSolutionPreview: false}"></tutor-task-preview>
+              <h3 class="task">
+                Task <span data-bind="text: number"></span>
+                <!--ko if: hasTitle --> &ndash; <span data-bind="text: title"></span><!-- /ko -->
+              </h3><br/>
+              <tutor-task-markdown params="markdown: text"></tutor-task-markdown>
+              <div class="ui horizontal divider">
+                Ihre Lösung
+              </div>
               <div data-bind="attr: {'id': 'editor-' + $data.number()}"></div>
             </div>
             <div class="eight wide column preview">
