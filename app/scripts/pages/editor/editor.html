@@ -85,7 +85,7 @@
         <div class="bar">
           <div class="column" id="showtests">
             <!-- ko if: tests().length > 0 && failedTests().length == 0 -->
-                <i class="green thumbs up icon"></i>
+                <i class="green check circle icon"></i>
                 <!-- ko if: selectedTask() -->
                   Your solution for Task <span data-bind="text: selectedTask().number"></span> looks good.
                 <!-- /ko -->
@@ -94,7 +94,7 @@
                 <!-- /ko -->
             <!-- /ko -->
             <!-- ko if: tests().length > 0 && failedTests().length > 0 -->
-              <i class="orange meh icon"></i>
+              <i class="orange warning circle icon"></i>
               <!-- ko if: selectedTask() -->
                 Your should review your solution for Task <span data-bind="text: selectedTask().number"></span>.
               <!-- /ko -->
@@ -109,16 +109,21 @@
           </div>
           <div class="ui flowing popup top left transition hidden">
             <!-- ko if: selectedTask() -->
-              <div class="ui list" data-bind="foreach: tests">
+              <div class="ui list">
                 <div class="item">
-                  <i class="green checkmark icon" data-bind="visible: passes"></i>
-                  <i class="red remove icon" data-bind="visible: !passes"></i>
+                  <div class="header">Task <span data-bind="text: selectedTask().number"></span>:</div>
+                </div>
+                <!-- ko if: tests().length == 0 -->
+                  <em>There are no tests for this task.</em>
+                <!-- /ko -->
+                <!-- ko foreach: tests -->
+                <div class="item">
+                  <!-- ko if: passes --><i class="green check circle icon"></i><!-- /ko -->
+                  <!-- ko ifnot: passes --><i class="red remove circle icon"></i><!-- /ko -->
                   <div class="content" data-bind="text: name"></div>
                 </div>
+                <!-- /ko -->
               </div>
-              <!-- ko if: tests().length == 0 -->
-                <em>There are no tests.</em>
-              <!-- /ko -->
             <!-- /ko -->
             <!-- ko ifnot: selectedTask() -->
               <div class="ui list" data-bind="foreach: allTests">
@@ -130,8 +135,8 @@
                 <!-- /ko -->
                 <!-- ko foreach: $data -->
                 <div class="item">
-                  <i class="green checkmark icon" data-bind="visible: passes"></i>
-                  <i class="red remove icon" data-bind="visible: !passes"></i>
+                  <!-- ko if: passes --><i class="green check circle icon"></i><!-- /ko -->
+                  <!-- ko ifnot: passes --><i class="red remove circle icon"></i><!-- /ko -->
                   <div class="content" data-bind="text: name"></div>
                 </div>
                 <!-- /ko -->
