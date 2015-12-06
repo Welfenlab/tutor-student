@@ -16,7 +16,7 @@ class TaskViewModel
     @solution or= ko.observable ''
     @editor = ko.observable()
     @testResults = ko.observable([])
-
+    @testResults.extend(notify: 'always')
     @saved = ko.observable true
     @connected = ko.observable true
 
