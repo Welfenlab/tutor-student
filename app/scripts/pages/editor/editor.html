@@ -104,7 +104,12 @@
             <!-- /ko -->
             <!-- ko if: tests().length == 0 -->
               <i class="info icon"></i>
-              Write some tests to automatically check if your solution looks good.
+              <!-- ko if: selectedTask() -->
+                Write some tests to automatically check if your solution for Task <span data-bind="text: selectedTask().number"></span> looks good.
+              <!-- /ko -->
+              <!-- ko ifnot: selectedTask() -->
+                Write some tests to automatically check if your solution looks good.
+              <!-- /ko -->
             <!-- /ko -->
           </div>
           <div class="ui flowing popup top left transition hidden">
