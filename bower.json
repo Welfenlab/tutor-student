@@ -16,7 +16,7 @@
     "tests"
   ],
   "dependencies": {
-    "jailed" : "Welfenlab/jailed#d3d0ad6de4bf78127997973b63ada54619f2f209",
+    "jailed" : "Welfenlab/jailed#92484d6d9bea2627bcc2468a08356d1c77431fd5",
     "semantic-ui": "~2.0.2",
     "highlightjs": "~8.7.0",
     "ace-builds": "~1.2.0"
