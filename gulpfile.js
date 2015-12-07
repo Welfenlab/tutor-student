@@ -1,6 +1,9 @@
+/* global process */
 var gulp        = require('gulp');
 var source      = require('vinyl-source-stream');
+var buffer      = require('vinyl-buffer');
 var browserify  = require('browserify');
+var uglify      = require('gulp-uglify');
 var less        = require('gulp-less');
 var concat      = require('gulp-concat');
 var watch       = require('gulp-watch');
@@ -29,7 +32,7 @@ var devLibs = [
 ]
 
 function appBuildBundler(){
-  bundler = browserify('./app/scripts/tutor.coffee',
+  var bundler = browserify('./app/scripts/tutor.coffee',
     {
       transform: ['coffeeify','brfs'],
 //      standalone: 'tutor',
@@ -53,7 +56,7 @@ function appBuildBundler(){
 }
 
 function fullBuildBundler(){
-  bundler = browserify('./app/scripts/tutor.coffee',
+  var bundler = browserify('./app/scripts/tutor.coffee',
     {
       transform: ['coffeeify','brfs'],
 //      standalone: 'tutor',
@@ -68,14 +71,17 @@ function fullBuildBundler(){
 
 // browserify bundle for direct browser use.
 gulp.task("app", function(){
-  appBuildBundler()
+  var tutorjs = appBuildBundler()
     .on('error', function(err){ console.log(err.message); this.emit('end');})
     .pipe(source('tutor.js'))
-    .pipe(gulp.dest('build'));
+  if(process.env.NODE_ENV == "production"){
+    tutorjs = tutorjs.pipe(buffer()).pipe(uglify())
+  }
+    tutorjs.pipe(gulp.dest('build'));
 });
 
 function libsBuildBundler(){
-  bundler = browserify({
+  var bundler = browserify({
       transform: ['coffeeify','brfs'],
   //      standalone: 'tutor',
       extensions: ['.coffee'],
@@ -91,10 +97,13 @@ function libsBuildBundler(){
 }
 
 gulp.task("build-libs", function(){
-  libsBuildBundler()
+  var vendorlibs = libsBuildBundler()
     .on('error', function(err){ console.log(err.message); this.emit('end');})
     .pipe(source('vendor.js'))
-    .pipe(gulp.dest('build'));
+  if(process.env.NODE_ENV == "production"){
+    vendorlibs = vendorlibs.pipe(buffer()).pipe(uglify())
+  }
+  vendorlibs.pipe(gulp.dest('build'));
 });
 
 gulp.task("full",["build-full", "discify"]);
