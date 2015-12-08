@@ -20,6 +20,6 @@
     "semantic-ui": "~2.0.2",
     "highlightjs": "~8.7.0",
     "ace-builds": "~1.2.0",
-    "nvd3": "~1.8.1"
+    "nvd3": "fasib/nvd3#fix"
   }
 }
