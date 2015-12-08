@@ -83,6 +83,8 @@ module.exports = (task, group, exercise, allTests, selectedIndex)  ->
       #console.log shareDocConnection#'disconnect websocket'
       shareDocConnection.disconnect()
 
+    returnedObject.ace = editor
+
   #prev.render task.prefilled()
   markdownPreview editor
   return returnedObject

@@ -5,6 +5,7 @@ moment = require 'moment'
 _ = require 'lodash'
 serverTime = require '../../util/servertime'
 require '@tutor/task-preview'
+require 'code-blast-ace'
 
 class TaskViewModel
   constructor: (data) ->
@@ -25,6 +26,10 @@ class TaskViewModel
       editor.on 'disconnect', => @connected false
       editor.on 'save', => @saved true
       editor.on 'unsavedChanges', => @saved false
+
+    @powerMode = ko.observable(false)
+    @powerMode.subscribe (v) =>
+      @editor().ace.setOption 'blastCode', v
 
   destroy: ->
     if @editor()
@@ -47,6 +52,11 @@ class ViewModel
     @mode = ko.observable('both') #both, edit, preview
     @editMode = ko.computed => @mode() == 'edit'
     @previewMode = ko.computed => @mode() == 'preview'
+    
+    @powerMode = ko.observable(false)
+    @powerMode.subscribe (v) =>
+      for task in @tasks()
+        task.powerMode(v)
 
     @allTests = ko.computed =>
       @tasks().map((task) -> task.testResults())
