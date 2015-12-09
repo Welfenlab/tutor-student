@@ -26,10 +26,12 @@ class TaskViewModel
       editor.on 'disconnect', => @connected false
       editor.on 'save', => @saved true
       editor.on 'unsavedChanges', => @saved false
+      @editor().ace.setOption 'blastCode', @powerMode()
 
     @powerMode = ko.observable(false)
     @powerMode.subscribe (v) =>
-      @editor().ace.setOption 'blastCode', v
+      if @editor()
+        @editor().ace.setOption 'blastCode', v
 
   destroy: ->
     if @editor()
@@ -52,11 +54,11 @@ class ViewModel
     @mode = ko.observable('both') #both, edit, preview
     @editMode = ko.computed => @mode() == 'edit'
     @previewMode = ko.computed => @mode() == 'preview'
-    
+
     @powerMode = ko.observable(false)
     @powerMode.subscribe (v) =>
       for task in @tasks()
-        task.powerMode(v)
+        task.powerMode(if v then {effect: 1} else false)
 
     @allTests = ko.computed =>
       @tasks().map((task) -> task.testResults())
@@ -99,6 +101,9 @@ class ViewModel
   initTask: (task, element) =>
     ko.utils.domNodeDisposal.addDisposeCallback element, task.destroy.bind(task)
     task.editor mdeditor task, @group, @theExercise, @allTests, @selectedTaskIndex
+
+  togglePowerMode: =>
+    @powerMode !@powerMode()
 
 fs = require 'fs'
 module.exports = ->
