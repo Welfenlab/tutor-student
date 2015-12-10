@@ -28,7 +28,7 @@ class ViewModel
       user.group = ko.observable new GroupViewModel(data.group)
       app.user user
       @isLoggingIn no
-      app.router.goto 'overview'
+      app.goto 'overview'
     .catch (e) =>
       console.log e
       @error 'Login failed'

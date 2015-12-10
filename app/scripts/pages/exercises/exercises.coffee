@@ -1,5 +1,6 @@
 ko = require 'knockout'
 api = require '../../api'
+app = require '../../app'
 ExerciseList = require('@tutor/exercise-list')(ko)
 serverTime = require '../../util/servertime'
 
@@ -7,7 +8,7 @@ class ExerciseViewModel extends ExerciseList.ExerciseViewModel
   constructor: (data) ->
     super(data)
 
-  show: -> window.location.hash = '#exercise/' + @id
+  show: -> app.goto 'exercise/' + @id
 
 class ViewModel extends ExerciseList.OverviewPageViewModel
   constructor: ->
@@ -20,7 +21,7 @@ class ViewModel extends ExerciseList.OverviewPageViewModel
     @exercisesPrevious = ko.computed =>
       @exercises().filter (ex) =>
         Date.parse(ex.dueDate()) < serverTime()
-      
+
   getExercises: (callback) ->
     api.get.exercises()
     .then(callback)

@@ -12,8 +12,10 @@ ko.components.register 'page-not-found', template: "<h2>Page not found</h2>"
 
 class ViewModel
   constructor: ->
-    @router = new Router()
-    @isActive = (path) => ko.computed => @router.path().indexOf(path) == 0
+    @page = ko.observable()
+    @pageParams = ko.observable({})
+    @path = ko.observable('')
+    @isActive = (path) => ko.computed => @path().indexOf(path) == 0
 
     @user = ko.observable({group: _.noop})
     @group = ko.computed => if @user().group then @user().group() else {}
@@ -35,8 +37,8 @@ class ViewModel
       user = ko.mapping.fromJS me
       user.group = ko.observable new GroupViewModel(me.group)
       @user user
-      @router.goto location.hash.substr(1) #go to the page the user wants to go to
-    .catch (e) => console.log(e) ; @router.goto 'login'
+      @goto location.hash
+    .catch (e) => console.log(e) ; @goto 'login'
 
   registerPopup: ->
     $('.button').popup(position: 'bottom right', hoverable: true)
@@ -45,8 +47,10 @@ class ViewModel
     api.logout()
     .then =>
       @user {}
-      @router.goto 'login'
+      @goto 'login'
     .catch (e) -> console.log e
+
+  goto: (v) -> require('page').show "/#{v}"
 
 i18n.init {
   en:

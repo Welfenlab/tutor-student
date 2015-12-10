@@ -1,36 +1,26 @@
 app = require './app'
 ko = require 'knockout'
+page = require 'page'
 
-app.router.pages [
-  {
-    path: '^$'
-    forward: 'overview'
-  }
-  {
-    path: 'login'
-    component: require('./pages/login/login')()
-  }
-  {
-    path: 'register'
-    component: require('./pages/register/register')()
-  }
-  {
-    path: 'overview'
-    component: require('./pages/exercises/exercises')()
-  }
-  {
-    path: /exercise\/?(.*)/
-    as: ['id'] #name the parameters
-    component: require('./pages/editor/editor')()
-  }
-  {
-    path: 'group'
-    component: require('./pages/group/group')()
-  }
-]
+showPage = (component, ctx) ->
+  app.path ctx.path
+  app.pageParams ctx.params
+  app.page component
 
-$(window).bind "popstate", ->
-  app.router.goto location.hash.substr(1)
+overview = showPage.bind(null, require('./pages/exercises/exercises')())
+login = showPage.bind(null, require('./pages/login/login')())
+register = showPage.bind(null, require('./pages/register/register')())
+editor = showPage.bind(null, require('./pages/editor/editor')())
+group = showPage.bind(null, require('./pages/group/group')())
+
+page '/', '/overview'
+page '/overview', overview
+page '/login', login
+page '/register', register
+page '/exercise/:id', editor
+page '/group', group
+
+page(hashbang: true)
 
 $(document).ready ->
   $('.ui.dropdown').dropdown()
