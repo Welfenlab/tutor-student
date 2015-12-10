@@ -36,7 +36,7 @@
     "@tutor/test-suite": "^0.2.2",
     "blueimp-md5": "^1.1.1",
     "bunyan": "^1.5.1",
-    "code-blast-ace": "lemaik/code-blast-ace",
+    "code-blast-ace": "^1.0.0",
     "cson": "^3.0.1",
     "event-emitter": "lemaik/event-emitter#v1.0.1",
     "express": "^4.13.3",
