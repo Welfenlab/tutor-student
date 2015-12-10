@@ -70,21 +70,31 @@
                           </div>
                         </div>
                         <div class="ui divider"></div>
-                        <div class="ui basic segment" data-bind="visible: group().users && group().users().length > 1">
+                        <div class="ui basic segment" data-bind="visible: group().users && (group().users().length + group().pendingUsers().length) > 1">
                           <div class="ui small header">
                               Your group:
                             <a href="#groups"><i class="edit icon" style="margin:0 0 0 0.25rem"></i></a>
                           </div>
-                          <div class="ui middle aligned list" data-bind="foreach: group().users">
+                          <div class="ui middle aligned list">
+                            <!-- ko foreach: group().users -->
                             <div class="item">
                               <img class="ui avatar image" data-bind="attr: { src: avatarUrl }"/>
                               <div class="content">
                                 <div class="header" data-bind="text: pseudonym"></div>
                               </div>
                             </div>
+                            <!-- /ko -->
+                            <!-- ko foreach: group().pendingUsers -->
+                            <div class="item" style="opacity:0.5">
+                              <img class="ui avatar image" data-bind="attr: { src: avatarUrl }"/>
+                              <div class="content">
+                                <div class="header" data-bind="text: pseudonym"></div>
+                              </div>
+                            </div>
+                            <!-- /ko -->
                           </div>
                         </div>
-                        <div class="ui basic segment center aligned" data-bind="visible: group().users && group().users().length == 1">
+                        <div class="ui basic segment center aligned" data-bind="visible: group().users && (group().users().length + group().pendingUsers().length) == 1">
                           You are not in a group.<br/>
                           <a href="#groups">Create one</a> to make learning easier and more fun!
                         </div>
