@@ -3,35 +3,37 @@
     <div class="six wide column">
       <div class="ui segment">
         <h3>Active exercise</h3>
-        <div class="ui bottom attached segment">
-          <div class="ui big animated divided list">
-            <!-- ko foreach: exercisesActive -->
-              <div class="item" data-bind="click: show" style="cursor:pointer">
-                <i class="icon calendar"></i>
-                <div class="content">
-                  Abgabe der <div class="ui label">Übung <span data-bind="text: number"></span></div> bis zum <span data-bind="text: formattedDueDate"></span>
-                </div>
+        <!-- ko if: exercisesActive().length == 0 -->
+          <div style="text-align:center;font-style:italic">Es gibt derzeit keine Übungsblätter.</div>
+        <!-- /ko -->
+        <div class="ui big animated divided list">
+          <!-- ko foreach: exercisesActive -->
+            <div class="item" data-bind="click: show" style="cursor:pointer">
+              <i class="icon calendar"></i>
+              <div class="content">
+                Abgabe der <div class="ui label">Übung <span data-bind="text: number"></span></div> bis zum <span data-bind="text: formattedDueDate"></span>
               </div>
-            <!-- /ko -->
-          </div>
+            </div>
+          <!-- /ko -->
         </div>
       </div>
     </div>
     <div class="five wide column">
       <div class="ui segment">
         <h3>Previous exercise</h3>
-        <div class="ui bottom attached segment">
-          <div class="ui big animated divided list">
-            <!-- ko foreach: exercisesPrevious -->
-                <div class="item" data-bind="click: show" style="cursor:pointer">
-                  <i class="icon checkmark green"></i>
-                  <div class="content">
-                    <div class="ui label">Übung <span data-bind="text: number"></span></div> ist korrigiert.
-                    Sie haben <div class="ui label"><span data-bind="text: points"></span> Punkte </div> von <span data-bind="text: maxPoints"></span> m&ouml;glichen Punkten erreicht.
-                  </div>
+        <!-- ko if: exercisesPrevious().length == 0 -->
+          <div style="text-align:center;font-style:italic">Sie haben noch keine Abgaben.</div>
+        <!-- /ko -->
+        <div class="ui big animated divided list">
+          <!-- ko foreach: exercisesPrevious -->
+              <div class="item" data-bind="click: show" style="cursor:pointer">
+                <i class="icon checkmark green"></i>
+                <div class="content">
+                  <div class="ui label">Übung <span data-bind="text: number"></span></div> ist korrigiert.
+                  Sie haben <div class="ui label"><span data-bind="text: points"></span> Punkte </div> von <span data-bind="text: maxPoints"></span> m&ouml;glichen Punkten erreicht.
                 </div>
-              <!-- /ko -->
-            </div>
+              </div>
+            <!-- /ko -->
           </div>
       </div>
     </div>
