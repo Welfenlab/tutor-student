@@ -98,6 +98,13 @@ class ViewModel
   init: ->
     $('#showtests').popup(inline: true)
 
+    $(document).on 'keydown.editor', (event) =>
+      if event.keyCode == 83 and event.ctrlKey #Ctrl+S
+        event.preventDefault()
+
+  onHide: ->
+    $(document).off '.editor'
+
   initTask: (task, element) =>
     ko.utils.domNodeDisposal.addDisposeCallback element, task.destroy.bind(task)
     task.editor mdeditor task, @group, @theExercise, @allTests, @selectedTaskIndex
