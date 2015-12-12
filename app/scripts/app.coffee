@@ -14,6 +14,7 @@ class ViewModel
   constructor: ->
     @page = ko.observable()
     @pageParams = ko.observable({})
+    @pageRequiresLogin = ko.observable(true)
     @path = ko.observable('')
     @isActive = (path) => ko.computed => @path().indexOf(path) == 0
 

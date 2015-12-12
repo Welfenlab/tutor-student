@@ -150,7 +150,7 @@
             </div>
         </div>
     </div>
-    <!-- ko if: page -->
+    <!-- ko if: page() && (!pageRequiresLogin() || isLoggedIn()) -->
     <div class="content" data-bind="component: { name: page, params: pageParams }"></div>
     <!-- /ko -->
 </div>
