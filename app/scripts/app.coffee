@@ -3,7 +3,6 @@ require 'knockout-mapping'
 _ = require 'lodash'
 #not_found = './pages/not_found'
 i18n = require 'i18next-ko'
-Router = require './router'
 api = require './api'
 wavatar = require('./util/gravatar').wavatar
 GroupViewModel = require('./common/viewmodels').GroupViewModel
@@ -51,7 +50,12 @@ class ViewModel
       @goto 'login'
     .catch (e) -> console.log e
 
-  goto: (v) -> require('page').show "/#{v}"
+  goto: (v) ->
+    pageComponent = ko.dataFor document.getElementById('main').firstChild
+    if pageComponent and pageComponent.onBeforeHide
+      if pageComponent.onBeforeHide() is false
+        return
+    require('page').show "/#{v}"
 
 i18n.init {
   en:

@@ -42,7 +42,7 @@
       </div>
     </div>
   </div>
-  <div class="ui segment" data-bind="template: { afterRender: init }, css: { previewMode: previewMode, editMode: editMode }">
+  <div class="ui segment" data-bind="template: { afterRender: init.bind($data) }, css: { previewMode: previewMode, editMode: editMode }">
     <div class="ui fluid">
       <!-- ko ifnot: exerciseNotFound -->
         <div class="ui grid">
