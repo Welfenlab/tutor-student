@@ -51,10 +51,12 @@ class ViewModel
     .catch (e) -> console.log e
 
   goto: (v) ->
-    pageComponent = ko.dataFor document.getElementById('main').firstChild
-    if pageComponent and pageComponent.onBeforeHide
-      if pageComponent.onBeforeHide() is false
-        return
+    mainElement = document.getElementById('main')?.firstChild
+    if mainElement
+      pageComponent = ko.dataFor mainElement
+      if pageComponent and pageComponent.onBeforeHide
+        if pageComponent.onBeforeHide() is false
+          return
     require('page').show "/#{v}"
 
 i18n.init {
