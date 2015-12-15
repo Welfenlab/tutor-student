@@ -21,11 +21,19 @@ page '/register', register
 page '/exercise/:id', editor
 page '/groups', group
 
-page(hashbang: true)
-$(window).on 'hashchange', (e) ->
-  if window.location.hash != '#!' + app.path()
-    app.goto window.location.hash.substr(3)
-    window.location.hash = '#!' + app.path()
+$ ->
+  page(hashbang: true, click: false, popstate: false) #handlers don't work, we do it on our own below
+  $(document).on 'click', 'a', (e) ->
+    el = e.target
+    if el.tagName == 'A'
+      if not /^https?:\/\//i.test(el.getAttribute('href'))
+        e.preventDefault()
+        e.stopImmediatePropagation()
+        app.goto el.getAttribute('href')
+
+  $(window).on 'popstate', (e) ->
+    if e.originalEvent.state
+      app.goto e.originalEvent.state.path, e.originalEvent.state
 
 $(document).ready ->
   $('.ui.dropdown').dropdown()

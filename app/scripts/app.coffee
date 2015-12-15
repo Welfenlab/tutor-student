@@ -50,14 +50,20 @@ class ViewModel
       @goto 'login'
     .catch (e) -> console.log e
 
-  goto: (v) ->
+  goto: (v, replace) ->
     mainElement = document.getElementById('main')?.firstChild
     if mainElement
       pageComponent = ko.dataFor mainElement
       if pageComponent and pageComponent.onBeforeHide
         if pageComponent.onBeforeHide() is false
           return
-    require('page').show "/#{v}"
+    if v.indexOf('/') == 0
+      v = v.substr(1)
+
+    if replace
+      require('page').replace "/#{v}", replace
+    else
+      require('page').show "/#{v}"
 
 i18n.init {
   en:

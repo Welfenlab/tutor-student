@@ -42,17 +42,17 @@
                       Tutor
                     </a>
                     <!-- ko ifnot: isLoggedIn -->
-                    <a href="#!/login" class="ui item" data-bind="css: { active: isActive('login') }">
+                    <a href="/login" class="ui item" data-bind="css: { active: isActive('login') }">
                         <i class="sign in icon"></i>
                         Login
                     </a>
                     <!-- /ko -->
                     <!-- ko if: isLoggedIn -->
-                      <a href="#!/overview" class="ui item" data-bind="css: { active: isActive('overview') }">
+                      <a href="/overview" class="ui item" data-bind="css: { active: isActive('overview') }">
                           <i class="list icon"></i>
                           Overview
                       </a>
-                      <a href="#!/groups" class="ui item" data-bind="css: { active: isActive('groups') }">
+                      <a href="/groups" class="ui item" data-bind="css: { active: isActive('groups') }">
                           <i class="users icon"></i>
                           Groups
                       </a>
@@ -66,14 +66,14 @@
                           <img class="ui circular centered tiny image" data-bind="attr: { src: avatarUrl }">
                           <div class="ui small centered header">
                             <span data-bind="text: user().pseudonym"></span>
-                            <a href="#!/register"><i class="edit icon" style="margin:0 0 0 0.25rem"></i></a>
+                            <a href="/register"><i class="edit icon" style="margin:0 0 0 0.25rem"></i></a>
                           </div>
                         </div>
                         <div class="ui divider"></div>
                         <div class="ui basic segment" data-bind="visible: group().users && (group().users().length + group().pendingUsers().length) > 1">
                           <div class="ui small header">
                               Your group:
-                            <a href="#!/groups"><i class="edit icon" style="margin:0 0 0 0.25rem"></i></a>
+                            <a href="/groups"><i class="edit icon" style="margin:0 0 0 0.25rem"></i></a>
                           </div>
                           <div class="ui middle aligned list">
                             <!-- ko foreach: group().users -->
@@ -96,7 +96,7 @@
                         </div>
                         <div class="ui basic segment center aligned" data-bind="visible: group().users && (group().users().length + group().pendingUsers().length) == 1">
                           You are not in a group.<br/>
-                          <a href="#!/groups">Create one</a> to make learning easier and more fun!
+                          <a href="/groups">Create one</a> to make learning easier and more fun!
                         </div>
                         <div class="ui divider"></div>
                         <div class="ui primary fluid button" data-bind="click: logout">
@@ -120,25 +120,25 @@
                         <i class="content icon"></i>
                         <div class="menu" style="width:250px">
                           <!-- ko ifnot: isLoggedIn -->
-                            <a href="#!/login" class="ui item" data-bind="css: { active: isActive('login') }">
+                            <a href="/login" class="ui item" data-bind="css: { active: isActive('login') }">
                                 <i class="sign in icon"></i>
                                 Login
                             </a>
                           <!-- /ko -->
                           <!-- ko if: isLoggedIn -->
-                            <a href="#!/register" class="ui item" data-bind="template: { afterRender: $data.registerPopup }">
+                            <a href="/register" class="ui item" data-bind="template: { afterRender: $data.registerPopup }">
                               <img class="ui mini avatar image" data-bind="attr: { src: avatarUrl }"/>
                               <span data-bind="text: user().pseudonym"></span>
                             </a>
-                            <a href="#!/overview" class="ui item" data-bind="css: { active: isActive('overview') }">
+                            <a href="/overview" class="ui item" data-bind="css: { active: isActive('overview') }">
                                   <i class="list icon"></i>
                                   Overview
                               </a>
-                            <a href="#!/groups" class="ui item" data-bind="css: { active: isActive('groups') }">
+                            <a href="/groups" class="ui item" data-bind="css: { active: isActive('groups') }">
                                 <i class="users icon"></i>
                                 Groups
                             </a>
-                            <a href="#!/logout" class="ui item" data-bind="click: logout">
+                            <a href="/logout" class="ui item" data-bind="click: logout">
                                 <i class="sign out icon"></i>
                                 Logout
                             </a>
