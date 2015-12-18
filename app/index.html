@@ -56,11 +56,11 @@
                           <i class="users icon"></i>
                           Groups
                       </a>
-                      <div class="ui button right item user" data-bind="template: { afterRender: $data.registerPopup }">
+                      <a class="ui button right item user" data-bind="template: { afterRender: $data.registerPopup }">
                           <i class="icon"><img class="ui mini avatar image" data-bind="attr: { src: avatarUrl }"/></i>
                           <span data-bind="text: user().pseudonym"></span>
                           <i class="dropdown icon"></i>
-                      </div>
+                      </a>
                       <div class="ui flowing bottom right popup transition hidden" style="width:250px">
                         <div class="ui basic segment">
                           <img class="ui circular centered tiny image" data-bind="attr: { src: avatarUrl }">

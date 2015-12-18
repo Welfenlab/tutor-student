@@ -41,7 +41,7 @@ class ViewModel
     .catch (e) => console.log(e) ; @goto 'login'
 
   registerPopup: ->
-    $('.button').popup(position: 'bottom right', hoverable: true)
+    $('.button').popup(position: 'bottom right', hoverable: true, on: 'click')
 
   logout: ->
     api.logout()
