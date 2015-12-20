@@ -6,7 +6,7 @@ This is the student web interface for tutor.
 
 For production please see [tutor-docker-student](https://github.com/Welfenlab/tutor-docker-student)
 
-If you want to try the web interface please consider using the tutor meta package. It contains a
+If you want to try the web interface please consider using the [tutor meta package](https://github.com/Welfenlab/Tutor). It contains a
 complete example setup.
 
 In order to install this you have first install all dependencies via NPM and Bower, run:
@@ -53,3 +53,21 @@ saml:
 The parts in squared brackets are the environment variables for production. In production the
 sensitive parts of the configuration come via environment variables and are not stored in the
 configuration file. 
+
+## Structure
+
+This repository contains the server and the frontend component. You find the front end code in 'app/`. The
+server resides in `src/` and in the `index.js`. The gulpfile will create a `build/` folder that is used for
+delivering files.
+
+## Development
+
+You should definitely start with the [tutor meta package](https://github.com/Welfenlab/Tutor) if you want to start
+developing for tutor. Most of the internals are done in other packages like markdown processing etc.
+
+For UI development you can start the watch task in gulp to auto compile new files.
+
+```
+gulp watch
+```
+

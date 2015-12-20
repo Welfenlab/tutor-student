@@ -28,9 +28,7 @@ var libs = [
 ]
 
 // libs that are not used in production and thus can be removed
-var devLibs = [
-  '@tutor/dummy-auth'
-]
+var devLibs = []
 
 function appBuildBundler () {
   var bundler = browserify('./app/scripts/tutor.coffee',
