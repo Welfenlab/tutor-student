@@ -29,9 +29,33 @@ module.exports = function(config){
 
     return rethinkDB.then(function(DB){
       restAPI = require("./rest")(DB);
-      config.modules.push(require("@tutor/saml")(DB.Connection, DB.Rethinkdb, 
-          DB.Users.create, DB.Users.exists,
-          function(){return Promise.resolve()} ));
+      if(!process.env.UNSAFE_LOGIN){
+        config.modules.push(require("@tutor/saml")(DB.Connection, DB.Rethinkdb, 
+            DB.Users.create, DB.Users.exists,
+            function(){return Promise.resolve()} ));
+      } else {
+        var userLogin = function(user, pw){
+          // in dev mode, if somebody logs in
+          //  1.  look if the user exists, if yes grant access
+          //  2.  if the user does not exists create new user
+          return DB.Users.exists(user).then(function(exists){
+            if(!exists){
+              return DB.Users.create(
+                {
+                  id: user,
+                  matrikel: "12345670",
+                  name: "Karl Günther",
+                  pseudonym: "Nameless Nobody"
+                }
+              ).then(function(){ return true; });
+            } else {
+              return true;
+            }
+          });
+        }
+        
+        config.modules.push(require("@tutor/auth")(con, DB.Rethinkdb, userlogin));
+      }
       config.modules.push(function(app, config){
         app.use(express.static('./build'));
       });
