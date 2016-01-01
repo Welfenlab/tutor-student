@@ -26,15 +26,25 @@
         <!-- /ko -->
         <div class="ui big animated divided list">
           <!-- ko foreach: exercisesPrevious -->
+            <!-- ko if: isCorrected -->
               <div class="item" data-bind="click: show" style="cursor:pointer">
-                <i class="icon checkmark green"></i>
+                <i class="green checkmark icon"></i>
                 <div class="content">
                   <div class="ui label">Übung <span data-bind="text: number"></span></div> ist korrigiert.
                   Sie haben <div class="ui label"><span data-bind="text: points"></span> Punkte </div> von <span data-bind="text: maxPoints"></span> m&ouml;glichen Punkten erreicht.
                 </div>
               </div>
-            <!-- /ko -->
-          </div>
+            <!-- /ko-->
+            <!-- ko ifnot: isCorrected -->
+              <div class="item" data-bind="click: show" style="cursor:pointer">
+                <i class="wait icon"></i>
+                <div class="content">
+                  <div class="ui label">Übung <span data-bind="text: number"></span></div> wird derzeit korrigiert&hellip;
+                </div>
+              </div>
+            <!-- /ko-->
+          <!-- /ko -->
+        </div>
       </div>
     </div>
     <div class="five wide column">

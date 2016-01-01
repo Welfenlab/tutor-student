@@ -8,6 +8,8 @@ class ExerciseViewModel extends ExerciseList.ExerciseViewModel
   constructor: (data) ->
     super(data)
 
+    @isCorrected = data.lock?
+
   show: -> app.goto 'exercise/' + @id
 
 class ViewModel extends ExerciseList.OverviewPageViewModel
