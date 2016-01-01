@@ -8,9 +8,12 @@ class ExerciseViewModel extends ExerciseList.ExerciseViewModel
   constructor: (data) ->
     super(data)
 
-    @isCorrected = data.lock?
+    @isCorrected = data.lock? #TODO
 
   show: -> app.goto 'exercise/' + @id
+
+  downloadPdf: ->
+    alert 'Not yet implemented.' #TODO
 
 class ViewModel extends ExerciseList.OverviewPageViewModel
   constructor: ->

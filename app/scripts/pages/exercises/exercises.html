@@ -6,12 +6,13 @@
         <!-- ko if: exercisesActive().length == 0 -->
           <div style="text-align:center;font-style:italic">Es gibt derzeit keine Übungsblätter.</div>
         <!-- /ko -->
-        <div class="ui big animated divided list">
+        <div class="ui big divided list">
           <!-- ko foreach: exercisesActive -->
             <div class="item" data-bind="click: show" style="cursor:pointer">
               <i class="icon calendar"></i>
               <div class="content">
-                Abgabe der <div class="ui label">Übung <span data-bind="text: number"></span></div> bis zum <span data-bind="text: formattedDueDate"></span>
+                Exercise <span data-bind="text: number"></span>
+                is due by <span data-bind="text: formattedDueDate"></span>
               </div>
             </div>
           <!-- /ko -->
@@ -24,25 +25,30 @@
         <!-- ko if: exercisesPrevious().length == 0 -->
           <div style="text-align:center;font-style:italic">Sie haben noch keine Abgaben.</div>
         <!-- /ko -->
-        <div class="ui big animated divided list">
+        <div class="ui big divided list">
           <!-- ko foreach: exercisesPrevious -->
             <!-- ko if: isCorrected -->
-              <div class="item" data-bind="click: show" style="cursor:pointer">
+              <div class="item">
                 <i class="green checkmark icon"></i>
                 <div class="content">
-                  <div class="ui label">Übung <span data-bind="text: number"></span></div> ist korrigiert.
-                  Sie haben <div class="ui label"><span data-bind="text: points"></span> Punkte </div> von <span data-bind="text: maxPoints"></span> m&ouml;glichen Punkten erreicht.
+                  Exercise <span data-bind="text: number"></span> is corrected &ndash;
+                  <span data-bind="text: points"></span> of <span data-bind="text: maxPoints"></span> points reached
+                  <br/>
+                  <button class="ui mini basic button" data-bind="click: downloadPdf">
+                    <i class="pdf file outline icon"></i>
+                    Download corrected exercise
+                  </button>
                 </div>
               </div>
-            <!-- /ko-->
+            <!-- /ko -->
             <!-- ko ifnot: isCorrected -->
               <div class="item" data-bind="click: show" style="cursor:pointer">
                 <i class="wait icon"></i>
                 <div class="content">
-                  <div class="ui label">Übung <span data-bind="text: number"></span></div> wird derzeit korrigiert&hellip;
+                  Exercise <span data-bind="text: number"></span> is being corrected&hellip;
                 </div>
               </div>
-            <!-- /ko-->
+            <!-- /ko -->
           <!-- /ko -->
         </div>
       </div>
@@ -59,34 +65,6 @@
         </div>
         <div class="ui tiny green progress" style="margin:0">
           <div class="bar" style="max-width:100%" data-bind="style: { width: pointsPercentageStyle }"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="sixteen wide column">
-      <h3 class="ui top attached header">Exercises</h3>
-      <div class="ui bottom attached segment">
-        <div class="ui big animated divided list">
-          <!-- ko foreach: exercises -->
-            <!-- ko ifnot: isOld -->
-            <div class="item" data-bind="click: show" style="cursor:pointer">
-              <i class="icon calendar"></i>
-              <div class="content">
-                Abgabe der <div class="ui label">Übung <span data-bind="text: number"></span></div> bis zum <span data-bind="text: formattedDueDate"></span>
-              </div>
-            </div>
-            <!-- /ko -->
-            <!-- ko if: isOld -->
-            <div class="item" data-bind="click: show" style="cursor:pointer">
-              <i class="icon checkmark green"></i>
-              <div class="content">
-                <div class="ui label">Übung <span data-bind="text: number"></span></div> ist korrigiert.
-                Sie haben <div class="ui label"><span data-bind="text: points"></span> Punkte </div> von <span data-bind="text: maxPoints"></span> m&ouml;glichen Punkten erreicht.
-              </div>
-            </div>
-            <!-- /ko -->
-          <!-- /ko -->
         </div>
       </div>
     </div>
