@@ -74,11 +74,10 @@ class ViewModel
     @timeLeft = ko.computed =>
       moment(@exercise().dueDate).from(serverTime(), true)
 
-    @isOld.subscribe (value) =>
-      # this is updated after this subscription, so it will also be called
-      # for exercises that are already due
-      if value #disable editor after due date
-        t.destroy() for t in @tests()
+    if not @isOld()
+      @isOld.subscribe (value) =>
+        if value #disable editor after due date
+          t.destroy() for t in @tasks()
 
     api.get.group()
     .then (group) =>
@@ -117,8 +116,9 @@ class ViewModel
     $(window).off '.editor'
 
   initTask: (task, element) =>
-    ko.utils.domNodeDisposal.addDisposeCallback element, task.destroy.bind(task)
-    task.editor mdeditor task, @group, @theExercise, @allTests, @selectedTaskIndex
+    if not @isOld()
+      ko.utils.domNodeDisposal.addDisposeCallback element, task.destroy.bind(task)
+      task.editor mdeditor task, @group, @theExercise, @allTests, @selectedTaskIndex
 
   togglePowerMode: =>
     @powerMode !@powerMode()

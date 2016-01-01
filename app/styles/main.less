@@ -113,7 +113,9 @@ body {
 }
 
 .editorpage {
-  margin-bottom: 50px !important;
+  &:not(.due) {
+    margin-bottom: 50px !important;
+  }
 
   & > .segments:first-child, & > .segment:first-child {
     border-top: 0 !important;
