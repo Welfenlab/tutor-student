@@ -102,20 +102,22 @@ class ViewModel
         event.preventDefault()
 
     window.addEventListener 'beforeunload.editor', (e) =>
-      for task in @tasks()
-        if task.editor().status().pending > 0 || task.editor().status().state isnt 'connected'
-          e.returnValue = 'Your solution might not be saved. Are you sure that you want to close the editor?'
+      if not @isOld()
+        for task in @tasks()
+          if task.editor().status().pending > 0 || task.editor().status().state isnt 'connected'
+            e.returnValue = 'Your solution might not be saved. Are you sure that you want to close the editor?'
 
   onBeforeHide: ->
-    for task in @tasks()
-      if task.editor().status().pending > 0 || task.editor().status().state isnt 'connected'
-        return confirm 'Your solution might not be saved. Are you sure that you want to close the editor?'
+    if not @isOld()
+      for task in @tasks()
+        if task.editor().status().pending > 0 || task.editor().status().state isnt 'connected'
+          return confirm 'Your solution might not be saved. Are you sure that you want to close the editor?'
 
   onHide: ->
     $(document).off '.editor'
     $(window).off '.editor'
 
-  initTask: (task, element) =>
+  initTask: (task, element) ->
     if not @isOld()
       ko.utils.domNodeDisposal.addDisposeCallback element, task.destroy.bind(task)
       task.editor mdeditor task, @group, @theExercise, @allTests, @selectedTaskIndex

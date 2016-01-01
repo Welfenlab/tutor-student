@@ -68,7 +68,7 @@
         </div>
         <!-- ko foreach: tasks -->
           <!-- ko ifnot: $parent.isOld -->
-          <div class="ui grid" data-bind="attr: {'id': 'task-' + $index()}, template: { afterRender: $parent.initTask.bind(null, $data, $element)}">
+          <div class="ui grid" data-bind="attr: {'id': 'task-' + $index()}, template: { afterRender: $parent.initTask.bind($parent, $data, $element)}">
             <div class="eight wide column exerciseEditor edit">
               <h3 class="task">
                 Task <span data-bind="text: number"></span>
@@ -86,7 +86,7 @@
           </div>
           <!-- /ko -->
           <!-- ko if: $parent.isOld -->
-          <div class="ui grid" data-bind="attr: {'id': 'task-' + $data.number()}, template: { afterRender: $parent.initTask.bind(null, $data, $element)}">
+          <div class="ui grid" data-bind="attr: {'id': 'task-' + $data.number()}, template: { afterRender: $parent.initTask.bind($parent, $data, $element)}">
             <div class="sixteen wide column preview">
               <tutor-task-preview params="{task: $data}"></tutor-task-preview>
             </div>
