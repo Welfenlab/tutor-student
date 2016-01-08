@@ -6,6 +6,7 @@ i18n = require 'i18next-ko'
 api = require './api'
 wavatar = require('./util/gravatar').wavatar
 GroupViewModel = require('./common/viewmodels').GroupViewModel
+pagejs = require 'page'
 
 ko.components.register 'page-not-found', template: "<h2>Page not found</h2>"
 
@@ -37,7 +38,7 @@ class ViewModel
       user = ko.mapping.fromJS me
       user.group = ko.observable new GroupViewModel(me.group)
       @user user
-      @goto location.hash
+      @goto pagejs.current
     .catch (e) => console.log(e) ; @goto 'login'
 
   registerPopup: ->
@@ -61,9 +62,9 @@ class ViewModel
       v = v.substr(1)
 
     if replace
-      require('page').replace "/#{v}", replace
+      pagejs.replace "/#{v}", replace
     else
-      require('page').show "/#{v}"
+      pagejs.show "/#{v}"
 
 i18n.init {
   en:

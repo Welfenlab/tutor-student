@@ -22,7 +22,7 @@ page '/exercise/:id', editor
 page '/groups', group
 
 $ ->
-  page(hashbang: true, click: false, popstate: false) #handlers don't work, we do it on our own below
+  page(hashbang: false, click: false, popstate: false) #handlers don't work, we do it on our own below
   $(document).on 'click', 'a', (e) ->
     if not /^https?:\/\//i.test($(this).attr('href'))
       e.preventDefault()
