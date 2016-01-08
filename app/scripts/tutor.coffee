@@ -24,12 +24,10 @@ page '/groups', group
 $ ->
   page(hashbang: true, click: false, popstate: false) #handlers don't work, we do it on our own below
   $(document).on 'click', 'a', (e) ->
-    el = e.target
-    if el.tagName == 'A'
-      if not /^https?:\/\//i.test(el.getAttribute('href'))
-        e.preventDefault()
-        e.stopImmediatePropagation()
-        app.goto el.getAttribute('href')
+    if not /^https?:\/\//i.test($(this).attr('href'))
+      e.preventDefault()
+      e.stopImmediatePropagation()
+      app.goto $(this).attr('href')
 
   $(window).on 'popstate', (e) ->
     if e.originalEvent.state
