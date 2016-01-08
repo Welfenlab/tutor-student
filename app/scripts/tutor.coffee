@@ -14,7 +14,12 @@ register = showPage.bind(null, require('./pages/register/register')(), yes)
 editor = showPage.bind(null, require('./pages/editor/editor')(), yes)
 group = showPage.bind(null, require('./pages/group/group')(), yes)
 
-page '/', '/overview'
+page '/', ->
+  if app.isLoggedIn()
+    app.goto (localStorage.getItem('post-login-redirect') || 'overview')
+    localStorage.removeItem('post-login-redirect')
+  else
+    app.goto '/login'
 page '/overview', overview
 page '/login', login
 page '/register', register

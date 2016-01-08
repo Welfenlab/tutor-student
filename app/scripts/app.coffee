@@ -39,7 +39,9 @@ class ViewModel
       user.group = ko.observable new GroupViewModel(me.group)
       @user user
       @goto pagejs.current
-    .catch (e) => console.log(e) ; @goto 'login'
+    .catch (e) =>
+      localStorage.setItem('post-login-redirect', pagejs.current)
+      @goto 'login'
 
   registerPopup: ->
     $('.button').popup(position: 'bottom right', hoverable: true, on: 'click')
@@ -58,6 +60,8 @@ class ViewModel
       if pageComponent and pageComponent.onBeforeHide
         if pageComponent.onBeforeHide() is false
           return
+
+    v or= ''
     if v.indexOf('/') == 0
       v = v.substr(1)
 
