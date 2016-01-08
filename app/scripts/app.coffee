@@ -30,15 +30,12 @@ class ViewModel
     @language = ko.observable 'en'
     @language.subscribe (v) -> i18n.setLanguage v
 
-    @load()
-
-  load: ->
     api.get.me()
     .then (me) =>
       user = ko.mapping.fromJS me
       user.group = ko.observable new GroupViewModel(me.group)
       @user user
-      @goto pagejs.current
+      @goto(localStorage.getItem('post-login-redirect') || pagejs.current)
     .catch (e) =>
       localStorage.setItem('post-login-redirect', pagejs.current)
       @goto 'login'

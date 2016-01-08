@@ -16,7 +16,7 @@ group = showPage.bind(null, require('./pages/group/group')(), yes)
 
 page '/', ->
   if app.isLoggedIn()
-    app.goto (localStorage.getItem('post-login-redirect') || 'overview')
+    app.goto(localStorage.getItem('post-login-redirect') || 'overview')
     localStorage.removeItem('post-login-redirect')
   else
     app.goto '/login'
@@ -29,7 +29,7 @@ page '/groups', group
 $ ->
   page(hashbang: false, click: false, popstate: false) #handlers don't work, we do it on our own below
   $(document).on 'click', 'a', (e) ->
-    if not /^https?:\/\//i.test($(this).attr('href'))
+    if $(this).attr('href') and not /^https?:\/\//i.test($(this).attr('href'))
       e.preventDefault()
       e.stopImmediatePropagation()
       app.goto $(this).attr('href')
