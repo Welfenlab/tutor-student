@@ -7,7 +7,8 @@ GroupViewModel = require('../../common/viewmodels').GroupViewModel
 
 class ViewModel
   constructor: ->
-    @currentGroup = ko.computed => app.user().group()
+    @currentGroup = ko.computed =>
+      app.user().group() || { users: [], pendingUsers: [] }
 
     @canLeaveGroup = ko.computed =>
       @currentGroup().users.length > 1 or @currentGroup().pendingUsers.length > 0

@@ -36,27 +36,23 @@ module.exports = (task, group, exercise, allTests, selectedIndex)  ->
 
     shareDocConnection = aceRethink editor, markdownEditor.Range, group.id, exercise.id, task.number(), {document:"DummyUebung201516", prefill: task.prefilled()}
 
+    shareDocConnection.on 'connect', =>
+      returnedObject.trigger 'connect'
+
+    shareDocConnection.on 'disconnect', =>
+      returnedObject.trigger 'disconnect'
+
     previousStatus = {}
     checkStatus = ->
       previousStatus = status
       status = shareDocConnection.status()
-      #TODO use the events of shareDocConnection
 
       if previousStatus
         if previousStatus.pending > 0 and status.pending == 0
           returnedObject.trigger 'save'
         else if previousStatus.pending == 0 and status.pending > 0
           returnedObject.trigger 'unsavedChanges'
-
-        if previousStatus.state == 'connected' and status.state != 'connected'
-          returnedObject.trigger 'disconnect'
-        else if previousStatus.state != 'connected' and status.state == 'connected'
-          returnedObject.trigger 'connect'
       else
-        if status.state == 'connected'
-          returnedObject.trigger 'connect'
-        else
-          returnedObject.trigger 'disconnect'
         if status.pending == 0
           returnedObject.trigger 'save'
         else
@@ -77,11 +73,14 @@ module.exports = (task, group, exercise, allTests, selectedIndex)  ->
         #console.log "connected"
 
     interval = setInterval checkStatus, 5000
+
+    returnedObject.status = shareDocConnection.status #this is a function
     returnedObject.destroy = ->
       returnedObject.off() #remove all event listeners
       clearInterval interval
       #console.log shareDocConnection#'disconnect websocket'
       shareDocConnection.disconnect()
+      shareDocConnection.off() #remove all event listeners
 
     returnedObject.ace = editor
 

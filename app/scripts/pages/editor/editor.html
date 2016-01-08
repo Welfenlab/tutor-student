@@ -1,4 +1,4 @@
-<div class="ui segments editorpage">
+<div class="ui segments editorpage" data-bind="template: { beforeRemove: onHide }, css: { due: isOld }">
   <div class="ui horizontal segments" data-bind="visible: !isOld()">
     <div class="ui segment">
         <i class="clock icon"></i>
@@ -42,7 +42,13 @@
       </div>
     </div>
   </div>
-  <div class="ui segment" data-bind="template: { afterRender: init }, css: { previewMode: previewMode, editMode: editMode }">
+  <div class="ui horizontal segments" data-bind="visible: isOld()">
+    <div class="ui segment">
+        <i class="info icon"></i>
+        This exercise was due <span data-bind="text: timeLeft"></span> ago. You can't edit your solution anymore.
+    </div>
+  </div>
+  <div class="ui segment" data-bind="template: { afterRender: init.bind($data) }, css: { previewMode: previewMode, editMode: editMode }">
     <div class="ui fluid">
       <!-- ko ifnot: exerciseNotFound -->
         <div class="ui grid">
@@ -55,12 +61,14 @@
           </div>
           <!-- /ko -->
           <!-- ko if: isOld -->
-            <div class="four wide column"></div>
+          <div class="sixteen wide column preview">
+            <div class="ui header"><span data-bind="text: title"></span></div>
+          </div>
           <!-- /ko -->
         </div>
         <!-- ko foreach: tasks -->
           <!-- ko ifnot: $parent.isOld -->
-          <div class="ui grid" data-bind="attr: {'id': 'task-' + $index()}, template: { afterRender: $parent.initTask.bind(null, $data, $element)}">
+          <div class="ui grid" data-bind="attr: {'id': 'task-' + $index()}, template: { afterRender: $parent.initTask.bind($parent, $data, $element)}">
             <div class="eight wide column exerciseEditor edit">
               <h3 class="task">
                 Task <span data-bind="text: number"></span>
@@ -78,7 +86,7 @@
           </div>
           <!-- /ko -->
           <!-- ko if: $parent.isOld -->
-          <div class="ui grid" data-bind="attr: {'id': 'task-' + $data.number()}, template: { afterRender: $parent.initTask.bind(null, $data, $element)}">
+          <div class="ui grid" data-bind="attr: {'id': 'task-' + $data.number()}, template: { afterRender: $parent.initTask.bind($parent, $data, $element)}">
             <div class="sixteen wide column preview">
               <tutor-task-preview params="{task: $data}"></tutor-task-preview>
             </div>
@@ -86,7 +94,7 @@
           <!-- /ko -->
         <!-- /ko -->
 
-        <div class="bar">
+        <div class="bar" data-bind="visible: !isOld()">
           <div class="column" id="showtests">
             <!-- ko if: tests().length > 0 && failedTests().length == 0 -->
                 <i class="green check circle icon"></i>

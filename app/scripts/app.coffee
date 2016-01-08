@@ -3,17 +3,20 @@ require 'knockout-mapping'
 _ = require 'lodash'
 #not_found = './pages/not_found'
 i18n = require 'i18next-ko'
-Router = require './router'
 api = require './api'
 wavatar = require('./util/gravatar').wavatar
 GroupViewModel = require('./common/viewmodels').GroupViewModel
+pagejs = require 'page'
 
 ko.components.register 'page-not-found', template: "<h2>Page not found</h2>"
 
 class ViewModel
   constructor: ->
-    @router = new Router()
-    @isActive = (path) => ko.computed => @router.path().indexOf(path) == 0
+    @page = ko.observable()
+    @pageParams = ko.observable({})
+    @pageRequiresLogin = ko.observable(true)
+    @path = ko.observable('')
+    @isActive = (path) => ko.computed => @path().indexOf(path) == 0
 
     @user = ko.observable({group: _.noop})
     @group = ko.computed => if @user().group then @user().group() else {}
@@ -35,18 +38,37 @@ class ViewModel
       user = ko.mapping.fromJS me
       user.group = ko.observable new GroupViewModel(me.group)
       @user user
-      @router.goto location.hash.substr(1) #go to the page the user wants to go to
-    .catch (e) => console.log(e) ; @router.goto 'login'
+      @goto pagejs.current
+    .catch (e) =>
+      localStorage.setItem('post-login-redirect', pagejs.current)
+      @goto 'login'
 
   registerPopup: ->
-    $('.button').popup(position: 'bottom right', hoverable: true)
+    $('.button').popup(position: 'bottom right', hoverable: true, on: 'click')
 
   logout: ->
     api.logout()
     .then =>
       @user {}
-      @router.goto 'login'
+      @goto 'login'
     .catch (e) -> console.log e
+
+  goto: (v, replace) ->
+    mainElement = document.getElementById('main')?.firstChild
+    if mainElement
+      pageComponent = ko.dataFor mainElement
+      if pageComponent and pageComponent.onBeforeHide
+        if pageComponent.onBeforeHide() is false
+          return
+
+    v or= ''
+    if v.indexOf('/') == 0
+      v = v.substr(1)
+
+    if replace
+      pagejs.replace "/#{v}", replace
+    else
+      pagejs.show "/#{v}"
 
 i18n.init {
   en:

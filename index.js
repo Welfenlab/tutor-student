@@ -1,4 +1,3 @@
-
 var config;
 if(process.argv.length == 2){
   config = require("cson").load("config.cson");
@@ -18,8 +17,14 @@ var startServer = function(data){
 
   // additional server modules for all environments
   config.modules = config.modules.concat([
-    require('@tutor/share-ace-rethinkdb')(data.db),
+    require('@tutor/share-ace-rethinkdb')(data.db)
   ]);
+
+  config.lastModule = function (app, config) {
+    app.get('*', function(req, res) {
+      res.sendFile('index.html', { root: config.app.path });
+    });
+  };
 
   // create the server
   var server = TutorServer(config);

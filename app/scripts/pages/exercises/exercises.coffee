@@ -1,5 +1,6 @@
 ko = require 'knockout'
 api = require '../../api'
+app = require '../../app'
 ExerciseList = require('@tutor/exercise-list')(ko)
 serverTime = require '../../util/servertime'
 
@@ -7,7 +8,12 @@ class ExerciseViewModel extends ExerciseList.ExerciseViewModel
   constructor: (data) ->
     super(data)
 
-  show: -> window.location.hash = '#exercise/' + @id
+    @isCorrected = data.lock? #TODO
+
+  show: -> app.goto 'exercise/' + @id
+
+  downloadPdf: ->
+    alert 'Not yet implemented.' #TODO
 
 class ViewModel extends ExerciseList.OverviewPageViewModel
   constructor: ->
@@ -20,7 +26,17 @@ class ViewModel extends ExerciseList.OverviewPageViewModel
     @exercisesPrevious = ko.computed =>
       @exercises().filter (ex) =>
         Date.parse(ex.dueDate()) < serverTime()
-      
+
+    @pointsPercentage = ko.computed =>
+      sum = @exercisesPrevious()
+      .map((e) -> e.points / e.maxPoints)
+      .reduce(((a, b) -> a + b), 0)
+      if sum == 0
+        return 0
+      else
+        return sum / @exercisesPrevious().length
+    @pointsPercentageStyle = ko.computed => "#{@pointsPercentage()}%"
+
   getExercises: (callback) ->
     api.get.exercises()
     .then(callback)

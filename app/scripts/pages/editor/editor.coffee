@@ -74,11 +74,10 @@ class ViewModel
     @timeLeft = ko.computed =>
       moment(@exercise().dueDate).from(serverTime(), true)
 
-    @isOld.subscribe (value) =>
-      # this is updated after this subscription, so it will also be called
-      # for exercises that are already due
-      if value #disable editor after due date
-        t.destroy() for t in @tests()
+    if not @isOld()
+      @isOld.subscribe (value) =>
+        if value #disable editor after due date
+          t.destroy() for t in @tasks()
 
     api.get.group()
     .then (group) =>
@@ -98,9 +97,30 @@ class ViewModel
   init: ->
     $('#showtests').popup(inline: true)
 
-  initTask: (task, element) =>
-    ko.utils.domNodeDisposal.addDisposeCallback element, task.destroy.bind(task)
-    task.editor mdeditor task, @group, @theExercise, @allTests, @selectedTaskIndex
+    $(document).on 'keydown.editor', (event) =>
+      if event.keyCode == 83 and event.ctrlKey #Ctrl+S
+        event.preventDefault()
+
+    window.addEventListener 'beforeunload.editor', (e) =>
+      if not @isOld()
+        for task in @tasks()
+          if task.editor().status().pending > 0 || task.editor().status().state isnt 'connected'
+            e.returnValue = 'Your solution might not be saved. Are you sure that you want to close the editor?'
+
+  onBeforeHide: ->
+    if not @isOld()
+      for task in @tasks()
+        if task.editor().status().pending > 0 || task.editor().status().state isnt 'connected'
+          return confirm 'Your solution might not be saved. Are you sure that you want to close the editor?'
+
+  onHide: ->
+    $(document).off '.editor'
+    $(window).off '.editor'
+
+  initTask: (task, element) ->
+    if not @isOld()
+      ko.utils.domNodeDisposal.addDisposeCallback element, task.destroy.bind(task)
+      task.editor mdeditor task, @group, @theExercise, @allTests, @selectedTaskIndex
 
   togglePowerMode: =>
     @powerMode !@powerMode()
