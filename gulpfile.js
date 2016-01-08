@@ -10,6 +10,7 @@ var watch = require('gulp-watch')
 var disc = require('disc')
 var fs = require('fs')
 var collapse = require('bundle-collapser/plugin')
+var removeCode = require('gulp-remove-code')
 
 var libs = [
   'knockout',
@@ -129,6 +130,12 @@ libsBuildBundler()
 */
 })
 
+gulp.task('stripHtml', function() {
+  gulp.src('./app/**/*.html')
+    .pipe(removeCode({production: process.env.NODE_ENV == 'production'}))
+    .pipe(gulp.dest('./build'))
+})
+
 gulp.task('bundle', ['build-libs', 'app'])
 
 gulp.task('styles', function () {
@@ -144,7 +151,7 @@ gulp.task('styles', function () {
 
 gulp.task('build', ['bundle', 'styles'])
 
-gulp.task('default', ['build'])
+gulp.task('default', ['build', 'stripHtml'])
 
 gulp.task('watch', ['bundle'], function () {
   gulp.watch('./app/**/*.coffee', ['bundle'])

@@ -6,6 +6,7 @@
     </h2>
     <div class="ui large form">
       <div class="ui piled segment">
+        <!--removeIf(production)-->
         <div class="field">
           <label></label>
           <div class="ui left icon input">
@@ -15,7 +16,7 @@
         </div>
         <div class="ui fluid large blue submit button" style="margin-bottom:15px"
              data-bind="css: { loading: isLoggingIn }, click: loginDev, i18n: 'login.submit'"></div>
-
+        <!--endRemoveIf(production)-->
         <form method="POST" data-bind="attr: { action: samlData().url}" id="samlform">
           <button class="ui fluid large blue button"
                data-bind="css: { loading: !samlReady() }, attr: { disabled: !samlReady() }, i18n: {html: 'login.idm'}, click:function(){document.querySelector('#samlform').submit()}">
