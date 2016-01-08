@@ -28,8 +28,11 @@ class ViewModel
       user.group = ko.observable new GroupViewModel(data.group)
       app.user user
       @isLoggingIn no
-      app.goto (localStorage.getItem('post-login-redirect') || 'overview')
-      localStorage.removeItem('post-login-redirect')
+      if app.user().pseudonym().indexOf('Nameless Nobody') == 0
+        app.goto 'register'
+      else
+        app.goto (localStorage.getItem('post-login-redirect') || '/')
+        localStorage.removeItem('post-login-redirect')
     .catch (e) =>
       console.log e
       @error 'Login failed'

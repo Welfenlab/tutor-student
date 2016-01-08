@@ -35,7 +35,11 @@ class ViewModel
       user = ko.mapping.fromJS me
       user.group = ko.observable new GroupViewModel(me.group)
       @user user
-      @goto(localStorage.getItem('post-login-redirect') || pagejs.current)
+      if @user().pseudonym().indexOf('Nameless Nobody') == 0
+        @goto 'register'
+      else
+        @goto(localStorage.getItem('post-login-redirect') || pagejs.current)
+        localStorage.removeItem('post-login-redirect')
     .catch (e) =>
       localStorage.setItem('post-login-redirect', pagejs.current)
       @goto 'login'
