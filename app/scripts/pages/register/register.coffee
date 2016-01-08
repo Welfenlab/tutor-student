@@ -7,6 +7,10 @@ class ViewModel
   constructor: ->
     @pseudonym = ko.observable app.user().pseudonym()
     @avatarUrl = ko.computed => wavatar @pseudonym()
+    @hasPseudonym = @pseudonym().indexOf('Nameless Nobody') != 0
+
+    if !@hasPseudonym
+      @generate()
 
   generate: ->
     api.get.pseudonym()
@@ -21,6 +25,7 @@ class ViewModel
       app.user().group().users app.user().group().users().map (u) =>
         if u == app.user().pseudonym() then @pseudonym() else u
       app.user().pseudonym @pseudonym()
+      app.goto 'overview'
     .catch (e) -> console.log e
     .catch -> alert 'The pseudonym could not be selected. Please try again.'
 
