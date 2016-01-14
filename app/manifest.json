@@ -1,0 +1,24 @@
+{
+  "short_name": "Tutor",
+  "name": "Welfanlab Tutor",
+  "icons": [
+    {
+      "src": "img/icon-72.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "img/icon-114.png",
+      "sizes": "114x114",
+      "type": "image/png"
+    },
+    {
+      "src": "img/icon-160.png",
+      "sizes": "160x160",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "any"
+}
