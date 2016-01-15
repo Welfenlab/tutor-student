@@ -2,17 +2,11 @@ app = require './app'
 ko = require 'knockout'
 page = require 'page'
 
-showPage = (component, loginRequired, ctx) ->
-  app.path ctx.path
-  app.pageParams ctx.params
-  app.pageRequiresLogin loginRequired
-  app.page component
-
-overview = showPage.bind(null, require('./pages/exercises/exercises')(), yes)
-login = showPage.bind(null, require('./pages/login/login')(), no)
-register = showPage.bind(null, require('./pages/register/register')(), yes)
-editor = showPage.bind(null, require('./pages/editor/editor')(), yes)
-group = showPage.bind(null, require('./pages/group/group')(), yes)
+overview = require('./pages/exercises/exercises')()
+login = require('./pages/login/login')()
+register = require('./pages/register/register')()
+editor = require('./pages/editor/editor')()
+group = require('./pages/group/group')()
 
 $ ->
   $(document).on 'click', 'a', (e) ->
@@ -28,12 +22,12 @@ $ ->
   $('.ui.dropdown').dropdown()
   $('.ui.accordion').accordion()
 
-  page '/overview', overview
-  page '/login', login
-  page '/register', register
-  page '/exercise/:id', editor
-  page '/groups', group
-  page '/', ->
+  app.register '/overview', component: overview
+  app.register '/login', component: login, loginRequired: no
+  app.register '/register', component: register
+  app.register '/exercise/:id', component: editor
+  app.register '/groups', component: group
+  app.register '/', ->
     if app.isLoggedIn()
       if app.user().pseudonym().indexOf('Nameless Nobody') == 0
         app.goto '/register'

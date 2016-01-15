@@ -32,6 +32,8 @@ class ViewModel extends TutorAppBase
     @availableLanguages = ['en']
 
   onload: ->
+    super()
+
     api.get.me()
     .then (me) =>
       user = ko.mapping.fromJS me
