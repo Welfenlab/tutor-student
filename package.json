@@ -14,7 +14,7 @@
     "Tim Ebbeke (https://github.com/5cript)"
   ],
   "dependencies": {
-    "@tutor/auth": "1.0.0",
+    "@tutor/auth": "1.0.1",
     "@tutor/pseudonyms": "1.2.1",
     "@tutor/rethinkdb-database": "^0.5.28",
     "@tutor/saml": "0.4.2",
