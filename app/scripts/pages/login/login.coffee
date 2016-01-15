@@ -6,6 +6,9 @@ GroupViewModel = require('../../common/viewmodels').GroupViewModel
 
 class ViewModel
   constructor: ->
+    if app.isLoggedIn()
+      app.goto '/'
+
     @pin = ko.observable 'ABC-DEF'
 
     @samlData = ko.observable({})

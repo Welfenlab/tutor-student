@@ -18,7 +18,7 @@ class ViewModel extends TutorAppBase
       translations:
         en: require '../i18n/en'
     })
-    @user = ko.observable({group: _.noop})
+    @user = ko.observable({})
     @group = ko.computed => if @user().group then @user().group() else {}
 
     @isLoggedIn = ko.computed => @user()? and @user().pseudonym?
@@ -41,10 +41,10 @@ class ViewModel extends TutorAppBase
       if @user().pseudonym().indexOf('Nameless Nobody') == 0
         @goto 'register'
       else
-        @goto(localStorage.getItem('post-login-redirect') || pagejs.current)
+        @goto(localStorage.getItem('post-login-redirect') || @path(), true)
         localStorage.removeItem('post-login-redirect')
     .catch (e) =>
-      localStorage.setItem('post-login-redirect', pagejs.current)
+      localStorage.setItem('post-login-redirect',  @path())
       @goto 'login'
 
   registerPopup: ->
@@ -53,8 +53,8 @@ class ViewModel extends TutorAppBase
   logout: ->
     api.logout()
     .then =>
-      @user {}
       @goto 'login'
+      @user {}
     .catch (e) -> console.log e
 
 module.exports = new ViewModel()
