@@ -16,6 +16,7 @@ module.exports = function(config){
   config.saml.idpLoginUrl = process.env.TUTOR_IDP_LOGIN_URL
   config.saml.idpCertificate = process.env.TUTOR_IDP_CERT
   config.redirect = process.env.TUTOR_SAML_REDIRECT
+  config.trustProxy = process.env.TUTOR_TRUST_PROXY
   
   console.log("database connection: " + config.database.host + ":" + config.database.port);
   return new Promise(function(resolve){
