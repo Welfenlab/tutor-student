@@ -27,14 +27,17 @@ class ViewModel extends ExerciseList.OverviewPageViewModel
       @exercises().filter (ex) =>
         Date.parse(ex.dueDate()) < serverTime()
 
+    @correctedExercises = ko.computed =>
+      @exercisesPrevious().filter (ex) => ex.isCorrected
+
     @pointsPercentage = ko.computed =>
       sum = @exercisesPrevious()
-      .map((e) -> e.points / e.maxPoints)
+      .map((e) -> (e.points / e.maxPoints) | 0)
       .reduce(((a, b) -> a + b), 0)
       if sum == 0
         return 0
       else
-        return sum / @exercisesPrevious().length
+        return sum / @correctedExercises().length
     @pointsPercentageStyle = ko.computed => "#{@pointsPercentage()}%"
 
   getExercises: (callback) ->
