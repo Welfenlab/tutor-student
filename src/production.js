@@ -9,7 +9,7 @@ module.exports = function(config){
   config.domainname = process.env.TUTOR_DOMAIN_NAME
   config.database.host = process.env.RETHINKDB_PORT_28015_TCP_ADDR;
   config.database.port = parseInt(process.env.RETHINKDB_PORT_28015_TCP_PORT);
-  config.session = config.session | {}
+  config.session = config.session || {}
   config.session.secret = process.env.TUTOR_SESSION_SECRET
   config.saml.privateKey = process.env.TUTOR_SAML_KEY;
   config.saml.certificate = process.env.TUTOR_SAML_CERT
@@ -17,6 +17,7 @@ module.exports = function(config){
   config.saml.idpCertificate = process.env.TUTOR_IDP_CERT
   config.redirect = process.env.TUTOR_SAML_REDIRECT
   config.trustProxy = process.env.TUTOR_TRUST_PROXY
+  config.restAPIPath = '/api'
   
   console.log("database connection: " + config.database.host + ":" + config.database.port);
   return new Promise(function(resolve){

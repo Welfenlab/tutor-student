@@ -6,6 +6,7 @@ module.exports = function(config){
   var configureServer = function(API, DB, userlogin, con){
     config.modules.push(require("@tutor/auth")(con, DB.Rethinkdb, userlogin));
     config.domainname = "tutor.gdv.uni-hannover.de"
+    config.restAPIPath = '/api'
     //config.modules.push(require("@tutor/saml"));
 
     config.modules.push(function(app, config){
