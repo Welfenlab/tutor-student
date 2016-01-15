@@ -55,7 +55,7 @@ module.exports = function(config){
           });
         }
         
-        config.modules.push(require("@tutor/auth")(DB.Connection, DB.Rethinkdb, userlogin));
+        config.modules.push(require("@tutor/auth")(DB.Connection, DB.Rethinkdb, userLogin));
       }
       config.modules.push(function(app, config){
         app.use(express.static('./build'));
