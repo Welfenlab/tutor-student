@@ -2,7 +2,6 @@ ko = require 'knockout'
 require 'knockout-mapping'
 _ = require 'lodash'
 #not_found = './pages/not_found'
-i18n = require 'i18next-ko'
 api = require './api'
 wavatar = require('./util/gravatar').wavatar
 GroupViewModel = require('./common/viewmodels').GroupViewModel

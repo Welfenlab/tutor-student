@@ -23,7 +23,6 @@ var libs = [
   'markdown-it-math',
   'async',
   'ascii2mathml',
-  'i18next-ko',
   'graphlib-dot',
   'lodash'
 ]
