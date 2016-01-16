@@ -1,6 +1,5 @@
 app = require './app'
 ko = require 'knockout'
-page = require 'page'
 
 overview = require('./pages/exercises/exercises')()
 login = require('./pages/login/login')()
@@ -36,8 +35,6 @@ $ ->
         localStorage.removeItem('post-login-redirect')
     else
       app.goto '/login'
-
-  page(hashbang: false, click: false, popstate: true) #handlers don't work, we do it on our own below
 
   app.onload()
 

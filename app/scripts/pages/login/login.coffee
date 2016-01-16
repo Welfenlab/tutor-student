@@ -34,7 +34,10 @@ class ViewModel
       if app.user().pseudonym().indexOf('Nameless Nobody') == 0
         app.goto 'register'
       else
-        app.goto (localStorage.getItem('post-login-redirect') || '/')
+        if localStorage.getItem('post-login-redirect') == '/login'
+            app.goto '/'
+        else
+          app.goto (localStorage.getItem('post-login-redirect') || '/')
         localStorage.removeItem('post-login-redirect')
     .catch (e) =>
       console.log e
