@@ -11,6 +11,7 @@ var disc = require('disc')
 var fs = require('fs')
 var collapse = require('bundle-collapser/plugin')
 var removeCode = require('gulp-remove-code')
+var envify = require('envify/custom')
 
 var libs = [
   'knockout',
@@ -51,7 +52,9 @@ function appBuildBundler () {
     })
   }
 
-  return bundler.plugin(collapse).bundle()
+  return bundler.transform(envify({
+    NODE_ENV: process.env.NODE_ENV
+  })).plugin(collapse).bundle()
 }
 
 function fullBuildBundler () {
