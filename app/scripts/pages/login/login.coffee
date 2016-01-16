@@ -18,6 +18,8 @@ class ViewModel
     api.get.logindata()
     .then (data) => @samlData data
 
+    @samlOnly = process.env.NODE_ENV == 'production'
+
   loginDev: ->
     @isLoggingIn yes
 
