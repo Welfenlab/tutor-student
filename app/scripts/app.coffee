@@ -28,8 +28,6 @@ class ViewModel extends TutorAppBase
 
     @isActiveObservable = (path) => ko.computed => @isActive(path)
 
-    @availableLanguages = ['en']
-
   onload: ->
     super()
 
