@@ -9,14 +9,14 @@ TutorAppBase = require '@tutor/app-base'
 
 ko.components.register 'page-not-found', template: "<h2>Page not found</h2>"
 
-class ViewModel extends TutorAppBase
+class ViewModel extends TutorAppBase($)
   constructor: ->
     super({
       mainElement: '#main'
       translations:
         en: require '../i18n/en'
     })
-    @user = ko.observable({})
+    @user = ko.observable({group: _.noop})
     @group = ko.computed => if @user().group then @user().group() else {}
 
     @isLoggedIn = ko.computed => @user()? and @user().pseudonym?
@@ -26,22 +26,22 @@ class ViewModel extends TutorAppBase
 
     @isActiveObservable = (path) => ko.computed => @isActive(path)
 
-  onload: ->
-    super()
+    @availableLanguages = ['en']
 
-    api.get.me()
-    .then (me) =>
-      user = ko.mapping.fromJS me
-      user.group = ko.observable new GroupViewModel(me.group)
-      @user user
-      if @user().pseudonym().indexOf('Nameless Nobody') == 0
-        @goto 'register'
-      else
-        @goto(localStorage.getItem('post-login-redirect') || @path(), true)
-        localStorage.removeItem('post-login-redirect')
-    .catch (e) =>
-      localStorage.setItem('post-login-redirect',  @path())
-      @goto 'login'
+    $ =>
+      api.get.me()
+      .then (me) =>
+        user = ko.mapping.fromJS me
+        user.group = ko.observable new GroupViewModel(me.group)
+        @user user
+        if @user().pseudonym().indexOf('Nameless Nobody') == 0
+          @goto 'register'
+        else
+          @goto(localStorage.getItem('post-login-redirect') || @path())
+          localStorage.removeItem('post-login-redirect')
+      .catch (e) =>
+        localStorage.setItem('post-login-redirect', @path())
+        @goto 'login'
 
   registerPopup: ->
     $('.button').popup(position: 'bottom right', hoverable: true, on: 'click')
@@ -49,8 +49,8 @@ class ViewModel extends TutorAppBase
   logout: ->
     api.logout()
     .then =>
-      @goto 'login'
       @user {}
+      @goto 'login'
     .catch (e) -> console.log e
 
 module.exports = new ViewModel()

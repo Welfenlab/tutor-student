@@ -8,16 +8,6 @@ editor = require('./pages/editor/editor')()
 group = require('./pages/group/group')()
 
 $ ->
-  $(document).on 'click', 'a', (e) ->
-    if $(this).attr('href') and not /^https?:\/\//i.test($(this).attr('href'))
-      e.preventDefault()
-      app.goto($(this).attr('href'))
-      return false
-
-  #$(window).on 'popstate', (e) ->
-    #if e.originalEvent.state
-    #  app.goto e.originalEvent.state.path, e.originalEvent.state
-
   $('.ui.dropdown').dropdown()
   $('.ui.accordion').accordion()
 
@@ -35,7 +25,5 @@ $ ->
         localStorage.removeItem('post-login-redirect')
     else
       app.goto '/login'
-
-  app.onload()
 
   ko.applyBindings app
