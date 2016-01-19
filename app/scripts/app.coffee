@@ -5,7 +5,7 @@ _ = require 'lodash'
 api = require './api'
 wavatar = require('./util/gravatar').wavatar
 GroupViewModel = require('./common/viewmodels').GroupViewModel
-TutorAppBase = require '@tutor/app-base'
+{TutorAppBase} = require '@tutor/app-base'
 
 ko.components.register 'page-not-found', template: "<h2>Page not found</h2>"
 
