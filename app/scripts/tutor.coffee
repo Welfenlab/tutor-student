@@ -11,12 +11,12 @@ $ ->
   $('.ui.dropdown').dropdown()
   $('.ui.accordion').accordion()
 
-  app.register '/overview', component: overview
-  app.register '/login', component: login, loginRequired: no
-  app.register '/register', component: register
-  app.register '/exercise/:id', component: editor
-  app.register '/groups', component: group
-  app.register '/', ->
+  app.route '/overview', component: overview
+  app.route '/login', component: login, loginRequired: no
+  app.route '/register', component: register
+  app.route '/exercise/:id', component: editor
+  app.route '/groups', component: group
+  app.route '/', ->
     if app.isLoggedIn()
       if app.user().pseudonym().indexOf('Nameless Nobody') == 0
         app.goto '/register'
