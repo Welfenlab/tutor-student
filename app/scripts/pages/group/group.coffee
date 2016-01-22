@@ -8,7 +8,7 @@ GroupViewModel = require('../../common/viewmodels').GroupViewModel
 class ViewModel
   constructor: ->
     @currentGroup = ko.computed =>
-      app.user().group() || { users: [], pendingUsers: [] }
+      app.user().group?() || { users: [], pendingUsers: [] }
 
     @canLeaveGroup = ko.computed =>
       @currentGroup().users.length > 1 or @currentGroup().pendingUsers.length > 0
@@ -71,7 +71,7 @@ class ViewModel
     .then => @invitations.remove group
 
   isMe: (user) ->
-    app.user() && app.user().pseudonym && user.pseudonym() is app.user().pseudonym()
+    app.isLoggedIn() && user.pseudonym() is app.user().pseudonym()
 
 fs = require 'fs'
 module.exports = ->

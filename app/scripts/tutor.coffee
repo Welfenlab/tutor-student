@@ -1,47 +1,29 @@
 app = require './app'
 ko = require 'knockout'
-page = require 'page'
 
-showPage = (component, loginRequired, ctx) ->
-  app.path ctx.path
-  app.pageParams ctx.params
-  app.pageRequiresLogin loginRequired
-  app.page component
-
-overview = showPage.bind(null, require('./pages/exercises/exercises')(), yes)
-login = showPage.bind(null, require('./pages/login/login')(), no)
-register = showPage.bind(null, require('./pages/register/register')(), yes)
-editor = showPage.bind(null, require('./pages/editor/editor')(), yes)
-group = showPage.bind(null, require('./pages/group/group')(), yes)
-
-page '/', ->
-  if app.isLoggedIn()
-    if app.user().pseudonym().indexOf('Nameless Nobody') == 0
-      app.goto '/register'
-    else
-      app.goto(localStorage.getItem('post-login-redirect') || 'overview')
-      localStorage.removeItem('post-login-redirect')
-  else
-    app.goto '/login'
-page '/overview', overview
-page '/login', login
-page '/register', register
-page '/exercise/:id', editor
-page '/groups', group
+overview = require('./pages/exercises/exercises')()
+login = require('./pages/login/login')()
+register = require('./pages/register/register')()
+editor = require('./pages/editor/editor')()
+group = require('./pages/group/group')()
 
 $ ->
-  page(hashbang: false, click: false, popstate: false) #handlers don't work, we do it on our own below
-  $(document).on 'click', 'a', (e) ->
-    if $(this).attr('href') and not /^https?:\/\//i.test($(this).attr('href'))
-      e.preventDefault()
-      e.stopImmediatePropagation()
-      app.goto $(this).attr('href')
-
-  $(window).on 'popstate', (e) ->
-    if e.originalEvent.state
-      app.goto e.originalEvent.state.path, e.originalEvent.state
-
-$(document).ready ->
   $('.ui.dropdown').dropdown()
   $('.ui.accordion').accordion()
+
+  app.route '/overview', component: overview
+  app.route '/login', component: login, loginRequired: no
+  app.route '/register', component: register
+  app.route '/exercise/:id', component: editor
+  app.route '/groups', component: group
+  app.route '/', ->
+    if app.isLoggedIn()
+      if app.user().pseudonym().indexOf('Nameless Nobody') == 0
+        app.goto '/register'
+      else
+        app.goto(localStorage.getItem('post-login-redirect') || 'overview', true)
+        localStorage.removeItem('post-login-redirect')
+    else
+      app.goto '/login'
+
   ko.applyBindings app

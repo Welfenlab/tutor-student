@@ -2,22 +2,20 @@ ko = require 'knockout'
 require 'knockout-mapping'
 _ = require 'lodash'
 #not_found = './pages/not_found'
-i18n = require 'i18next-ko'
 api = require './api'
 wavatar = require('./util/gravatar').wavatar
 GroupViewModel = require('./common/viewmodels').GroupViewModel
-pagejs = require 'page'
+{TutorAppBase} = require '@tutor/app-base'
 
 ko.components.register 'page-not-found', template: "<h2>Page not found</h2>"
 
-class ViewModel
+class ViewModel extends TutorAppBase($)
   constructor: ->
-    @page = ko.observable()
-    @pageParams = ko.observable({})
-    @pageRequiresLogin = ko.observable(true)
-    @path = ko.observable('')
-    @isActive = (path) => ko.computed => @path().indexOf(path) == 0
-
+    super({
+      mainElement: '#main'
+      translations:
+        en: require '../i18n/en'
+    })
     @user = ko.observable({group: _.noop})
     @group = ko.computed => if @user().group then @user().group() else {}
 
@@ -26,23 +24,24 @@ class ViewModel
       if @isLoggedIn()
         wavatar @user().pseudonym()
 
-    @availableLanguages = ['en']
-    @language = ko.observable 'en'
-    @language.subscribe (v) -> i18n.setLanguage v
+    @isActiveObservable = (path) => ko.computed => @isActive(path)
 
-    api.get.me()
-    .then (me) =>
-      user = ko.mapping.fromJS me
-      user.group = ko.observable new GroupViewModel(me.group)
-      @user user
-      if @user().pseudonym().indexOf('Nameless Nobody') == 0
-        @goto 'register'
-      else
-        @goto(localStorage.getItem('post-login-redirect') || pagejs.current)
-        localStorage.removeItem('post-login-redirect')
-    .catch (e) =>
-      localStorage.setItem('post-login-redirect', pagejs.current)
-      @goto 'login'
+    @availableLanguages = ['en']
+
+    $ =>
+      api.get.me()
+      .then (me) =>
+        user = ko.mapping.fromJS me
+        user.group = ko.observable new GroupViewModel(me.group)
+        @user user
+        if @user().pseudonym().indexOf('Nameless Nobody') == 0
+          @goto 'register'
+        else
+          @goto(localStorage.getItem('post-login-redirect') || @path())
+          localStorage.removeItem('post-login-redirect')
+      .catch (e) =>
+        localStorage.setItem('post-login-redirect', @path())
+        @goto 'login'
 
   registerPopup: ->
     $('.button').popup(position: 'bottom right', hoverable: true, on: 'click')
@@ -53,27 +52,5 @@ class ViewModel
       @user {}
       @goto 'login'
     .catch (e) -> console.log e
-
-  goto: (v, replace) ->
-    mainElement = document.getElementById('main')?.firstChild
-    if mainElement
-      pageComponent = ko.dataFor mainElement
-      if pageComponent and pageComponent.onBeforeHide
-        if pageComponent.onBeforeHide() is false
-          return
-
-    v or= ''
-    if v.indexOf('/') == 0
-      v = v.substr(1)
-
-    if replace
-      pagejs.replace "/#{v}", replace
-    else
-      pagejs.show "/#{v}"
-
-i18n.init {
-  en:
-    translation: require '../i18n/en'
-  }, 'en', ko
 
 module.exports = new ViewModel()

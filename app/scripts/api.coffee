@@ -1,21 +1,6 @@
-Q = require 'q'
+{get, put, post, del} = require('@tutor/app-base').api
 
-host = window.location.host;
-proto = window.location.protocol;
-address = proto + '//'+host+'/api'
-
-ajax = (method, url, data, relative = true) ->
-  Q $.ajax
-    url: if relative then address + url else url
-    data: data
-    method: method
-
-get = ajax.bind undefined, 'GET'
-put = ajax.bind undefined, 'PUT'
-post = ajax.bind undefined, 'POST'
-del = ajax.bind undefined, 'DELETE'
-
-api =
+module.exports =
   get:
     exercises: -> get('/exercises')
     exercise: (id) -> get("/exercises/#{id}")
@@ -40,5 +25,3 @@ api =
   logout: -> post '/logout'
   create:
     group: (members) -> post '/group', members
-
-module.exports = api
