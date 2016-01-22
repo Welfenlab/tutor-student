@@ -21,13 +21,14 @@
     "@tutor/server": "^0.3.7",
     "@tutor/share-ace-rethinkdb": "^0.7.3",
     "blueimp-md5": "^1.1.1",
+    "bunyan": "^1.5.1",
+    "code-blast-ace": "^1.1.1",
     "cson": "^3.0.1",
     "event-emitter": "lemaik/event-emitter#v1.0.1",
     "express": "^4.13.3",
     "express-ws": "^0.2.6",
     "lodash": "^3.10.1",
-    "moment": "^2.10.6",
-    "bunyan": "^1.5.1"
+    "moment": "^2.10.6"
   },
   "devDependencies": {
     "@tutor/exercise-editor": "^0.1.3",
