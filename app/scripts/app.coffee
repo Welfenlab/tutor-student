@@ -9,7 +9,7 @@ GroupViewModel = require('./common/viewmodels').GroupViewModel
 
 ko.components.register 'page-not-found', template: "<h2>Page not found</h2>"
 
-class ViewModel extends TutorAppBase($)
+class ViewModel extends TutorAppBase($, ko)
   constructor: ->
     super({
       mainElement: '#main'
@@ -26,8 +26,6 @@ class ViewModel extends TutorAppBase($)
 
     @isActiveObservable = (path) => ko.computed => @isActive(path)
 
-    @availableLanguages = ['en']
-
     $ =>
       api.get.me()
       .then (me) =>
@@ -37,7 +35,7 @@ class ViewModel extends TutorAppBase($)
         if @user().pseudonym().indexOf('Nameless Nobody') == 0
           @goto 'register'
         else
-          @goto(localStorage.getItem('post-login-redirect') || @path())
+          @goto(localStorage.getItem('post-login-redirect') || @path(), true)
           localStorage.removeItem('post-login-redirect')
       .catch (e) =>
         localStorage.setItem('post-login-redirect', @path())
