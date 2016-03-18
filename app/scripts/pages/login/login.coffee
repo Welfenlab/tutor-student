@@ -6,9 +6,6 @@ GroupViewModel = require('../../common/viewmodels').GroupViewModel
 
 class ViewModel
   constructor: ->
-    if app.isLoggedIn()
-      app.goto '/'
-
     @pin = ko.observable 'ABC-DEF'
 
     @samlData = ko.observable({})
@@ -36,7 +33,7 @@ class ViewModel
       if app.user().pseudonym().indexOf('Nameless Nobody') == 0
         app.goto 'register'
       else
-        if localStorage.getItem('post-login-redirect') == '/login'
+        if localStorage.getItem('post-login-redirect') == 'login'
             app.goto '/'
         else
           app.goto (localStorage.getItem('post-login-redirect') || '/')
