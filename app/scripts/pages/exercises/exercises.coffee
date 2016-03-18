@@ -12,7 +12,10 @@ class ExerciseViewModel extends ExerciseList.ExerciseViewModel
   show: -> app.goto 'exercise/' + @id
 
   downloadPdf: ->
-    alert 'Not yet implemented.' #TODO
+    if @isCorrected
+      window.open("#{api.address}/correction/pdf/#{@id}", '_blank')
+    else
+      window.open("#{api.address}/solution/pdf/#{@id}", '_blank')
 
 class ViewModel extends ExerciseList.OverviewPageViewModel
   constructor: ->
