@@ -1,4 +1,5 @@
 ko = require 'knockout'
+moment = require 'moment'
 api = require '../../api'
 app = require '../../app'
 ExerciseList = require('@tutor/exercise-list')(ko)
@@ -8,6 +9,7 @@ class ExerciseViewModel extends ExerciseList.ExerciseViewModel
   constructor: (data) ->
     super(data)
     @isCorrected = data.corrected
+    @formattedDueDateText = moment(data.dueDate).from(Date.now())
 
   show: -> app.goto 'exercise/' + @id
 
@@ -16,7 +18,7 @@ class ExerciseViewModel extends ExerciseList.ExerciseViewModel
       event.stopPropagation()
 
     if @isCorrected
-      window.open("#{api.adress}/correction/pdf/#{@id}", '_blank')
+      window.open("#{api.address}/correction/pdf/#{@id}", '_blank')
     else
       window.open("#{api.address}/solution/pdf/#{@id}", '_blank')
 

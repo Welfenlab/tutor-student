@@ -1,6 +1,6 @@
 {get, put, post, del, address} = require('@tutor/app-base').api
 Q = require('q')
-console.log require('@tutor/app-base').api
+
 module.exports =
   get:
     exercises: -> get('/exercises')
