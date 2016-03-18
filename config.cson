@@ -13,3 +13,8 @@ session:
   secret: "DUMMY_SECRET"
   login_redirect: "/"
   restrict: "/api"
+
+# configuration variables visible to everyone
+public:
+  # percentage of points required to get the bonus
+  bonusPercentage: 60

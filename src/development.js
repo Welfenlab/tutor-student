@@ -18,6 +18,10 @@ module.exports = function(config){
         next();
       });
       app.use(require('morgan')('dev'));
+
+      app.get('/api/config', function(req,res) {
+        res.json(config.public).end();
+      });
     });
     return Promise.resolve()
   };

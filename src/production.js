@@ -5,7 +5,7 @@ var express = require("express");
 module.exports = function(config){
   console.log("production environment");
   console.log("... waiting 10s for RethinkDB");
-  
+
   config.domainname = process.env.TUTOR_DOMAIN_NAME
   config.database.host = process.env.RETHINKDB_PORT_28015_TCP_ADDR;
   config.database.port = parseInt(process.env.RETHINKDB_PORT_28015_TCP_PORT);
@@ -18,7 +18,7 @@ module.exports = function(config){
   config.redirect = process.env.TUTOR_SAML_REDIRECT
   config.trustProxy = process.env.TUTOR_TRUST_PROXY
   config.restAPIPath = '/api'
-  
+
   console.log("database connection: " + config.database.host + ":" + config.database.port);
   return new Promise(function(resolve){
     setTimeout(function(){
@@ -33,7 +33,7 @@ module.exports = function(config){
     return rethinkDB.then(function(DB){
       restAPI = require("./rest")(DB);
       if(!process.env.UNSAFE_LOGIN){
-        config.modules.push(require("@tutor/saml")(DB.Connection, DB.Rethinkdb, 
+        config.modules.push(require("@tutor/saml")(DB.Connection, DB.Rethinkdb,
             DB.Users.create, DB.Users.exists,
             function(){return Promise.resolve()} ));
       } else {
@@ -56,10 +56,14 @@ module.exports = function(config){
             }
           });
         }
-        
+
         config.modules.push(require("@tutor/auth")(DB.Connection, DB.Rethinkdb, userLogin));
       }
-      config.modules.push(function(app, config){
+      config.modules.push(function(app, config) {
+        app.get('/api/config', function(req,res) {
+          res.json(config.public).end();
+        });
+        
         app.use(express.static('./build'));
       });
       return {api: restAPI, db: DB};
