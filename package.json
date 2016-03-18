@@ -16,7 +16,7 @@
   "dependencies": {
     "@tutor/auth": "1.0.1",
     "@tutor/pseudonyms": "1.2.1",
-    "@tutor/rethinkdb-database": "^0.5.28",
+    "@tutor/rethinkdb-database": "^0.5.36",
     "@tutor/saml": "0.4.4",
     "@tutor/server": "^0.3.7",
     "@tutor/share-ace-rethinkdb": "^0.7.3",

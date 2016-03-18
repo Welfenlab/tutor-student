@@ -1,5 +1,6 @@
 // for apiMethod see tutor-server rest folder (exercises.coffee, ...)
 var pseudonym = require('@tutor/pseudonyms')
+var path = require('path')
 
 module.exports = function(DB) {
   return [
@@ -22,6 +23,34 @@ module.exports = function(DB) {
     },
     { path: '/api/pseudonyms', dataCall: DB.Users.getPseudonymList, apiMethod: "get" },
 
+    { path: '/api/correction/pdf/:solution', dataCall: function(solution_id, res){
+        return DB.Exercises.getCorrectedPDFForID(solution_id).then(function(pdf){
+          res.setHeader('Content-disposition', 'attachment; filename=' + solution_id + '.pdf');
+          res.setHeader('Content-type', 'application/pdf');
+          if(pdf && pdf != ""){
+            res.send(pdf);
+          } else {
+            res.status(404).send('Corrected PDF not found.')
+          }
+        }).catch(function() {
+          res.status(404).send('Corrected PDF not found.')
+        });
+      }, apiMethod: "getResByParam", param:"solution" },
+    
+    { path: '/api/solution/pdf/:solution', dataCall: function(solution_id, res){
+      return DB.Corrections.getPDFForID(solution_id).then(function(pdf){
+        res.setHeader('Content-disposition', 'attachment; filename=' + solution_id + '.pdf');
+        res.setHeader('Content-type', 'application/pdf');
+        if(pdf && pdf != ""){
+          res.send(pdf);
+        } else {
+          res.status(404).send('PDF not found.')
+        }
+      }).catch(function() {
+        res.status(404).send('Corrected PDF not found.')
+      });
+    }, apiMethod: "getResByParam", param:"solution" },
+    
     { path: '/api/group', dataCall: DB.Groups.getGroupForUser, apiMethod: "getBySessionUID" },
     { path: '/api/group', dataCall: DB.Groups.create, apiMethod: "postBySessionUIDAndParam", param: "users" },
     { path: '/api/group/join', dataCall: DB.Groups.joinGroup, apiMethod: "postBySessionUIDAndParam", param: "group" , errStatus: 401 },
