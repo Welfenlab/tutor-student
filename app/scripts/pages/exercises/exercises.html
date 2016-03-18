@@ -27,7 +27,7 @@
         <!-- /ko -->
         <div class="ui big divided list">
           <!-- ko foreach: exercisesPrevious -->
-            <!-- ko if: corrected -->
+            <!-- ko if: isCorrected -->
               <div class="item">
                 <i class="green checkmark icon"></i>
                 <div class="content">
@@ -41,7 +41,7 @@
                 </div>
               </div>
             <!-- /ko -->
-            <!-- ko ifnot: corrected -->
+            <!-- ko ifnot: isCorrected -->
               <div class="item" data-bind="click: show" style="cursor:pointer">
                 <i class="wait icon"></i>
                 <div class="content">

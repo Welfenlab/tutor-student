@@ -7,8 +7,7 @@ serverTime = require '../../util/servertime'
 class ExerciseViewModel extends ExerciseList.ExerciseViewModel
   constructor: (data) ->
     super(data)
-
-    @isCorrected = data.lock? #TODO
+    @isCorrected = data.corrected
 
   show: -> app.goto 'exercise/' + @id
 
@@ -44,7 +43,7 @@ class ViewModel extends ExerciseList.OverviewPageViewModel
   getExercises: (callback) ->
     api.get.exercises()
     .then(callback)
-    .catch =>
+    .catch (e) =>
       alert 'Loading the exercises failed.'
 
   createExerciseViewModel: (e) -> new ExerciseViewModel(e)
