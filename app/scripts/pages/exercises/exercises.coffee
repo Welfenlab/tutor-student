@@ -11,9 +11,12 @@ class ExerciseViewModel extends ExerciseList.ExerciseViewModel
 
   show: -> app.goto 'exercise/' + @id
 
-  downloadPdf: ->
+  downloadPdf: (data, event) ->
+    if event
+      event.stopPropagation()
+
     if @isCorrected
-      window.open("#{api.address}/correction/pdf/#{@id}", '_blank')
+      window.open("#{api.adress}/correction/pdf/#{@id}", '_blank')
     else
       window.open("#{api.address}/solution/pdf/#{@id}", '_blank')
 

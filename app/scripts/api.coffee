@@ -1,6 +1,6 @@
-{get, put, post, del} = require('@tutor/app-base').api
+{get, put, post, del, address} = require('@tutor/app-base').api
 Q = require('q')
-
+console.log require('@tutor/app-base').api
 module.exports =
   get:
     exercises: -> get('/exercises')
@@ -27,3 +27,4 @@ module.exports =
   logout: -> post '/logout'
   create:
     group: (members) -> post '/group', members
+  address: address
