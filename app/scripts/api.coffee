@@ -1,4 +1,5 @@
 {get, put, post, del} = require('@tutor/app-base').api
+Q = require('q')
 
 module.exports =
   get:
@@ -11,6 +12,7 @@ module.exports =
     time: -> get('/time')
     logindata: -> get('/login_data')
     invitations: -> get('/group/pending')
+    config: -> get('/config')
   put:
     exercise: (id, content) -> put "/exercises/#{id}", content
     pseudonym: (pseudonym) -> put "/user/pseudonym", pseudonym: pseudonym

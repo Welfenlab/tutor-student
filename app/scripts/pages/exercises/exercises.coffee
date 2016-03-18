@@ -39,6 +39,7 @@ class ViewModel extends ExerciseList.OverviewPageViewModel
       else
         return sum / @correctedExercises().length
     @pointsPercentageStyle = ko.computed => "#{@pointsPercentage()}%"
+    @bonusPercentage = ko.computed => (app.config().bonusPercentage || 0)
 
   getExercises: (callback) ->
     api.get.exercises()

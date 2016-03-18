@@ -55,16 +55,26 @@
     </div>
     <div class="five wide column">
       <div class="ui segment center aligned">
-        <div class="ui green statistic">
-          <div class="value">
-            <span data-bind="text: pointsPercentage().toFixed(1)"></span>&thinsp;%
+        <div class="ui basic segment">
+          <div class="ui green statistic">
+            <div class="value">
+              <span data-bind="text: pointsPercentage().toFixed(1)"></span>&thinsp;%
+            </div>
+            <div class="label">
+              of possible points reached
+            </div>
           </div>
-          <div class="label">
-            of possible points reached
+          <div class="ui tiny green progress" style="margin:0">
+            <div class="bar" style="max-width:100%" data-bind="style: { width: pointsPercentageStyle }"></div>
           </div>
         </div>
-        <div class="ui tiny green progress" style="margin:0">
-          <div class="bar" style="max-width:100%" data-bind="style: { width: pointsPercentageStyle }"></div>
+        <div class="ui bottom attached label" data-bind="css: { green: pointsPercentage() >= bonusPercentage() }">
+          <!-- ko if: pointsPercentage() >= bonusPercentage() -->
+          <i class="ui checkmark icon"></i> Well done! You'll get the bonus if you continue like this.
+          <!-- /ko -->
+          <!-- ko if: pointsPercentage() < bonusPercentage() -->
+          <i class="ui info icon"></i> If you reach <span data-bind="text: bonusPercentage"></span> points, you'll get a bonus in the exam.
+          <!-- /ko -->
         </div>
       </div>
     </div>

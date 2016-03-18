@@ -16,6 +16,8 @@ class ViewModel extends TutorAppBase($, ko)
       translations:
         en: require '../i18n/en'
     })
+    @config = ko.observable({})
+    api.get.config().then (config) => @config config
     @user = ko.observable({group: _.noop})
     @group = ko.computed => if @user().group then @user().group() else {}
 
