@@ -23,37 +23,43 @@
     </div>
     <div class="ui segment" style="padding: 4.5px;border:0;">
       <div style="float: right">
-        <button data-bind="click: toggleAutoPreviewMarkdown, css: { active: autoPreviewMarkdown }"
-        class="ui basic circular icon button" title="Toggle automatic preview">
-          <!-- ko if: autoPreviewMarkdown -->
-            <i class="unhide icon"></i>
-          <!-- /ko -->
-          <!-- ko ifnot: autoPreviewMarkdown -->
-            <i class="hide icon"></i>
-          <!-- /ko -->
-        </button>
-        <button data-bind="click: forceUpdateMarkdownPreview, css: { disabled: autoPreviewMarkdown }"
-        class="ui basic circular icon button" title="Update preview">
-          <i class="refresh icon"></i>
-        </button>
+        <div class="ui basic icon buttons">
+          <button data-bind="click: toggleAutoPreviewMarkdown, css: { active: autoPreviewMarkdown }"
+          class="ui icon button" title="Toggle automatic preview">
+            <!-- ko if: autoPreviewMarkdown -->
+              <i class="unhide icon"></i>
+            <!-- /ko -->
+            <!-- ko ifnot: autoPreviewMarkdown -->
+              <i class="hide icon"></i>
+            <!-- /ko -->
+          </button>
+          <button data-bind="click: forceUpdateMarkdownPreview, css: { disabled: autoPreviewMarkdown }"
+          class="ui icon button" title="Update preview">
+            <i class="refresh icon"></i>
+          </button>
+        </div>
 
-        <button data-bind="click: mode.bind(null, 'both'), css: { active: mode() == 'both' }"
-        class="ui basic circular icon button" title="Side by side mode">
-          <i class="columns icon"></i>
-        </button>
-        <button data-bind="click: mode.bind(null, 'edit'), css: { active: editMode }"
-        class="ui basic circular icon button" title="Edit mode">
-          <i class="edit icon"></i>
-        </button>
-        <button data-bind="click: mode.bind(null, 'preview'), css: { active: previewMode }"
-        class="ui basic circular icon button" title="Preview mode">
-          <i class="eye icon"></i>
-        </button>
+        <div class="ui basic icon buttons">
+          <button data-bind="click: mode.bind(null, 'both'), css: { active: mode() == 'both' }"
+          class="ui icon button" title="Side by side mode">
+            <i class="columns icon"></i>
+          </button>
+          <button data-bind="click: mode.bind(null, 'edit'), css: { active: editMode }"
+          class="ui icon button" title="Edit mode">
+            <i class="edit icon"></i>
+          </button>
+          <button data-bind="click: mode.bind(null, 'preview'), css: { active: previewMode }"
+          class="ui icon button" title="Preview mode">
+            <i class="text file outline icon"></i>
+          </button>
+        </div>
 
-        <button data-bind="click: togglePowerMode, css: { active: powerMode }"
-        class="ui basic orange circular icon button" title="Toggle power mode">
-          <i class="rocket icon"></i>
-        </button>
+        <div class="ui basic icon buttons">
+          <button data-bind="click: togglePowerMode, css: { active: powerMode }"
+          class="ui icon button" title="Toggle power mode">
+            <i class="rocket icon" data-bind="css: { orange: powerMode }"></i>
+          </button>
+        </div>
       </div>
     </div>
   </div>
