@@ -2,14 +2,21 @@ ko = require 'knockout'
 moment = require 'moment'
 api = require '../../api'
 app = require '../../app'
-ExerciseList = require('@tutor/exercise-list')(ko)
 serverTime = require '../../util/servertime'
 
-class ExerciseViewModel extends ExerciseList.ExerciseViewModel
+class ExerciseViewModel
   constructor: (data) ->
-    super(data)
+    @id = data.id
+    @number = data.number
+    @dueDate = ko.observable new Date(Date.parse(data.dueDate))
+    @formattedDueDate = ko.computed => @dueDate().toLocaleDateString()
+    @formattedDueDateText = ko.computed => moment(data.dueDate).from(serverTime())
+
+    @points = 2
+    @maxPoints = data.tasks.reduce ((sum, task) -> sum + parseInt(task.maxPoints)), 0
+
+    @isOld = ko.computed => @dueDate().getTime() < serverTime()
     @isCorrected = data.corrected
-    @formattedDueDateText = moment(data.dueDate).from(Date.now())
 
   show: -> app.goto 'exercise/' + @id
 
@@ -22,9 +29,21 @@ class ExerciseViewModel extends ExerciseList.ExerciseViewModel
     else
       window.open("#{api.address}/solution/pdf/#{@id}", '_blank')
 
-class ViewModel extends ExerciseList.OverviewPageViewModel
+class ViewModel
   constructor: ->
-    super()
+    @exercises = ko.observableArray()
+
+    exerciseSorter = (a, b) ->
+      if a.isOld()
+        return if b.isOld() then 0 else 1
+      else
+        return if b.isOld() then 1 else 0
+
+    api.get.exercises()
+    .then (exercises) =>
+      @exercises exercises.map((e) -> new ExerciseViewModel(e)).sort(exerciseSorter)
+    .catch (e) =>
+      alert 'Loading the exercises failed.'
 
     @exercisesActive = ko.computed =>
       @exercises().filter (ex) =>
@@ -47,14 +66,6 @@ class ViewModel extends ExerciseList.OverviewPageViewModel
         return sum / @correctedExercises().length
     @pointsPercentageStyle = ko.computed => "#{@pointsPercentage()}%"
     @bonusPercentage = ko.computed => (app.config().bonusPercentage || 0)
-
-  getExercises: (callback) ->
-    api.get.exercises()
-    .then(callback)
-    .catch (e) =>
-      alert 'Loading the exercises failed.'
-
-  createExerciseViewModel: (e) -> new ExerciseViewModel(e)
 
 fs = require 'fs'
 module.exports = ->
