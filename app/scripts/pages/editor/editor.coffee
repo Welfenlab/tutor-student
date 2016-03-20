@@ -60,6 +60,8 @@ class ViewModel
       for task in @tasks()
         task.powerMode(if v then {effect: 1} else false)
 
+    @autoPreviewMarkdown = ko.observable(true)
+
     @allTests = ko.computed =>
       @tasks().map((task) -> task.testResults())
 
@@ -124,6 +126,13 @@ class ViewModel
 
   togglePowerMode: =>
     @powerMode !@powerMode()
+
+  toggleAutoPreviewMarkdown: =>
+    @autoPreviewMarkdown !@autoPreviewMarkdown()
+
+  forceUpdateMarkdownPreview: =>
+    @toggleAutoPreviewMarkdown()
+    @toggleAutoPreviewMarkdown()
 
 fs = require 'fs'
 module.exports = ->
