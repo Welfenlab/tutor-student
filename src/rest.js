@@ -23,8 +23,8 @@ module.exports = function(DB) {
     },
     { path: '/api/pseudonyms', dataCall: DB.Users.getPseudonymList, apiMethod: "get" },
 
-    { path: '/api/correction/pdf/:solution', dataCall: function(solution_id, res){
-        return DB.Exercises.getCorrectedPDFForID(solution_id).then(function(pdf){
+    { path: '/api/correction/pdf/:exercise', dataCall: function(user_id, exercise_id, res){
+        return DB.Exercises.getCorrectedPDFForID(user_id, exercise_id).then(function(pdf){
           res.setHeader('Content-disposition', 'attachment; filename=' + solution_id + '.pdf');
           res.setHeader('Content-type', 'application/pdf');
           if(pdf && pdf != ""){
@@ -35,10 +35,10 @@ module.exports = function(DB) {
         }).catch(function() {
           res.status(404).send('Corrected PDF not found.')
         });
-      }, apiMethod: "getResByParam", param:"solution" },
+      }, apiMethod: "getResBySessionUIDAndParam", param:"exercise" },
     
-    { path: '/api/solution/pdf/:solution', dataCall: function(solution_id, res){
-      return DB.Corrections.getPDFForID(solution_id).then(function(pdf){
+    { path: '/api/solution/pdf/:exercise', dataCall: function(user_id, exercise_id, res){
+      return DB.Exercises.getPDFForID(user_id, exercise_id).then(function(pdf){
         res.setHeader('Content-disposition', 'attachment; filename=' + solution_id + '.pdf');
         res.setHeader('Content-type', 'application/pdf');
         if(pdf && pdf != ""){
@@ -49,7 +49,7 @@ module.exports = function(DB) {
       }).catch(function() {
         res.status(404).send('Corrected PDF not found.')
       });
-    }, apiMethod: "getResByParam", param:"solution" },
+    }, apiMethod: "getResBySessionUIDAndParam", param:"exercise" },
     
     { path: '/api/group', dataCall: DB.Groups.getGroupForUser, apiMethod: "getBySessionUID" },
     { path: '/api/group', dataCall: DB.Groups.create, apiMethod: "postBySessionUIDAndParam", param: "users" },
