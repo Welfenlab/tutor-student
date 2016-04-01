@@ -21,7 +21,10 @@ $ ->
       if app.user().pseudonym().indexOf('Nameless Nobody') == 0
         app.goto '/register'
       else
-        app.goto(localStorage.getItem('post-login-redirect') || 'overview', true)
+        if localStorage.getItem('post-login-redirect') == '/'
+          app.goto 'overview'
+        else
+          app.goto(localStorage.getItem('post-login-redirect') || 'overview', true)
         localStorage.removeItem('post-login-redirect')
     else
       app.goto '/login'

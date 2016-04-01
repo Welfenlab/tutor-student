@@ -34,9 +34,9 @@ class ViewModel
         app.goto 'register'
       else
         if localStorage.getItem('post-login-redirect') == 'login'
-            app.goto '/'
+            app.goto '/', true
         else
-          app.goto (localStorage.getItem('post-login-redirect') || '/')
+          app.goto (localStorage.getItem('post-login-redirect') || '/'), true
         localStorage.removeItem('post-login-redirect')
     .catch (e) =>
       console.log e
