@@ -15,4 +15,4 @@ update()
 updateLocalTime = -> localTime Date.now()
 setInterval(updateLocalTime, 1000)
 
-module.exports = ko.computed => localTime() + timeDifference()
+module.exports = ko.computed -> localTime() + timeDifference()

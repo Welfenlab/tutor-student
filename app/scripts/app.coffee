@@ -17,11 +17,14 @@ class ViewModel extends TutorAppBase($, ko)
         en: require '../i18n/en'
     })
     @config = ko.observable({})
-    api.get.config().then (config) => @config config
     @user = ko.observable({group: _.noop})
     @group = ko.computed => if @user().group then @user().group() else {}
 
     @isLoggedIn = ko.computed => @user()? and @user().pseudonym?
+    @isLoggedIn.subscribe =>
+      if @isLoggedIn()
+        api.get.config().then (config) => @config config
+
     @avatarUrl = ko.computed =>
       if @isLoggedIn()
         wavatar @user().pseudonym()
