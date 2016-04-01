@@ -24,22 +24,25 @@ module.exports = function(DB) {
     { path: '/api/pseudonyms', dataCall: DB.Users.getPseudonymList, apiMethod: "get" },
 
     { path: '/api/correction/pdf/:exercise', dataCall: function(user_id, exercise_id, res){
+      console.log(user_id, exercise_id)
         return DB.Exercises.getCorrectedPDFForID(user_id, exercise_id).then(function(pdf){
-          res.setHeader('Content-disposition', 'attachment; filename=' + solution_id + '.pdf');
+          console.log(pdf)
+          res.setHeader('Content-disposition', 'attachment; filename=' + user_id + '_' + exercise_id + '.pdf');
           res.setHeader('Content-type', 'application/pdf');
           if(pdf && pdf != ""){
             res.send(pdf);
           } else {
             res.status(404).send('Corrected PDF not found.')
           }
-        }).catch(function() {
+        }).catch(function(err) {
+          console.log(err)
           res.status(404).send('Corrected PDF not found.')
         });
       }, apiMethod: "getResBySessionUIDAndParam", param:"exercise" },
     
     { path: '/api/solution/pdf/:exercise', dataCall: function(user_id, exercise_id, res){
       return DB.Exercises.getPDFForID(user_id, exercise_id).then(function(pdf){
-        res.setHeader('Content-disposition', 'attachment; filename=' + solution_id + '.pdf');
+        res.setHeader('Content-disposition', 'attachment; filename=' + user_id + '_' + exercise_id + '.pdf');
         res.setHeader('Content-type', 'application/pdf');
         if(pdf && pdf != ""){
           res.send(pdf);
