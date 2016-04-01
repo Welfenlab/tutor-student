@@ -27,4 +27,7 @@ module.exports =
   logout: -> post '/logout'
   create:
     group: (members) -> post '/group', members
+  urlOf:
+    correctedExercise: (id) -> "#{api.address}/correction/pdf/#{@id}"
+    submittedExercise: (id) -> "#{api.address}/solution/pdf/#{@id}"
   address: address
