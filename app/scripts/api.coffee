@@ -28,6 +28,6 @@ module.exports =
   create:
     group: (members) -> post '/group', members
   urlOf:
-    correctedExercise: (id) -> "#{api.address}/correction/pdf/#{@id}"
-    submittedExercise: (id) -> "#{api.address}/solution/pdf/#{@id}"
+    correctedExercise: (id) -> "#{address}/correction/pdf/#{id}"
+    submittedExercise: (id) -> "#{address}/solution/pdf/#{id}"
   address: address
